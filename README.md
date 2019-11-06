@@ -25,27 +25,27 @@
 ## 示例  
 * **应用主页**,点击地址进入[地址选择页面](),点击商家进入商家页,点我的进入[用户详情页](),点订单看[所有订单]()   
 
-  ![](activity_main.png)
+  ![](res/activity_main.png)
 
 * **地址选择**随便列几个食堂(可以点)  
 
-  ![](activity_address.png)
+  ![](res/activity_address.png)
   
 * **店铺菜单**,点击加号同时购物车更新信息,点“商家”切入[商家详情页](),点[购物车]()弹出详情  
 
-  ![](activity_shop_food.png)
+  ![](res/activity_shop_food.png)
   
 * **商家详情页**,电话+地址+公告,评论区样式暂定或随意发挥  
 
-  ![](activity_shop_details.png)
+  ![](res/activity_shop_details.png)
 
 * **购物车**,点加号加一份,减号少一份,只有一份直接删,点清空就清空,点结算进[提交订单页]()  
 
-  ![](activity_shopping_car.png)
+  ![](res/activity_shopping_car.png)
 
 * **提交订单页**,自提时间就是预计可以去拿的时间,支付方式可以砍掉,最上一栏为个人信息及食堂店铺地址,中间列出买的菜及数量价格,活动折扣类向内缩进4个空格,底栏显示优惠金额与实际需支付金额  
 
-  ![](activity_pushing_order.png)
+  ![](res/activity_pushing_order.png)
   
 * **用户个人页**  
 
