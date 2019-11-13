@@ -3,13 +3,13 @@
     <item
         android:id="@+id/record"
         android:icon="@drawable/ic_home"
-        android:title="home" />
+        android:title="首页 " />
     <item
         android:id="@+id/mine"
         android:icon="@drawable/ic_account_circle_black_32dp"
-        android:title="mine"/>
+        android:title="我的"/>
     <item
         android:id="@+id/count"
         android:icon="@drawable/ic_orders"
-        android:title="orders" />
+        android:title="订单" />
 </menu>
