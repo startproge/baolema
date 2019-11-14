@@ -19,7 +19,7 @@
         android:id="@+id/recipe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="红烧"
+        android:text="红烧排骨"
         android:textColor="@color/colorBlack"
         app:layout_constraintTop_toTopOf="@+id/recipe_image"
         app:layout_constraintLeft_toRightOf="@+id/recipe_image"
