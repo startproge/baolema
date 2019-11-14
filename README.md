@@ -3,7 +3,6 @@
 ## 编译环境
 
 * 统一gradle的版本号为5.4.1  
-插件版本3.5.1
 
 ------
 ## 命名  
@@ -52,3 +51,34 @@
 * **订单页**  
 
 * ……
+
+## android studio代码同步  
+
+### 对master分支做操作时必须先pull一下![](res/pull.png)  
+
+![](res/PullMaster.png)  
+
+> origin/master打勾就行  
+
+### 开始开发  
+
+**1** 点`new branch`新建本地分支![](res/newbranch.png)  
+
+> `checkout tag...`:切换版本(应该用不到,别点)
+>
+> `local branches`:本地的分支  
+>
+> `remote branches`:远程仓库的分支  
+
+**2** 分支取个名字![](res/checkoutnewbranch.png)  
+
+在这里也可以随时切换分支![](res/checkoutbranch.png)  
+
+> `checkout branch`:切换到新建的这个分支  
+
+**3** 切到自己的分支再做改动就影响不到主分支了,写好一次改动且不报错后可以提交改动![](res/commit.png)  ![](res/CommitFile.png)
+
+> 底下就是改前改后对比,给要提交改动的文件打上勾后点commit(commit message一定要写自己干了啥)  
+
+
+
