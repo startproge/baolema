@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/record"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
         android:title="首页 " />
     <item
-        android:id="@+id/mine"
+        android:id="@+id/navigation_mine"
         android:icon="@drawable/ic_account_circle_black_32dp"
         android:title="我的"/>
     <item
-        android:id="@+id/count"
+        android:id="@+id/navigation_order"
         android:icon="@drawable/ic_orders"
         android:title="订单" />
 </menu>

@@ -12,6 +12,7 @@ public class Shop {
     private String shopNotice;
     private String shopTrademark;
     private String shopStatus;
+    private int shopMonthSale;
     private List<Recipe> recipeList;
 
     public int getShopId() {
@@ -76,6 +77,14 @@ public class Shop {
 
     public void setShopStatus(String shopStatus) {
         this.shopStatus = shopStatus;
+    }
+
+    public int getShopMonthSale() {
+        return shopMonthSale;
+    }
+
+    public void setShopMonthSale(int shopMonthSale) {
+        this.shopMonthSale = shopMonthSale;
     }
 
     public List<Recipe> getRecipeList() {

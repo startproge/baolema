@@ -1,10 +1,12 @@
-package com.example.baolema;
+package com.example.baolema.ui.home;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.baolema.R;
 
 public class ShopActivity extends AppCompatActivity {
     private RecyclerView recipeRecycleView;
