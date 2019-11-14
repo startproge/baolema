@@ -23,7 +23,13 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        //三个碎片:首页,我的,订单
+
+        /**
+         *
+         三个碎片:首页,我的,订单
+         对应UI下三个文件夹:home,mine,order
+         所有类按此文件夹归类
+         */
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_mine, R.id.navigation_order)
                 .build();
