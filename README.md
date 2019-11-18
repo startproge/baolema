@@ -3,6 +3,22 @@
 ## 编译环境
 
 * 统一gradle的版本号为5.4.1  
+```Gradle
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+    implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.android.support:design:29.1.1'
+    implementation 'im.unicolas:trollbadgeview:1.3'
+    implementation 'com.flipboard:bottomsheet-core:1.5.1'
+}
+```
 
 ------
 ## 命名  
