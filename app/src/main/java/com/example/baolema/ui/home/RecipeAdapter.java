@@ -24,7 +24,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleview_recipe,parent,false);
-        //将之前写好的list_view封装到一个View中
         RecipeViewHolder holder=new RecipeViewHolder(view);
         return holder;
     }
@@ -35,6 +34,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 11;
     }
 }
