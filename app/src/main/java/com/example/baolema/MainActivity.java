@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
-        /**
-         *
+        /*
+
          三个碎片:首页,我的,订单
          对应UI下三个文件夹:home,mine,order
          所有类按此文件夹归类

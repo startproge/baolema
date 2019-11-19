@@ -74,11 +74,11 @@
         android:id="@+id/text_shop_month_sale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/image_shop"
-        app:layout_constraintLeft_toRightOf="@id/image_star_5" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/divider_shop"
