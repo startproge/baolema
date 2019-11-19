@@ -205,10 +205,16 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="vertical"
+
             app:behavior_peekHeight="0dp"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
-            <include layout="@layout/shop_car_bottomsheetdialog"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shopping_car_recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
