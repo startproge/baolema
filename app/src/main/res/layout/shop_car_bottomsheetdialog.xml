@@ -1,41 +1,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:maxHeight="800sp">
+<Button
+    android:id="@+id/clear_shopping_car"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:maxHeight="800sp">
-    <Button
-        android:id="@+id/clear_shopping_car"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="10sp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="清空购物车"
-        android:textColor="@color/colorGray"
-        android:background="@null"
-        >
-    </Button>
-    <ImageView
-        android:layout_width="20sp"
-        android:layout_height="20sp"
-        app:layout_constraintRight_toLeftOf="@+id/clear_shopping_car"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="15sp"
-        android:src="@drawable/ic_trash">
-    </ImageView>
+    app:layout_constraintRight_toRightOf="parent"
+    android:layout_marginRight="10sp"
+    app:layout_constraintTop_toTopOf="parent"
+    android:text="清空购物车"
+    android:textColor="@color/colorGray"
+    android:background="@null"
+    >
+</Button>
+<ImageView
+    android:layout_width="20sp"
+    android:layout_height="20sp"
+    app:layout_constraintRight_toLeftOf="@+id/clear_shopping_car"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_marginTop="15sp"
+    android:src="@drawable/ic_trash">
+</ImageView>
 
-    <LinearLayout
-        android:id="@+id/recycleview_layout"
+<LinearLayout
+    android:id="@+id/recycleview_layout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintTop_toBottomOf="@+id/clear_shopping_car"
+    >
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shopping_car_recycleview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/clear_shopping_car"
+        android:layout_height="match_parent"
         >
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/shopping_car_recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

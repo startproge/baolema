@@ -81,7 +81,6 @@
                         android:id="@android:id/tabcontent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-
                         <LinearLayout
                             android:id="@+id/tab_order"
                             android:layout_width="match_parent"
@@ -189,6 +188,7 @@
                                     app:layout_constraintTop_toBottomOf="@+id/shop_board"></androidx.recyclerview.widget.RecyclerView>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </ScrollView>
+
                     </FrameLayout>
                 </LinearLayout>
             </TabHost>
@@ -205,9 +205,35 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="vertical"
-
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
             app:behavior_peekHeight="0dp"
-            app:layout_behavior="@string/bottom_sheet_behavior">
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <Button
+                    android:id="@+id/clear_shopping_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginRight="10sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="清空购物车"
+                    android:textColor="@color/colorGray"
+                    android:background="@null"
+                    >
+                </Button>
+                <ImageView
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    app:layout_constraintRight_toLeftOf="@+id/clear_shopping_car"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/ic_trash">
+                </ImageView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/shopping_car_recycleview"
@@ -222,6 +248,7 @@
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="70sp"
+        android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         >
 
