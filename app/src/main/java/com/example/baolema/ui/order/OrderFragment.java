@@ -25,7 +25,7 @@ public class OrderFragment extends Fragment {
                 ViewModelProviders.of(this).get(OrderViewModel.class);
         View root = inflater.inflate(R.layout.fragment_order, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.resetTitle("订单");
+        mainActivity.resetTitle("我的订单");
         return root;
     }
 }
