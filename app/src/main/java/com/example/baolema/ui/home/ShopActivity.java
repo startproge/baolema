@@ -1,12 +1,14 @@
 package com.example.baolema.ui.home;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 
@@ -30,6 +32,7 @@ public class ShopActivity extends AppCompatActivity {
     private LinearLayout bottomsheetLayout;
     private BottomSheetBehavior mBottomSheetBehavior;
     private ConstraintLayout shopCarInf;
+    private Button settlement_fee;
     private RecyclerView shoppingCareRecycleview;
     private LabelView labelView;
     @Override
@@ -38,9 +41,8 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop_main);
         TabHost tabHost=findViewById(R.id.tabhost);
         tabHost.setup();
-
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("支出").setContent(R.id.tab_shop_scrollview));
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("收入").setContent(R.id.tab_order));
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
 
         recipeRecycleView=findViewById(R.id.recipe_recycleview);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
@@ -64,7 +66,6 @@ public class ShopActivity extends AppCompatActivity {
         String word = labelView.getWord();
 
         mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
-
         LinearLayoutManager shopLayoutManager=new LinearLayoutManager(this);
         shoppingCareRecycleview=findViewById(R.id.shopping_car_recycleview);
         shoppingCareRecycleview.setLayoutManager(shopLayoutManager);
@@ -107,8 +108,6 @@ public class ShopActivity extends AppCompatActivity {
 //            }
 //        });
 
-
-
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -120,16 +119,18 @@ public class ShopActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
             }
     });
-
-
-
-
+        settlement_fee=findViewById(R.id.settlement_fee);
+        settlement_fee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ShopActivity.this,OrderCommitActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
