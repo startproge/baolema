@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.home.ShopActivity"></activity>
+        <activity android:name=".ui.home.OrderCommitActivity"></activity>
     </application>
 
 </manifest>
