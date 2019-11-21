@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Shop;
 
@@ -37,6 +39,9 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         viewPager = root.findViewById(R.id.viewPager_main);
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.resetTitle("饱了嘛");
 
         initImages();
         initShops();

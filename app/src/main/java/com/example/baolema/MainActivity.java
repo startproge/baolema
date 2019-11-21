@@ -12,12 +12,15 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.tool_bar_main);
+        toolbar = findViewById(R.id.tool_bar_main);
+        resetTitle("");
         setSupportActionBar(toolbar);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -36,5 +39,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    public void resetTitle(String title) {
+        toolbar.setTitle(title);
     }
 }

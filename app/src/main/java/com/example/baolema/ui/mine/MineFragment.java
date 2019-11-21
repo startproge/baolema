@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 
 public class MineFragment extends Fragment {
@@ -23,6 +24,8 @@ public class MineFragment extends Fragment {
         mineViewModel =
                 ViewModelProviders.of(this).get(MineViewModel.class);
         View root = inflater.inflate(R.layout.fragment_mine, container, false);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.resetTitle("我的");
 //        final TextView textView = root.findViewById(R.id.text_dashboard);
 //        mineViewModel.getText().observe(this, new Observer<String>() {
 //            @Override
