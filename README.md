@@ -82,9 +82,17 @@ dependencies {
 
   ![](res/activity_pushing_order.png)
   
-* **用户个人页**  
+* **用户个人页**
+  ![](res/activity_my.png)
 
-* **订单页**  
+* **订单页**
+  ![](res/activity_allorder.png)
+
+* **订单详情页(订单状态)**
+  ![](res/activity_orderdetail_status.png)
+
+* **订单详情页(订单明细)**
+  ![](res/activity_orderdetail.png)
 
 * ……
 
