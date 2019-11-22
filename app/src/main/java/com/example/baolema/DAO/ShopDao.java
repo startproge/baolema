@@ -1,9 +1,12 @@
 package com.example.baolema.DAO;
 
 import com.example.baolema.bean.Recipe;
+import com.example.baolema.bean.Shop;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ShopDao {
-     ArrayList<Recipe> getRecipesByShopId(int shopId);
+//    List<Shop>
+    ArrayList<Recipe> getRecipesByShopId(int shopId);
 }

@@ -1,6 +1,7 @@
 package com.example.baolema.bean;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Shop {
@@ -8,12 +9,12 @@ public class Shop {
     private String shopName;
     private String shopAddress;
     private String shopTel;
-    private double shopCore;
+    private double shopScore;
     private String shopNotice;
     private String shopTrademark;
     private String shopStatus;
     private int shopMonthSale;
-    private List<Recipe> recipeList;
+    private List<Recipe> recipeList = new ArrayList<>();
 
     public int getShopId() {
         return shopId;
@@ -47,12 +48,12 @@ public class Shop {
         this.shopTel = shopTel;
     }
 
-    public double getShopCore() {
-        return shopCore;
+    public double getShopScore() {
+        return shopScore;
     }
 
-    public void setShopCore(double shopCore) {
-        this.shopCore = shopCore;
+    public void setShopScore(double shopScore) {
+        this.shopScore = shopScore;
     }
 
     public String getShopNotice() {

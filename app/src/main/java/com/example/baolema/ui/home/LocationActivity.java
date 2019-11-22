@@ -18,7 +18,7 @@ import java.util.List;
  * 对应图片activity_address
  */
 
-public class ActivityAddress extends AppCompatActivity {
+public class LocationActivity extends AppCompatActivity {
     private List<String> addresses;
 
     @Override

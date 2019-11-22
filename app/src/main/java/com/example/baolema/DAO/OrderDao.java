@@ -6,6 +6,7 @@ import com.example.baolema.bean.OrderMain;
 import java.util.ArrayList;
 
 public interface OrderDao {
-    void addOrderMain(OrderMain orderMain);
-    void addOrderInf(ArrayList<OrderInf> orderInf);
+    //客户端发送先不写
+//    void addOrderMain(OrderMain orderMain);
+//    void addOrderInf(ArrayList<OrderInf> orderInf);
 }
