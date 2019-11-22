@@ -1,17 +1,11 @@
 package com.example.baolema.ui.home;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TabHost;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.baolema.R;
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.ShopCarRecipe;
-import com.example.baolema.customize.NumImageView;
-import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,12 +41,10 @@ public class ShopActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
 
-
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
-
 
         mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
         LinearLayoutManager shopLayoutManager=new LinearLayoutManager(this);

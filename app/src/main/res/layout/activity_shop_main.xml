@@ -1,72 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/app_bar_shop"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/app_bar_shop"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tool_bar_shop"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorBlack"
-                    app:navigationIcon="@drawable/ic_back"
-                    app:title="磨刀餐厅(太阳宫店)"
-                    app:titleTextColor="@color/colorWhite" />
-            </com.google.android.material.appbar.AppBarLayout>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBlack"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="磨刀餐厅(太阳宫店)"
+            app:titleTextColor="@color/colorWhite" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_preferential"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorYellow"
-                app:layout_constraintTop_toBottomOf="@id/app_bar_shop">
+        android:id="@+id/layout_preferential"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorYellow"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_shop">
 
-                <ImageView
-                    android:id="@+id/preferential_image"
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:layout_marginLeft="10sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    android:background="@drawable/ic_preferential"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+        <ImageView
+            android:id="@+id/preferential_image"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="5sp"
+            android:background="@drawable/ic_preferential"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-                    ></ImageView>
+            ></ImageView>
 
-                <TextView
-                    android:id="@+id/preferential_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    android:gravity="center"
-                    android:text="满21减21；满50减35；满100减60"
-                    android:textColor="@color/colorGray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/preferential_image"
+        <TextView
+            android:id="@+id/preferential_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="5sp"
+            android:gravity="center"
+            android:text="满21减21；满50减35；满100减60"
+            android:textColor="@color/colorGray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/preferential_image"
 
-                    app:layout_constraintTop_toTopOf="parent"></TextView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_preferential"
         app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
-        >
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_preferential">
+
         <TabHost
             android:id="@+id/tabhost"
             android:layout_width="match_parent"
@@ -88,6 +87,7 @@
                     android:id="@android:id/tabcontent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:id="@+id/tab_order"
                         android:layout_width="match_parent"
@@ -192,9 +192,7 @@
                                 android:id="@+id/shop_evaluate_recyclerview"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@+id/shop_board"
-                                >
-                            </androidx.recyclerview.widget.RecyclerView>
+                                app:layout_constraintTop_toBottomOf="@+id/shop_board"></androidx.recyclerview.widget.RecyclerView>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </ScrollView>
 
@@ -204,9 +202,9 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/shop_car_parentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/shop_car_parentLayout"
         app:layout_constraintBottom_toTopOf="@+id/bottom_layout">
 
         <LinearLayout
@@ -215,42 +213,38 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="vertical"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
             app:behavior_peekHeight="0dp"
-            >
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <Button
                     android:id="@+id/clear_shopping_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginRight="10sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@null"
                     android:text="清空购物车"
                     android:textColor="@color/colorGray"
-                    android:background="@null"
-                    >
-                </Button>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Button>
+
                 <ImageView
                     android:layout_width="20sp"
                     android:layout_height="20sp"
-                    app:layout_constraintRight_toLeftOf="@+id/clear_shopping_car"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_trash"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:src="@drawable/ic_trash">
-                </ImageView>
+                    app:layout_constraintRight_toLeftOf="@+id/clear_shopping_car"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/shopping_car_recycleview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -259,8 +253,7 @@
         android:layout_width="match_parent"
         android:layout_height="70sp"
         android:background="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:id="@+id/split3"
@@ -310,11 +303,11 @@
         android:id="@+id/shopping_car_icon"
         android:layout_width="50sp"
         android:layout_height="50sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/bottom_layout"
-        android:layout_marginBottom="30sp"
         android:layout_marginLeft="10sp"
-        android:background="@color/colorLightYellow">
+        android:layout_marginBottom="30sp"
+        android:background="@color/colorLightYellow"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_layout"
+        app:layout_constraintLeft_toLeftOf="parent">
 
     </im.unicolas.trollbadgeview.LabelView>
 
