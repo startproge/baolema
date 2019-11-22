@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.baolema.ui.home.ActivityAddress;
+import com.example.baolema.ui.home.LocationActivity;
 import com.example.baolema.ui.mine.MinePhoneActivity;
 import com.example.baolema.ui.mine.SettingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.image_location:
             case R.id.text_title:
-                Intent intent = new Intent(MainActivity.this, ActivityAddress.class);
+                Intent intent = new Intent(MainActivity.this, LocationActivity.class);
                 startActivity(intent);
                 break;
             default:
