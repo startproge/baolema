@@ -23,17 +23,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import im.unicolas.trollbadgeview.LabelView;
+
 import static com.example.baolema.ui.home.RecipeAdapter.*;
 
 public class ShopActivity extends AppCompatActivity {
     private RecyclerView recipeRecycleView;
-    private ArrayList<ShopCarRecipe> shopCarRecipes=new ArrayList<>();
+    private ArrayList<ShopCarRecipe> shopCarRecipes = new ArrayList<>();
     private ArrayList<Recipe> recipes;
     private BottomSheetBehavior mBottomSheetBehavior;
     private ConstraintLayout shopCarInf;
     private Button settlement_fee;
     private RecyclerView shoppingCarRecycleview;
     private LabelView labelView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +49,17 @@ public class ShopActivity extends AppCompatActivity {
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
 
         mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
-        LinearLayoutManager shopLayoutManager=new LinearLayoutManager(this);
-        shoppingCarRecycleview=findViewById(R.id.shopping_car_recycleview);
+        LinearLayoutManager shopLayoutManager = new LinearLayoutManager(this);
+        shoppingCarRecycleview = findViewById(R.id.shopping_car_recycleview);
         shoppingCarRecycleview.setLayoutManager(shopLayoutManager);
-        final ShopCarAdapter shopCarAdapter=new ShopCarAdapter(shopCarRecipes,this);
+        final ShopCarAdapter shopCarAdapter = new ShopCarAdapter(shopCarRecipes, this);
         shoppingCarRecycleview.setAdapter(shopCarAdapter);
 
-
-        recipeRecycleView=findViewById(R.id.recipe_recycleview);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        recipeRecycleView = findViewById(R.id.recipe_recycleview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recipeRecycleView.setLayoutManager(layoutManager);
-        final RecipeAdapter recipeAdapter=new RecipeAdapter();
-        recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener(){
+        final RecipeAdapter recipeAdapter = new RecipeAdapter();
+        recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener() {
             @Override
             public void OnRecycleItemClickListener(int position) {
                 //shopCarRecipes.add(new ShopCarRecipe("红烧排骨"+position,20.0,1));
@@ -71,7 +72,7 @@ public class ShopActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                if(isExist)
+                if (isExist)
                     shopCarAdapter.getRecipes().add(new ShopCarRecipe("红烧排骨" + position, 20.0, 1));
 
                 shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
@@ -80,7 +81,7 @@ public class ShopActivity extends AppCompatActivity {
         recipeRecycleView.setAdapter(recipeAdapter);
 
 
-        labelView=findViewById(R.id.shopping_car_icon);
+        labelView = findViewById(R.id.shopping_car_icon);
         labelView.setLabelMode(LabelView.LABEL_MODE_IMG);
         //设置角标是否显示
         labelView.setLabelViewVisiable(true);
@@ -111,24 +112,25 @@ public class ShopActivity extends AppCompatActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState != BottomSheetBehavior.STATE_DRAGGING) {
                     ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
-                    if (bottomSheet.getHeight() > 600 ) {
-                        layoutParams.height = 600 ;
+                    if (bottomSheet.getHeight() > 600) {
+                        layoutParams.height = 600;
                         bottomSheet.setLayoutParams(layoutParams);
                     }
                 }
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
-    });
-        settlement_fee=findViewById(R.id.settlement_fee);
+        });
+        settlement_fee = findViewById(R.id.settlement_fee);
         settlement_fee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ShopActivity.this,OrderCommitActivity.class);
+                Intent intent = new Intent(ShopActivity.this, OrderCommitActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("orderRecipes",(Serializable)shopCarAdapter.getRecipes());
-                intent.putExtra("BUNDLE",args);
+                args.putSerializable("orderRecipes", (Serializable) shopCarAdapter.getRecipes());
+                intent.putExtra("BUNDLE", args);
                 startActivity(intent);
             }
         });

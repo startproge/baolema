@@ -3,6 +3,7 @@ package com.example.baolema.bean;
 import android.graphics.Bitmap;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class OrderMain {
     private int orderId;
@@ -14,6 +15,7 @@ public class OrderMain {
     private String orderStatus;
     private Timestamp orderStartTime;
     private Timestamp orderFinishTime;
+    private List<OrderInf> orderInfList;
 
     public OrderMain(String shopName, double orderPrice, String orderStatus) {
         this.shopName = shopName;
@@ -91,5 +93,13 @@ public class OrderMain {
 
     public void setOrderPrice(double orderPrice) {
         this.orderPrice = orderPrice;
+    }
+
+    public List<OrderInf> getOrderInfList() {
+        return orderInfList;
+    }
+
+    public void setOrderInfList(List<OrderInf> orderInfList) {
+        this.orderInfList = orderInfList;
     }
 }
