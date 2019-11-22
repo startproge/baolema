@@ -18,7 +18,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
-import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.Shop;
 
 import org.json.JSONArray;
@@ -115,13 +114,13 @@ public class HomeFragment extends Fragment {
                         int len;
                         while ((len = inputStream.read(buffer)) != -1)
                             outputStream.write(buffer, 0, len);
-                        String jsonString=outputStream.toString();
+                        String jsonString = outputStream.toString();
                         outputStream.close();
                         inputStream.close();
 
                         JSONArray jsonArray = new JSONArray(jsonString);
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            Shop shop=new Shop();
+                            Shop shop = new Shop();
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             shop.setShopId(jsonObject.getInt("shopId"));
                             shop.setShopName(jsonObject.getString("shopName"));
@@ -132,11 +131,6 @@ public class HomeFragment extends Fragment {
                             shop.setShopTrademark(jsonObject.getString("shopTrademark"));
                             shop.setShopStatus(jsonObject.getString("shopStatus"));
                             shop.setShopMonthSale(jsonObject.getInt("shopMonthSale"));
-                            JSONObject recipeListObject=jsonObject.getJSONObject("recipeList");
-                            List<Recipe> recipeList = new ArrayList<>();
-
-//                            shop.setRecipeList();
-
                             shopList.add(shop);
                         }
                     }
