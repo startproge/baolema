@@ -18,13 +18,29 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
+import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.Shop;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
+    private String urlStr = "231.233.42.43/?type=android&req=";
     private TextView textView;
     private ViewPager viewPager;
     private List<Shop> shopList = new ArrayList<>();
@@ -80,6 +96,64 @@ public class HomeFragment extends Fragment {
         viewPager.setOffscreenPageLimit(integerArrayList.size());
         viewPager.setPageMargin(10);
     }
+
+    void sendHttpForShops() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn = null;
+                StringBuffer stringBuffer = new StringBuffer();
+                try {
+                    String path = urlStr + "shopList" + URLEncoder.encode("shopList", "utf-8");
+                    URL url = new URL(path);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(8000);
+                    conn.setReadTimeout(8000);
+
+                    if (conn.getResponseCode() == 200) {
+                        InputStream inputStream = conn.getInputStream();
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while ((len = inputStream.read(buffer)) != -1)
+                            outputStream.write(buffer, 0, len);
+                        String jsonString=outputStream.toString();
+                        outputStream.close();
+                        inputStream.close();
+
+                        JSONArray jsonArray = new JSONArray(jsonString);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            Shop shop=new Shop();
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            shop.setShopId(jsonObject.getInt("shopId"));
+                            shop.setShopName(jsonObject.getString("shopName"));
+                            shop.setShopAddress(jsonObject.getString("shopAddress"));
+                            shop.setShopTel(jsonObject.getString("shopTel"));
+                            shop.setShopScore(jsonObject.getDouble("shopScore"));
+                            shop.setShopNotice(jsonObject.getString("shopNotices"));
+                            shop.setShopTrademark(jsonObject.getString("shopTrademark"));
+                            shop.setShopStatus(jsonObject.getString("shopStatus"));
+                            shop.setShopMonthSale(jsonObject.getInt("shopMonthSale"));
+                            JSONObject recipeListObject=jsonObject.getJSONObject("recipeList");
+                            List<Recipe> recipeList = new ArrayList<>();
+
+//                            shop.setRecipeList();
+
+                            shopList.add(shop);
+                        }
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+                }
+            }
+        }).start();
+    }
+
 }
 
 class PagerAdapter extends androidx.viewpager.widget.PagerAdapter {
