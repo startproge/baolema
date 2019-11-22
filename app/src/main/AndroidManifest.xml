@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.home.OrderCommitActivity"></activity>
+        <activity android:name=".ui.home.ActivityAddress" />
     </application>
 
 </manifest>

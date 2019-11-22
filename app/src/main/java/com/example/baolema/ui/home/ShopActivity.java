@@ -45,7 +45,11 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
-        TabHost tabHost=findViewById(R.id.tabhost);
+
+        Toolbar toolbar = findViewById(R.id.tool_bar_shop);
+
+
+        TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
@@ -124,6 +128,15 @@ public class ShopActivity extends AppCompatActivity {
             }
         });
 
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击返回主页,对购物车进行操作
+
+                finish();
+            }
+        });
 
     }
 }
