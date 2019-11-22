@@ -33,6 +33,10 @@ public class MineFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
+
+
         return root;
     }
+
+
 }

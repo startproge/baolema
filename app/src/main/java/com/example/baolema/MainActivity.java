@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.baolema.ui.home.ActivityAddress;
+import com.example.baolema.ui.mine.MinePhoneActivity;
+import com.example.baolema.ui.mine.SettingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +57,22 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ActivityAddress.class);
                 startActivity(intent);
                 break;
+            default:
+                break;
+        }
+    }
+
+    public void mineOnclick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.constraint_mine_setting:
+            case R.id.image_mine_setting:
+                intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.constraint_mine_tel:
+                intent = new Intent(MainActivity.this, MinePhoneActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

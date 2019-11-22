@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".ui.home.OrderCommitActivity"></activity>
         <activity android:name=".ui.home.ActivityAddress" />
+        <activity android:name=".ui.mine.SettingActivity" />
+        <activity android:name=".ui.mine.MinePhoneActivity" />
     </application>
 
 </manifest>
