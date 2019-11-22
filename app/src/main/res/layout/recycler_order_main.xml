@@ -77,7 +77,7 @@
         android:text="2017-01-15 17:05:24"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/text_order_main_tips"
-        app:layout_constraintLeft_toRightOf="@id/image_order_main"
+        app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
         app:layout_constraintTop_toBottomOf="@+id/text_order_main_price" />
 
     <TextView
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:text="请前往商家自提"
         app:layout_constraintBottom_toBottomOf="@id/image_order_main"
-        app:layout_constraintLeft_toRightOf="@id/image_order_main"
+        app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
         app:layout_constraintTop_toBottomOf="@id/text_order_main_time" />
 
     <ImageView
