@@ -60,140 +60,148 @@
                     app:layout_constraintTop_toTopOf="parent"></TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TabHost
-                android:id="@+id/tabhost"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_preferential"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
+        >
+        <TabHost
+            android:id="@+id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_preferential">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TabWidget
+                    android:id="@android:id/tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"></TabWidget>
 
-                    <TabWidget
-                        android:id="@android:id/tabs"
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/tab_order"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></TabWidget>
+                        android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:id="@android:id/tabcontent"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recipe_recycleview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+                    </LinearLayout>
+
+                    <ScrollView
+                        android:id="@+id/tab_shop_scrollview"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <LinearLayout
-                            android:id="@+id/tab_order"
+                        android:layout_height="wrap_content">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tab_shop_"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/icon_shop_phone"
+                                android:layout_width="20sp"
+                                android:layout_height="20sp"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginTop="10sp"
+                                android:background="@drawable/ic_icon_shop_phone"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                            <TextView
+                                android:id="@+id/text_shop_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="10sp"
+                                android:background="@null"
+                                android:text="17306413568"
+                                android:textColor="@color/colorGray"
+                                app:layout_constraintBottom_toBottomOf="@+id/icon_shop_phone"
+                                app:layout_constraintLeft_toRightOf="@+id/icon_shop_phone"
+                                app:layout_constraintTop_toTopOf="@+id/icon_shop_phone"></TextView>
+
+                            <ImageView
+                                android:id="@+id/image_shop_phone"
+                                android:layout_width="30sp"
+                                android:layout_height="30sp"
+                                android:layout_marginRight="20sp"
+                                android:background="@drawable/ic_image_shop_phone"
+                                app:layout_constraintBottom_toBottomOf="@+id/icon_shop_phone"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/icon_shop_phone"></ImageView>
+
+                            <ImageView
+                                android:id="@+id/split1"
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5sp"
+                                android:layout_marginTop="10sp"
+                                android:background="@color/colorGray"
+                                app:layout_constraintTop_toBottomOf="@+id/image_shop_phone">
+
+                            </ImageView>
+
+                            <ImageView
+                                android:id="@+id/icon_shop_location"
+                                android:layout_width="20sp"
+                                android:layout_height="20sp"
+                                android:layout_marginTop="10sp"
+                                app:layout_constraintLeft_toLeftOf="@+id/icon_shop_phone"
+                                app:layout_constraintTop_toBottomOf="@+id/split1"></ImageView>
+
+                            <TextView
+                                android:id="@+id/text_shop_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="10sp"
+                                android:background="@null"
+                                android:text="北京市朝阳区朝外大街外交部4号 890室"
+                                android:textColor="@color/colorGray"
+                                app:layout_constraintBottom_toBottomOf="@+id/icon_shop_location"
+                                app:layout_constraintLeft_toRightOf="@+id/icon_shop_location"
+                                app:layout_constraintTop_toTopOf="@+id/icon_shop_location"></TextView>
+
+                            <ImageView
+                                android:id="@+id/split2"
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5sp"
+                                android:layout_marginTop="10sp"
+                                android:background="@color/colorGray"
+                                app:layout_constraintTop_toBottomOf="@+id/icon_shop_location">
+
+                            </ImageView>
+
+                            <TextView
+                                android:id="@+id/shop_board"
+                                android:layout_width="match_parent"
+                                android:layout_height="80sp"
+                                android:text="公告栏"
+                                app:layout_constraintTop_toBottomOf="@+id/split2"></TextView>
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recipe_recycleview"
+                                android:id="@+id/shop_evaluate_recyclerview"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
-                        </LinearLayout>
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@+id/shop_board"
+                                >
+                            </androidx.recyclerview.widget.RecyclerView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </ScrollView>
 
-                        <ScrollView
-                            android:id="@+id/tab_shop_scrollview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/tab_shop_"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <ImageView
-                                    android:id="@+id/icon_shop_phone"
-                                    android:layout_width="20sp"
-                                    android:layout_height="20sp"
-                                    android:layout_marginLeft="10sp"
-                                    android:layout_marginTop="10sp"
-                                    android:background="@drawable/ic_icon_shop_phone"
-                                    app:layout_constraintLeft_toLeftOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-                                <TextView
-                                    android:id="@+id/text_shop_phone"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:layout_marginLeft="10sp"
-                                    android:background="@null"
-                                    android:text="17306413568"
-                                    android:textColor="@color/colorGray"
-                                    app:layout_constraintBottom_toBottomOf="@+id/icon_shop_phone"
-                                    app:layout_constraintLeft_toRightOf="@+id/icon_shop_phone"
-                                    app:layout_constraintTop_toTopOf="@+id/icon_shop_phone"></TextView>
-
-                                <ImageView
-                                    android:id="@+id/image_shop_phone"
-                                    android:layout_width="30sp"
-                                    android:layout_height="30sp"
-                                    android:layout_marginRight="20sp"
-                                    android:background="@drawable/ic_image_shop_phone"
-                                    app:layout_constraintBottom_toBottomOf="@+id/icon_shop_phone"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    app:layout_constraintTop_toTopOf="@+id/icon_shop_phone"></ImageView>
-
-                                <ImageView
-                                    android:id="@+id/split1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5sp"
-                                    android:layout_marginTop="10sp"
-                                    android:background="@color/colorGray"
-                                    app:layout_constraintTop_toBottomOf="@+id/image_shop_phone">
-
-                                </ImageView>
-
-                                <ImageView
-                                    android:id="@+id/icon_shop_location"
-                                    android:layout_width="20sp"
-                                    android:layout_height="20sp"
-                                    android:layout_marginTop="10sp"
-                                    app:layout_constraintLeft_toLeftOf="@+id/icon_shop_phone"
-                                    app:layout_constraintTop_toBottomOf="@+id/split1"></ImageView>
-
-                                <TextView
-                                    android:id="@+id/text_shop_location"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:layout_marginStart="10sp"
-                                    android:background="@null"
-                                    android:text="北京市朝阳区朝外大街外交部4号 890室"
-                                    android:textColor="@color/colorGray"
-                                    app:layout_constraintBottom_toBottomOf="@+id/icon_shop_location"
-                                    app:layout_constraintLeft_toRightOf="@+id/icon_shop_location"
-                                    app:layout_constraintTop_toTopOf="@+id/icon_shop_location"></TextView>
-
-                                <ImageView
-                                    android:id="@+id/split2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5sp"
-                                    android:layout_marginTop="10sp"
-                                    android:background="@color/colorGray"
-                                    app:layout_constraintTop_toBottomOf="@+id/icon_shop_location">
-
-                                </ImageView>
-
-                                <TextView
-                                    android:id="@+id/shop_board"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="80sp"
-                                    android:text="公告栏"
-                                    app:layout_constraintTop_toBottomOf="@+id/split2"></TextView>
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/shop_evaluate_recyclerview"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    app:layout_constraintTop_toBottomOf="@+id/shop_board"
-                                    >
-                                </androidx.recyclerview.widget.RecyclerView>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </ScrollView>
-
-                    </FrameLayout>
-                </LinearLayout>
-            </TabHost>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

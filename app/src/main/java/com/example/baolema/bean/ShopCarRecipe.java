@@ -5,6 +5,15 @@ public class ShopCarRecipe {
     Double money;
     int num;
 
+    public  ShopCarRecipe(){
+
+    }
+    public ShopCarRecipe(String name,Double money,int num){
+        this.name=name;
+        this.money=money;
+        this.num=num;
+    }
+
     public String getName() {
         return name;
     }
