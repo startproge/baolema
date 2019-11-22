@@ -14,6 +14,7 @@ import android.widget.TabHost;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,21 +36,26 @@ public class ShopActivity extends AppCompatActivity {
     private Button settlement_fee;
     private RecyclerView shoppingCareRecycleview;
     private LabelView labelView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
-        TabHost tabHost=findViewById(R.id.tabhost);
+
+        Toolbar toolbar = findViewById(R.id.tool_bar_shop);
+
+
+        TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
 
-        recipeRecycleView=findViewById(R.id.recipe_recycleview);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        recipeRecycleView = findViewById(R.id.recipe_recycleview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recipeRecycleView.setLayoutManager(layoutManager);
         recipeRecycleView.setAdapter(new RecipeAdapter());
 
-        labelView=findViewById(R.id.shopping_car_icon);
+        labelView = findViewById(R.id.shopping_car_icon);
         labelView.setLabelMode(LabelView.LABEL_MODE_IMG);
         //设置角标是否显示
         labelView.setLabelViewVisiable(true);
@@ -66,8 +72,8 @@ public class ShopActivity extends AppCompatActivity {
         String word = labelView.getWord();
 
         mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
-        LinearLayoutManager shopLayoutManager=new LinearLayoutManager(this);
-        shoppingCareRecycleview=findViewById(R.id.shopping_car_recycleview);
+        LinearLayoutManager shopLayoutManager = new LinearLayoutManager(this);
+        shoppingCareRecycleview = findViewById(R.id.shopping_car_recycleview);
         shoppingCareRecycleview.setLayoutManager(shopLayoutManager);
         shoppingCareRecycleview.setAdapter(new RecipeAdapter());
         labelView.setOnClickListener(new View.OnClickListener() {
@@ -113,22 +119,32 @@ public class ShopActivity extends AppCompatActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState != BottomSheetBehavior.STATE_DRAGGING) {
                     ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
-                    if (bottomSheet.getHeight() > 600 ) {
-                        layoutParams.height = 600 ;
+                    if (bottomSheet.getHeight() > 600) {
+                        layoutParams.height = 600;
                         bottomSheet.setLayoutParams(layoutParams);
                     }
                 }
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
-    });
-        settlement_fee=findViewById(R.id.settlement_fee);
+        });
+        settlement_fee = findViewById(R.id.settlement_fee);
         settlement_fee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ShopActivity.this,OrderCommitActivity.class);
+                Intent intent = new Intent(ShopActivity.this, OrderCommitActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击返回主页,对购物车进行操作
+
+                finish();
             }
         });
 

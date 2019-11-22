@@ -28,6 +28,7 @@
                 android:id="@+id/image_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="homeOnclick"
                 android:src="@drawable/ic_locate" />
 
             <TextView
@@ -37,6 +38,7 @@
                 android:layout_marginStart="20dp"
                 android:gravity="center"
                 android:text="城市学院"
+                android:onClick="homeOnclick"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
 

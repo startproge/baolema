@@ -1,7 +1,10 @@
 package com.example.baolema;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.example.baolema.ui.home.ActivityAddress;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,5 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetTitle(String title) {
         toolbar.setTitle(title);
+    }
+
+    public void homeOnclick(View view) {
+        switch (view.getId()) {
+            case R.id.image_location:
+            case R.id.text_title:
+                Intent intent = new Intent(MainActivity.this, ActivityAddress.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 }
