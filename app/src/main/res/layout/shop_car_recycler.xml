@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/recipe_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="菜名"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:layout_marginLeft="10sp"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/recipe_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/recipe_name"
+        app:layout_constraintRight_toLeftOf="@+id/recipe_reduce"
+        android:text="￥30"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:layout_marginRight="40sp"
+        >
+    </TextView>
+    <Button
+        android:id="@+id/recipe_add"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/ic_shopcar_add"
+        >
+
+    </Button>
+    <TextView
+        android:id="@+id/recipe_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@+id/recipe_add"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="5sp"
+        android:text="1"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        >
+    </TextView>
+    <Button
+        android:id="@+id/recipe_reduce"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        app:layout_constraintRight_toLeftOf="@+id/recipe_num"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/ic_shopcar_reduce"
+        android:layout_marginRight="5sp"
+        >
+
+    </Button>
+</androidx.constraintlayout.widget.ConstraintLayout>
