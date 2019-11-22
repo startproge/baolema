@@ -28,6 +28,7 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import im.unicolas.trollbadgeview.LabelView;
@@ -72,8 +73,19 @@ public class ShopActivity extends AppCompatActivity {
             @Override
             public void OnRecycleItemClickListener(int position) {
                 //shopCarRecipes.add(new ShopCarRecipe("红烧排骨"+position,20.0,1));
-                    shopCarAdapter.getRecipes().add(new ShopCarRecipe("红烧排骨"+position,20.0,1));
-                    shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
+                boolean isExist = true;
+                for (int i = 0; i < shopCarAdapter.getRecipes().size(); i++) {
+                    if (shopCarAdapter.getRecipes().get(i).getName().equals("红烧排骨" + position)) {
+                        int num = shopCarAdapter.getRecipes().get(i).getNum();
+                        shopCarAdapter.getRecipes().get(i).setNum(++num);
+                        isExist = false;
+                        break;
+                    }
+                }
+                if(isExist)
+                    shopCarAdapter.getRecipes().add(new ShopCarRecipe("红烧排骨" + position, 20.0, 1));
+
+                shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
             }
         });
         recipeRecycleView.setAdapter(recipeAdapter);
@@ -125,6 +137,9 @@ public class ShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(ShopActivity.this,OrderCommitActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable("orderRecipes",(Serializable)shopCarAdapter.getRecipes());
+                intent.putExtra("BUNDLE",args);
                 startActivity(intent);
             }
         });
