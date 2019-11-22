@@ -1,6 +1,8 @@
 package com.example.baolema.bean;
 
-public class ShopCarRecipe {
+import java.io.Serializable;
+
+public class ShopCarRecipe implements Serializable {
     String name;
     Double money;
     int num;

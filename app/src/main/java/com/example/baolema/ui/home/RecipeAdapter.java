@@ -1,12 +1,9 @@
 package com.example.baolema.ui.home;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,7 +37,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_recycleview,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_recipe,parent,false);
         RecipeViewHolder holder=new RecipeViewHolder(view);
         return holder;
     }

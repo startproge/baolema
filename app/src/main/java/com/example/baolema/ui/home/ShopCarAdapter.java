@@ -1,19 +1,15 @@
 package com.example.baolema.ui.home;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baolema.R;
-import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.ShopCarRecipe;
 
 import java.util.ArrayList;
@@ -48,7 +44,7 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_car_recycler,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_shop_car,parent,false);
         ShopCarViewHolder holder=new ShopCarViewHolder(view);
         return holder;
     }
