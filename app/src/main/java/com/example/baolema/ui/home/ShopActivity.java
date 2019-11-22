@@ -134,3 +134,4 @@ public class ShopActivity extends AppCompatActivity {
 
     }
 }
+
