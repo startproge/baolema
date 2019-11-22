@@ -10,14 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".ui.home.ShopActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.home.ShopActivity">
         </activity>
         <activity android:name=".ui.home.OrderCommitActivity"></activity>
         <activity android:name=".ui.home.ActivityAddress" />
