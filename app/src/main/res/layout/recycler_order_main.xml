@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_order_main_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="学院餐厅"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_keyboard_arrow_right"
+        app:layout_constraintBottom_toBottomOf="@id/text_order_main_shop"
+        app:layout_constraintLeft_toRightOf="@+id/text_order_main_shop"
+        app:layout_constraintTop_toTopOf="@id/text_order_main_shop" />
+
+    <TextView
+        android:id="@+id/text_order_main_evaluate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="待评价"
+        android:textColor="@color/colorOrange"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/text_order_main_shop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_order_main_shop" />
+
+    <ImageView
+        android:id="@+id/divider_order_main"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintTop_toBottomOf="@+id/text_order_main_shop" />
+
+    <ImageView
+        android:id="@+id/image_order_main"
+        android:layout_width="108dp"
+        android:layout_height="81dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_settings_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_order_main" />
+
+    <TextView
+        android:id="@+id/text_order_main_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="12.3"
+        android:textColor="@color/colorRed"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/image_order_main"
+        app:layout_constraintTop_toTopOf="@id/image_order_main" />
+
+    <TextView
+        android:id="@+id/text_order_main_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="2017-01-15 17:05:24"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/text_order_main_tips"
+        app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
+        app:layout_constraintTop_toBottomOf="@+id/text_order_main_price" />
+
+    <TextView
+        android:id="@+id/text_order_main_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请前往商家自提"
+        app:layout_constraintBottom_toBottomOf="@id/image_order_main"
+        app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
+        app:layout_constraintTop_toBottomOf="@id/text_order_main_time" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_keyboard_arrow_right"
+        app:layout_constraintBottom_toBottomOf="@id/image_order_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image_order_main" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
