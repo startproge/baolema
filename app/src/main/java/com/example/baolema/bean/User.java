@@ -8,6 +8,19 @@ public class User {
     private String userAddress;
     private String userImage;
 
+    public User() {
+
+    }
+
+    public User(int userId, String userName, String userPwd, String userTel, String userAddress, String userImage) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPwd = userPwd;
+        this.userTel = userTel;
+        this.userAddress = userAddress;
+        this.userImage = userImage;
+    }
+
     public int getUserId() {
         return userId;
     }

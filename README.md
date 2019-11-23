@@ -32,6 +32,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'com.alibaba:fastjson:1.2.61'
     implementation 'im.unicolas:trollbadgeview:1.3'
     implementation 'com.flipboard:bottomsheet-core:1.5.1'
     testImplementation 'junit:junit:4.12'

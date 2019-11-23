@@ -16,6 +16,22 @@ public class Shop {
     private int shopMonthSale;
     private List<Recipe> recipeList = new ArrayList<>();
 
+    public Shop() {
+
+    }
+
+    public Shop(int shopId, String shopName, String shopAddress, String shopTel, double shopScore, String shopNotice, String shopTrademark, String shopStatus, int shopMonthSale) {
+        this.shopId = shopId;
+        this.shopName = shopName;
+        this.shopAddress = shopAddress;
+        this.shopTel = shopTel;
+        this.shopScore = shopScore;
+        this.shopNotice = shopNotice;
+        this.shopTrademark = shopTrademark;
+        this.shopStatus = shopStatus;
+        this.shopMonthSale = shopMonthSale;
+    }
+
     public int getShopId() {
         return shopId;
     }
