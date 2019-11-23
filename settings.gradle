@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':fastjson-1.2.62'
 rootProject.name='BaoLeMa'
