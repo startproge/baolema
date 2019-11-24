@@ -6,9 +6,9 @@ import com.example.baolema.bean.Shop;
 import java.util.List;
 
 public interface ShopDao {
-    // url?type=android&req=shopList
+    // url/Shop/getShopList
     List<Shop> getShopList();
 
-    // url?type=android&req=recipeList&shopId=
+    // url/Recipe/getRecipeList?shopId=
     List<Recipe> getRecipeList(int shopId);
 }

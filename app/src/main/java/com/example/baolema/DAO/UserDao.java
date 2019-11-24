@@ -3,7 +3,7 @@ package com.example.baolema.DAO;
 import com.example.baolema.bean.User;
 
 public interface UserDao {
-    // url?/type=android&req=user
+    // url/User/getUser?userId=
     User getUser(int userId);
 
 }
