@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorBlack"
-            app:title="饱了吗"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="磨刀餐厅"
             app:titleTextColor="@color/colorWhite" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -54,5 +55,19 @@
         android:layout_margin="5dp"
         android:src="@drawable/ic_image_shop_phone"
         />
+    <ImageView
+        android:id="@+id/divide1"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        app:layout_constraintTop_toBottomOf="@id/orderdetail_detail"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="5sp"
+        />
+    <RelativeLayout
+        android:id="@+id/order_main_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/divide1"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
