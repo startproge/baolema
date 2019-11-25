@@ -15,34 +15,34 @@ import com.example.baolema.bean.OrderMain;
 import java.util.List;
 
 public class OrderMainAdapter extends RecyclerView.Adapter {
-    private List<OrderMain> orderList;
+        private List<OrderMain> orderList;
 
-    public OrderMainAdapter(List<OrderMain> orderList) {
-        this.orderList = orderList;
-    }
-
-    static class OrderMainViewHolder extends RecyclerView.ViewHolder {
-        TextView textShopName;
-        TextView textOrderStatus;
-        ImageView imageShop;
-        TextView orderSumPrice;
-        TextView orderTime;
-
-        OrderMainViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.textShopName = itemView.findViewById(R.id.text_order_main_shop);
-            this.textOrderStatus = itemView.findViewById(R.id.text_order_main_evaluate);
-            this.imageShop = itemView.findViewById(R.id.image_order_main);
-            this.orderSumPrice = itemView.findViewById(R.id.text_order_main_price);
-            this.orderTime = itemView.findViewById(R.id.text_order_main_time);
+        public OrderMainAdapter(List<OrderMain> orderList) {
+            this.orderList = orderList;
         }
-    }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new OrderMainViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_order_main, parent, false));
-    }
+        static class OrderMainViewHolder extends RecyclerView.ViewHolder {
+            TextView textShopName;
+            TextView textOrderStatus;
+            ImageView imageShop;
+            TextView orderSumPrice;
+            TextView orderTime;
+
+            OrderMainViewHolder(@NonNull View itemView) {
+                super(itemView);
+                this.textShopName = itemView.findViewById(R.id.text_order_main_shop);
+                this.textOrderStatus = itemView.findViewById(R.id.text_order_main_evaluate);
+                this.imageShop = itemView.findViewById(R.id.image_order_main);
+                this.orderSumPrice = itemView.findViewById(R.id.text_order_main_price);
+                this.orderTime = itemView.findViewById(R.id.text_order_main_time);
+            }
+        }
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new OrderMainViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_order_main, parent, false));
+        }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
