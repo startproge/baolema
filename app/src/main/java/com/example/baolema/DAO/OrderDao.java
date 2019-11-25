@@ -2,6 +2,7 @@ package com.example.baolema.DAO;
 
 import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderMain;
+import com.example.baolema.bean.Orders;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface OrderDao {
      */
 
     // url/Order/getOrderList?userId=
-    List<OrderMain> getOrderList(int userId);
+    List<Orders> getOrderList(int userId);
 
     // url/OrderInf/getOrderInfList?orderId=
     List<OrderInf> getOrderInfList(int orderId);
