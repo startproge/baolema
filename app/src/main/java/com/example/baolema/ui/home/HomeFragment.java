@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPager;
     private RecyclerView recyclerView;
     private List<Shop> shopList = new ArrayList<>();
-
+    private HomeRecyclerAdapter homeRecyclerAdapter;
     private List<Integer> integerArrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -111,7 +111,17 @@ public class HomeFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    recyclerView.setAdapter(new HomeRecyclerAdapter(shopList));
+                    homeRecyclerAdapter=new HomeRecyclerAdapter(shopList);
+                    recyclerView.setAdapter(homeRecyclerAdapter);
+                    homeRecyclerAdapter.OnRecycleItemClickListener(new HomeRecyclerAdapter.OnRecycleItemClickListener() {
+                        @Override
+                        public void OnRecycleItemClickListener(int position) {
+                            Intent intent=new Intent(getActivity(),ShopActivity.class);
+                            int shopId=homeRecyclerAdapter.getShopList().get(position).getShopId();
+                            intent.putExtra("shopId",shopId);
+                            startActivity(intent);
+                        }
+                    });
                     break;
                 default:
                     break;

@@ -1,7 +1,9 @@
 package com.example.baolema.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,22 +16,31 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.R;
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.util.httpUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import im.unicolas.trollbadgeview.LabelView;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static com.example.baolema.ui.home.RecipeAdapter.*;
 
 public class ShopActivity extends AppCompatActivity {
+    private int shopId;
+    private String urlStr ="http://47.98.229.17:8002/blm";
     private RecyclerView recipeRecycleView;
     private ArrayList<ShopCarRecipe> shopCarRecipes = new ArrayList<>();
-    private ArrayList<Recipe> recipes;
+    private List<Recipe> recipes;
     private BottomSheetBehavior mBottomSheetBehavior;
     private ConstraintLayout shopCarInf;
     private Button settlement_fee;
@@ -40,14 +51,15 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
-
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
-
+        Intent intent=getIntent();
+        shopId=intent.getIntExtra("shopId",0);
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
-
+        //getShopRecipeListByHttp();
+        //购物车RecycleView
         mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
         LinearLayoutManager shopLayoutManager = new LinearLayoutManager(this);
         shoppingCarRecycleview = findViewById(R.id.shopping_car_recycleview);
@@ -55,28 +67,31 @@ public class ShopActivity extends AppCompatActivity {
         final ShopCarAdapter shopCarAdapter = new ShopCarAdapter(shopCarRecipes, this);
         shoppingCarRecycleview.setAdapter(shopCarAdapter);
 
+        //商家菜单RecycleView
         recipeRecycleView = findViewById(R.id.recipe_recycleview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recipeRecycleView.setLayoutManager(layoutManager);
         final RecipeAdapter recipeAdapter = new RecipeAdapter();
-        recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener() {
-            @Override
-            public void OnRecycleItemClickListener(int position) {
-                //shopCarRecipes.add(new ShopCarRecipe("红烧排骨"+position,20.0,1));
-                boolean isExist = true;
-                for (int i = 0; i < shopCarAdapter.getRecipes().size(); i++) {
-                    if (shopCarAdapter.getRecipes().get(i).getName().equals("红烧排骨" + position)) {
-                        int num = shopCarAdapter.getRecipes().get(i).getNum();
-                        shopCarAdapter.getRecipes().get(i).setNum(++num);
-                        isExist = false;
-                        break;
-                    }
-                }
-                if (isExist)
-                    shopCarAdapter.getRecipes().add(new ShopCarRecipe("红烧排骨" + position, 20.0, 1));
+        recipeRecycleView.setAdapter(recipeAdapter);
 
-                shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
-            }
+        //添加购物车
+        recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener() {
+                @Override
+                public void OnRecycleItemClickListener(int position) {
+                    //shopCarRecipes.add(new ShopCarRecipe("红烧排骨"+position,20.0,1));
+                    boolean isExist = true;
+                    for (int i = 0; i < shopCarAdapter.getRecipes().size(); i++) {
+                        if (shopCarAdapter.getRecipes().get(i).getName().equals("红烧排骨" + position)) {
+                            int num = shopCarAdapter.getRecipes().get(i).getNum();
+                            shopCarAdapter.getRecipes().get(i).setNum(++num);
+                            isExist = false;
+                            break;
+                        }
+                    }
+                    if (isExist)
+                        shopCarAdapter.getRecipes().add(new ShopCarRecipe("红烧排骨" + position, 20.0, 1));
+                    shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
+                }
         });
         recipeRecycleView.setAdapter(recipeAdapter);
 
@@ -106,7 +121,7 @@ public class ShopActivity extends AppCompatActivity {
                 }
             }
         });
-
+        //弹出购物车
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -123,6 +138,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
+        //提交订单
         settlement_fee = findViewById(R.id.settlement_fee);
         settlement_fee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +161,18 @@ public class ShopActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    void getShopRecipeListByHttp(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+               recipes=JSON.parseObject(httpUtil.getHttpInterface(urlStr+"/Recipe/getRecipeList?shopId="+shopId),
+                       new TypeReference<List<Recipe>>(){});
+                Log.e("ShopActivity", String.valueOf(recipes.size()));
+
+            }
+        }).start();
     }
 }
 
