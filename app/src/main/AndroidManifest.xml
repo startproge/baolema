@@ -20,10 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.home.ShopActivity"></activity>
-        <activity android:name=".ui.orderdetail.OrderDetailActivity">
-        </activity>
-        <activity android:name=".ui.home.ShopActivity">
-        </activity>
         <activity android:name=".ui.home.OrderCommitActivity"></activity>
         <activity android:name=".ui.home.LocationActivity" />
         <activity android:name=".ui.mine.SettingActivity" />
