@@ -3,6 +3,8 @@ package com.example.baolema.ui.home;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
+import com.example.baolema.bean.OrderMain;
 import com.example.baolema.bean.Shop;
+import com.example.baolema.ui.order.OrderMainAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,11 +39,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
-    private String urlStr = "231.233.42.43/?type=android&req=";
+    private String urlStr = "http://47.98.229.17:8002/blm";
     private TextView textView;
     private ViewPager viewPager;
+    private RecyclerView recyclerView;
     private List<Shop> shopList = new ArrayList<>();
 
     private List<Integer> integerArrayList = new ArrayList<>();
@@ -54,14 +65,15 @@ public class HomeFragment extends Fragment {
         mainActivity.resetTitle("饱了嘛");
 
         initImages();
-        initShops();
-
+//        initShops();
         PagerAdapter pagerAdapter = new PagerAdapter(integerArrayList);
         viewPager.setAdapter(pagerAdapter);
 
-        RecyclerView recyclerView = root.findViewById(R.id.recycler_view_shop);
+        recyclerView = root.findViewById(R.id.recycler_view_shop);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new HomeRecyclerAdapter(shopList));
+        getShopListByHttp();
+
+//        recyclerView.setAdapter(new HomeRecyclerAdapter(shopList));
 
         textView = root.findViewById(R.id.text_surf);
         textView.setOnClickListener(new View.OnClickListener() {
@@ -75,14 +87,14 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    void initShops() {
-        for (int i = 0; i < 20; i++) {
-            Shop shop = new Shop();
-            shop.setShopName("fdfds");
-            shop.setShopMonthSale(423432);
-            shopList.add(shop);
-        }
-    }
+//    void initShops() {
+//        for (int i = 0; i < 20; i++) {
+//            Shop shop = new Shop();
+//            shop.setShopName("fdfds");
+//            shop.setShopMonthSale(423432);
+//            shopList.add(shop);
+//        }
+//    }
 
     void initImages() {
         integerArrayList.add(R.drawable.ic_back);
@@ -93,58 +105,39 @@ public class HomeFragment extends Fragment {
     }
 
     //参考地址 https://blog.csdn.net/pxcz110112/article/details/81220928
-    void sendHttpForShops() {
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 1:
+                    recyclerView.setAdapter(new HomeRecyclerAdapter(shopList));
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    void getShopListByHttp() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection conn = null;
-                StringBuffer stringBuffer = new StringBuffer();
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(urlStr + "/Shop/getShopList").build();
                 try {
-                    String path = urlStr + "shopList" + URLEncoder.encode("shopList", "utf-8");
-                    URL url = new URL(path);
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setConnectTimeout(8000);
-                    conn.setReadTimeout(8000);
-
-                    if (conn.getResponseCode() == 200) {
-                        InputStream inputStream = conn.getInputStream();
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[1024];
-                        int len;
-                        while ((len = inputStream.read(buffer)) != -1)
-                            outputStream.write(buffer, 0, len);
-                        String jsonString = outputStream.toString();
-                        outputStream.close();
-                        inputStream.close();
-
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            Shop shop = new Shop();
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            shop.setShopId(jsonObject.getInt("shopId"));
-                            shop.setShopName(jsonObject.getString("shopName"));
-                            shop.setShopAddress(jsonObject.getString("shopAddress"));
-                            shop.setShopTel(jsonObject.getString("shopTel"));
-                            shop.setShopScore(jsonObject.getDouble("shopScore"));
-                            shop.setShopNotice(jsonObject.getString("shopNotices"));
-                            shop.setShopTrademark(jsonObject.getString("shopTrademark"));
-                            shop.setShopStatus(jsonObject.getString("shopStatus"));
-                            shop.setShopMonthSale(jsonObject.getInt("shopMonthSale"));
-                            shopList.add(shop);
-                        }
-                    }
-                } catch (IOException | JSONException e) {
+                    Response response = client.newCall(request).execute();
+                    shopList = JSON.parseObject(response.body().string(), new TypeReference<List<Shop>>() {
+                    });
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    if (conn != null) {
-                        conn.disconnect();
-                    }
                 }
             }
         }).start();
     }
-
 }
 
 class PagerAdapter extends androidx.viewpager.widget.PagerAdapter {

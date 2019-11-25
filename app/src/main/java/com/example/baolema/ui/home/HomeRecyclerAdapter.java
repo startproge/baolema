@@ -1,5 +1,6 @@
 package com.example.baolema.ui.home;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ShopViewHolder shopViewHolder = (ShopViewHolder) holder;
         Shop shop = shopList.get(position);
-//        shopViewHolder.shopTrademark.setImageURI(Uri.parse(shop.getShopTrademark()));
-        shopViewHolder.shopTrademark.setImageResource(R.drawable.ic_icon_shop_phone);
+//        shopViewHolder.shopTrademark.setImageResource(R.drawable.ic_icon_shop_phone);
         shopViewHolder.shopName.setText(shop.getShopName());
         shopViewHolder.shopMonthSale.setText("月售" + shop.getShopMonthSale() + "单");
 

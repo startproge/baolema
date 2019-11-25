@@ -12,6 +12,7 @@ import java.util.List;
  * fastjson解析示例
  */
 public class JsonTest {
+    private String urlStr = "http://47.98.229.17:8002/blm";
     public static void main(String[] args) {
         //build.gradle文件已更新fastjson库,参见README.md
 
@@ -45,5 +46,7 @@ public class JsonTest {
         String str2 = str;//app从服务器获得的字符串
         User user2 = JSON.parseObject(str2, User.class);
         System.out.println(user2.getUserId() + " " + user2.getUserName());
+
+
     }
 }
