@@ -23,8 +23,11 @@ import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Shop;
-import com.example.baolema.util.httpUtil;
+import com.example.baolema.ui.order.OrderMainAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,6 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
@@ -40,6 +46,7 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPager;
     private RecyclerView recyclerView;
     private List<Shop> shopList = new ArrayList<>();
+    private HomeRecyclerAdapter homeRecyclerAdapter;
     private List<Integer> integerArrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -100,7 +107,17 @@ public class HomeFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    recyclerView.setAdapter(new HomeRecyclerAdapter(shopList));
+                    homeRecyclerAdapter=new HomeRecyclerAdapter(shopList);
+                    recyclerView.setAdapter(homeRecyclerAdapter);
+                    homeRecyclerAdapter.OnRecycleItemClickListener(new HomeRecyclerAdapter.OnRecycleItemClickListener() {
+                        @Override
+                        public void OnRecycleItemClickListener(int position) {
+                            Intent intent=new Intent(getActivity(),ShopActivity.class);
+                            int shopId=homeRecyclerAdapter.getShopList().get(position).getShopId();
+                            intent.putExtra("shopId",shopId);
+                            startActivity(intent);
+                        }
+                    });
                     break;
                 default:
                     break;
