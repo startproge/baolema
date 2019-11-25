@@ -10,6 +10,7 @@ public class OrderMain {
     private int shopId;
     private String shopName;
     private Bitmap shopTradeMark;
+    private int temporaryId;
     private double orderPrice;
     private int userId;
     private String orderStatus;
@@ -23,6 +24,15 @@ public class OrderMain {
         this.orderStatus = orderStatus;
     }
 
+    public OrderMain(Orders orders) {
+        this.orderId=orders.getOrderId();
+        this.shopId=orders.getShopId();
+        this.userId=orders.getUserId();
+        this.temporaryId=orders.getTemporaryId();
+        this.orderStatus=orders.getOrderStatus();
+        this.orderStartTime=orders.getOrderStartTime();
+        this.orderFinishTime=orders.getOrderFinishTime();
+    }
     public int getOrderId() {
         return orderId;
     }
@@ -101,5 +111,13 @@ public class OrderMain {
 
     public void setOrderInfList(List<OrderInf> orderInfList) {
         this.orderInfList = orderInfList;
+    }
+
+    public int getTemporaryId() {
+        return temporaryId;
+    }
+
+    public void setTemporaryId(int temporaryId) {
+        this.temporaryId = temporaryId;
     }
 }

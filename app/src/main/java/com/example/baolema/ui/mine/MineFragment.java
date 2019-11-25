@@ -20,13 +20,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
-import com.example.baolema.bean.Shop;
 import com.example.baolema.bean.User;
-import com.example.baolema.ui.home.HomeRecyclerAdapter;
+import com.example.baolema.util.httpUtil;
 
 import java.io.IOException;
-import java.util.List;
 
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -46,7 +45,7 @@ public class MineFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_mine, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.resetTitle("我的");
-        textViewUserName = root.findViewById(R.id.user_name);
+        textViewUserName = root.findViewById(R.id.text_user_name);
 
         getUserByHttp();
 
@@ -80,17 +79,10 @@ public class MineFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url(urlStr + "/User/getUser?userId=1").build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    user = JSON.parseObject(response.body().toString(), User.class);
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId=1"), User.class);
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
             }
         }).start();
     }

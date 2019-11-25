@@ -22,26 +22,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
-import com.example.baolema.bean.OrderMain;
 import com.example.baolema.bean.Shop;
-import com.example.baolema.ui.order.OrderMainAdapter;
+import com.example.baolema.util.httpUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
@@ -50,7 +40,6 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPager;
     private RecyclerView recyclerView;
     private List<Shop> shopList = new ArrayList<>();
-
     private List<Integer> integerArrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -123,18 +112,10 @@ public class HomeFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url(urlStr + "/Shop/getShopList").build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    shopList = JSON.parseObject(response.body().string(), new TypeReference<List<Shop>>() {
-                    });
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                shopList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), new TypeReference<List<Shop>>() {});
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
             }
         }).start();
     }

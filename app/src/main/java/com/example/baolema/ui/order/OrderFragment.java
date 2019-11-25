@@ -17,8 +17,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
+import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderMain;
+import com.example.baolema.bean.Orders;
 import com.example.baolema.bean.Shop;
+import com.example.baolema.util.httpUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,8 +32,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,14 +47,15 @@ public class OrderFragment extends Fragment {
     private OrderViewModel orderViewModel;
     private RecyclerView recyclerView;
     private int userId = 1;
-    private List<OrderMain> ordersList = new ArrayList<>();
+    private List<Orders> ordersList = new ArrayList<>();
+    private List<OrderMain> mainList = new ArrayList<>();
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    recyclerView.setAdapter(new OrderMainAdapter(ordersList));
+                    recyclerView.setAdapter(new OrderMainAdapter(mainList));
                     break;
                 default:
                     break;
@@ -78,70 +85,39 @@ public class OrderFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url(urlStr + "/Order/getOrderList?userId=" + userId).build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    ordersList = JSON.parseObject(response.body().string(), new TypeReference<List<OrderMain>>() {
-                    });
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                ordersList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/getOrderList?userId=" + userId), new TypeReference<List<Orders>>() {});
+                List<Shop> shopList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "Shop/getShopList"), new TypeReference<List<Shop>>() {});
+                for (int i = 0; i < ordersList.size(); i++) {
+                    mainList.add(new OrderMain(ordersList.get(i)));
+                    Shop shop = findShop(mainList.get(i).getShopId(), shopList);
+                    mainList.get(i).setShopName(shop.getShopName());
+//                    mainList.get(i).setShopTradeMark(shop.getShopTrademark());
+                    mainList.get(i).setOrderInfList(JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInf/getOrderInfList?orderId=" + ordersList.get(i).getOrderId()), new TypeReference<List<OrderInf>>() {}));
                 }
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
             }
         }).start();
     }
 
-    void sendHttpForOrderList() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                HttpURLConnection conn = null;
-                StringBuffer stringBuffer = new StringBuffer();
-                try {
-                    String path = urlStr + "/Order/getOrderList?userId=1";
-                    URL url = new URL(path);
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setConnectTimeout(8000);
-                    conn.setReadTimeout(8000);
-
-                    if (conn.getResponseCode() == 200) {
-                        InputStream inputStream = conn.getInputStream();
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[1024];
-                        int len;
-                        while ((len = inputStream.read(buffer)) != -1)
-                            outputStream.write(buffer, 0, len);
-                        String jsonString = outputStream.toString();
-                        outputStream.close();
-                        inputStream.close();
-
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (conn != null) {
-                        conn.disconnect();
-                    }
-                }
-            }
-        }).start();
+    Shop findShop(int shopId, List<Shop> shopList) {
+        for (Shop s : shopList) {
+            if (s.getShopId() == shopId)
+                return s;
+        }
+        return null;
     }
 
-    public void initOrderList() {
-        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-        ordersList.add(new OrderMain("学院学院", 32.94, "已完成"));
-        ordersList.add(new OrderMain("学院学院", 2.94, "待评价"));
-        ordersList.add(new OrderMain("学院学院", 329.4, "待评价"));
-        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-        ordersList.add(new OrderMain("学院学院", 2, "待评价"));
-        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-    }
+//    public void initOrderList() {
+//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
+//        ordersList.add(new OrderMain("学院学院", 32.94, "已完成"));
+//        ordersList.add(new OrderMain("学院学院", 2.94, "待评价"));
+//        ordersList.add(new OrderMain("学院学院", 329.4, "待评价"));
+//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
+//        ordersList.add(new OrderMain("学院学院", 2, "待评价"));
+//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
+//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
+//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
+//    }
 }
