@@ -24,7 +24,6 @@ import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.ui.order.OrderMainAdapter;
-import com.example.baolema.util.httpUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
