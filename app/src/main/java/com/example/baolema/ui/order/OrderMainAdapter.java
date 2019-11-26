@@ -53,7 +53,7 @@ public class OrderMainAdapter extends RecyclerView.Adapter {
         OrderMainViewHolder orderMainViewHolder = (OrderMainViewHolder) holder;
         orderMainViewHolder.textShopName.setText(orderList.get(position).getShopName());
         orderMainViewHolder.textOrderStatus.setText(orderList.get(position).getOrderStatus());
-        orderMainViewHolder.orderSumPrice.setText(String.valueOf(orderList.get(position).getOrderPrice()));
+//        orderMainViewHolder.orderSumPrice.setText(String.valueOf(orderList.get(position).getOrderPrice()));
 //        orderMainViewHolder.imageShop.setImageBitmap();
         orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderStartTime()));
 
