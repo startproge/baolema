@@ -23,7 +23,9 @@ import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Shop;
+import com.example.baolema.controller.ShopController;
 import com.example.baolema.ui.order.OrderMainAdapter;
+import com.example.baolema.util.httpUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,9 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+
 
 public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
@@ -102,6 +102,18 @@ public class HomeFragment extends Fragment {
 
     //参考地址 https://blog.csdn.net/pxcz110112/article/details/81220928
 
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            switch (msg.what) {
+//                case 1:
+//                    recyclerView.setAdapter(new HomeRecyclerAdapter(shopList));
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    };
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {

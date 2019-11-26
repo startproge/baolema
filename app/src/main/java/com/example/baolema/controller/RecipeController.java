@@ -11,8 +11,8 @@ import java.util.List;
 public class RecipeController implements RecipeDao {
 
     @Override
-    public Recipe getRecipe(int ReciprId) {
-        String path="http://47.98.229.17:8002/blm/Recipe/getRecipe?recipeId="+ReciprId;
+    public Recipe getRecipe(int RecipeId) {
+        String path="http://47.98.229.17:8002/blm/Recipe/getRecipe?recipeId="+RecipeId;
         String result= httpUtil.getHttpInterface(path);
         Recipe recipe= JSON.parseObject(result,Recipe.class);
         return  recipe;
