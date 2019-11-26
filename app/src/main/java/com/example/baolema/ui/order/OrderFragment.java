@@ -23,24 +23,9 @@ import com.example.baolema.bean.Orders;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.util.httpUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class OrderFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
