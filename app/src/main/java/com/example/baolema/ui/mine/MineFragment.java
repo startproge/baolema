@@ -1,5 +1,6 @@
 package com.example.baolema.ui.mine;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +34,7 @@ public class MineFragment extends Fragment {
     private TextView textViewUserName;
     private ImageView imageViewAccountIcon;
     private MineViewModel mineViewModel;
+    private SharedPreferences pref;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

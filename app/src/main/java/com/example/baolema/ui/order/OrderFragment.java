@@ -81,7 +81,7 @@ public class OrderFragment extends Fragment {
                     mainList.get(i).setShopName(shop.getShopName());
 //                    mainList.get(i).setShopTradeMark(shop.getShopTrademark());
                     mainList.get(i).setOrderInfList(new OrderController().getOrderInfList(ordersList.get(i).getOrderId()));
-            }
+                }
                 Message message = new Message();
                 message.what = 1;
                 handler.sendMessage(message);
