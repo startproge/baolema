@@ -23,12 +23,8 @@ import com.example.baolema.R;
 import com.example.baolema.bean.User;
 import com.example.baolema.util.httpUtil;
 
-import java.io.IOException;
 
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+
 
 public class MineFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";

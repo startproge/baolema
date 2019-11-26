@@ -21,11 +21,14 @@ import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderMain;
 import com.example.baolema.bean.Orders;
 import com.example.baolema.bean.Shop;
+import com.example.baolema.controller.OrderController;
+import com.example.baolema.controller.ShopController;
 import com.example.baolema.util.httpUtil;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class OrderFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
@@ -70,15 +73,15 @@ public class OrderFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ordersList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/getOrderList?userId=" + userId), new TypeReference<List<Orders>>() {});
-                List<Shop> shopList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "Shop/getShopList"), new TypeReference<List<Shop>>() {});
+                ordersList = new OrderController().getOrderList(userId);
+                List<Shop> shopList = new ShopController().getShopList();
                 for (int i = 0; i < ordersList.size(); i++) {
                     mainList.add(new OrderMain(ordersList.get(i)));
                     Shop shop = findShop(mainList.get(i).getShopId(), shopList);
                     mainList.get(i).setShopName(shop.getShopName());
 //                    mainList.get(i).setShopTradeMark(shop.getShopTrademark());
-                    mainList.get(i).setOrderInfList(JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInf/getOrderInfList?orderId=" + ordersList.get(i).getOrderId()), new TypeReference<List<OrderInf>>() {}));
-                }
+                    mainList.get(i).setOrderInfList(new OrderController().getOrderInfList(ordersList.get(i).getOrderId()));
+            }
                 Message message = new Message();
                 message.what = 1;
                 handler.sendMessage(message);
