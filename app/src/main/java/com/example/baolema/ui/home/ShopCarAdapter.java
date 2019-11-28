@@ -68,8 +68,11 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View v) {
                 int num=shopCarRecipe.getNum()-1;
-                //if(num==0)
+                if(num==0)
+                   shopCarRecipes.remove(position);
+                else
                 shopCarRecipe.setNum(num);
+
                 notifyDataSetChanged();
             }
         });
@@ -80,7 +83,7 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return shopCarRecipes.size();
     }
 
-    public ArrayList<ShopCarRecipe> getRecipes(){
+    public ArrayList<ShopCarRecipe> getShopCarRecipes(){
         return this.shopCarRecipes;
     }
 }

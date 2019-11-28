@@ -1,6 +1,7 @@
 package com.example.baolema.ui.home;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,21 +30,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public RecipeViewHolder(View view){
             super(view);
             add=view.findViewById(R.id.recipe_add);
-            /*name=view.findViewById(R.id.recipe_name);
+            name=view.findViewById(R.id.recipe_name);
             money=view.findViewById(R.id.recipe_money);
             notice=view.findViewById(R.id.recipe_information);
-            monthlySale=view.findViewById(R.id.recipe_monthly_sale);*/
+            monthlySale=view.findViewById(R.id.recipe_monthly_sale);
         }
     }
 
-    /*public RecipeAdapter(List<Recipe> recipes ,Context context){
+
+    public RecipeAdapter(List<Recipe> recipes ,Context context){
        if(recipes==null) {
             this.recipes=new ArrayList<Recipe>();
         }
         else
             this.recipes=recipes;
+
         this.context=context;
-    }*/
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,11 +58,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         RecipeViewHolder mHolder=(RecipeViewHolder)holder;
-        /*Recipe recipe=recipes.get(position);
+        Recipe recipe=recipes.get(position);
         mHolder.name.setText(recipe.getRecipeName());
         mHolder.money.setText(Double.toString(recipe.getRecipePrice()));
         mHolder.monthlySale.setText(Integer.toString(recipe.getMonthlySale()));
-        mHolder.notice.setText(recipe.getRecipeNotice());*/
+        mHolder.notice.setText(recipe.getRecipeNotice());
         mHolder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +75,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         //return recipes.size();
-        return 10;
+        //Log.d("RecipeAdapter123",String.valueOf(this.recipes.size()));
+        //recipes=new ArrayList<Recipe>();
+        return recipes.size();
     }
 
     public  void  OnRecycleItemClickListener(OnRecycleItemClickListener v){
@@ -82,6 +87,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void OnRecycleItemClickListener(int position);
     }
 
-
-
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
 }

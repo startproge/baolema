@@ -73,11 +73,12 @@ public class ShopActivity extends AppCompatActivity {
         recipeRecycleView = findViewById(R.id.recipe_recycleview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recipeRecycleView.setLayoutManager(layoutManager);
-        final RecipeAdapter recipeAdapter = new RecipeAdapter();
+        //final RecipeAdapter recipeAdapter = new RecipeAdapter();
+        recipes=new ArrayList<Recipe>();
+        recipeAdapter=new RecipeAdapter(recipes,this);
         recipeRecycleView.setAdapter(recipeAdapter);
-
         //添加购物车
-        recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener() {
+        /*recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener() {
             @Override
             public void OnRecycleItemClickListener(int position) {
                 //shopCarRecipes.add(new ShopCarRecipe("红烧排骨"+position,20.0,1));
@@ -94,9 +95,31 @@ public class ShopActivity extends AppCompatActivity {
                     shopCarAdapter.getRecipes().add(new ShopCarRecipe("红烧排骨" + position, 20.0, 1));
                 shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
             }
-        });
-        recipeRecycleView.setAdapter(recipeAdapter);
+        });*/
 
+        recipeAdapter.OnRecycleItemClickListener(new RecipeAdapter.OnRecycleItemClickListener() {
+            @Override
+            public void OnRecycleItemClickListener(int position) {
+                boolean isExist = true;
+                for (int i = 0; i < shopCarAdapter.getShopCarRecipes().size(); i++)
+                    if (recipes.get(position).getRecipeName().equals(shopCarAdapter.getShopCarRecipes().get(i).getName())){
+                        int num = shopCarAdapter.getShopCarRecipes().get(i).getNum();
+                        shopCarAdapter.getShopCarRecipes().get(i).setNum(++num);
+                        isExist = false;
+                        break;
+                    }
+                if (isExist) {
+                    ShopCarRecipe shopCarRecipe=new ShopCarRecipe(recipes.get(position).getRecipeName()
+                            , recipes.get(position).getRecipePrice(), 1);
+                    shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
+                }
+                shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
+            }
+
+        });
+
+        //recipeRecycleView.setAdapter(recipeAdapter);
+        getShopRecipeListByHttp();
 
         labelView = findViewById(R.id.shopping_car_icon);
         labelView.setLabelMode(LabelView.LABEL_MODE_IMG);
@@ -147,7 +170,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShopActivity.this, OrderCommitActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("orderRecipes", (Serializable) shopCarAdapter.getRecipes());
+                args.putSerializable("orderRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
                 intent.putExtra("BUNDLE", args);
                 startActivity(intent);
             }
@@ -169,14 +192,14 @@ public class ShopActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 recipes = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId),
                         new TypeReference<List<Recipe>>() {
                         });
+                Log.d("activity123",String.valueOf(recipes.size()));
                 Message message = new Message();
                 message.what = 1;
                 handler.sendMessage(message);
-                Log.e("ShopActivity", String.valueOf(recipes.size()));
+                //Log.e("ShopActivity", String.valueOf(recipes.size()));
 
             }
         }).start();
@@ -187,8 +210,7 @@ public class ShopActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-
-                    recipeAdapter = new RecipeAdapter();
+                    /*recipeAdapter = new RecipeAdapter();
                     recipeRecycleView.setAdapter(recipeAdapter);
                     recipeAdapter.OnRecycleItemClickListener(new RecipeAdapter.OnRecycleItemClickListener() {
                         @Override
@@ -207,7 +229,10 @@ public class ShopActivity extends AppCompatActivity {
                                 shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
                         }
 
-                    });
+                    });*/
+                    Log.d("activity12",String.valueOf(recipes.size()));
+                    recipeAdapter.setRecipes(recipes);
+                    recipeAdapter.notifyDataSetChanged();
                     break;
                 default:
                     break;
