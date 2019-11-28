@@ -84,9 +84,9 @@ public class HomeFragment extends Fragment {
 //    }
 
     void initImages() {
-        integerArrayList.add(R.drawable.ic_back);
-        integerArrayList.add(R.drawable.ic_locate);
-        integerArrayList.add(R.drawable.ic_home);
+        integerArrayList.add(R.drawable.de1);
+        integerArrayList.add(R.drawable.de2);
+        integerArrayList.add(R.drawable.de3);
         viewPager.setOffscreenPageLimit(integerArrayList.size());
         viewPager.setPageMargin(10);
     }
