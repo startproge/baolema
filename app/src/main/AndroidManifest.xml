@@ -24,6 +24,7 @@
         <activity android:name=".ui.home.LocationActivity" />
         <activity android:name=".ui.mine.SettingActivity" />
         <activity android:name=".ui.mine.MinePhoneActivity" />
+        <activity android:name=".ui.order.OrderInfActivity"></activity>
     </application>
 
 </manifest>

@@ -86,4 +86,5 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public ArrayList<ShopCarRecipe> getShopCarRecipes(){
         return this.shopCarRecipes;
     }
+
 }

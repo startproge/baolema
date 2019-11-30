@@ -225,6 +225,31 @@
                 android:layout_marginLeft="20sp"
                 android:layout_marginTop="10sp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单评价"
+                android:id="@+id/label_order_commit"
+                app:layout_constraintTop_toTopOf="@id/order_evaluate"
+                app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+                android:layout_marginTop="10sp"
+                android:textSize="20sp"
+                >
+
+            </TextView>
+            <RatingBar
+
+                android:id="@+id/order_evaluate"
+                android:numStars="5"
+                android:rating = "0"
+                android:isIndicator="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/divide6"
+                app:layout_constraintLeft_toRightOf="@+id/label_order_commit"
+                android:layout_marginTop="10sp"
+                android:layout_marginLeft="20sp"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

@@ -16,12 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baolema.R;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.ui.order.OrderInfActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderCommitActivity extends AppCompatActivity {
     private RecyclerView orderRecipesRecycleView;
+    private Button orderCommit;
     private TextView summary;
     private Double totalMoney;
 
@@ -49,6 +51,15 @@ public class OrderCommitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        orderCommit=findViewById(R.id.order_commit);
+        orderCommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
+                startActivity(intent);
             }
         });
     }
