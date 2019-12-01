@@ -22,12 +22,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
+import com.example.baolema.bean.OrderMain;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.util.httpUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class HomeFragment extends Fragment {
@@ -117,13 +122,30 @@ public class HomeFragment extends Fragment {
     };
 
     void getShopListByHttp() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                shopList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), new TypeReference<List<Shop>>() {});
+//                Message message = new Message();
+//                message.what = 1;
+//                handler.sendMessage(message);
+//            }
+//        }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                shopList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), new TypeReference<List<Shop>>() {});
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(urlStr + "/Shop/getShopList" ).build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    shopList = JSON.parseObject(response.body().string(), new TypeReference<List<Shop>>() {});
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
     }
