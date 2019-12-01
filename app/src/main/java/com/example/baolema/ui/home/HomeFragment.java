@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,6 @@ import com.example.baolema.util.httpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
@@ -98,14 +97,14 @@ public class HomeFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    homeRecyclerAdapter=new HomeRecyclerAdapter(shopList);
+                    homeRecyclerAdapter = new HomeRecyclerAdapter(shopList);
                     recyclerView.setAdapter(homeRecyclerAdapter);
                     homeRecyclerAdapter.OnRecycleItemClickListener(new HomeRecyclerAdapter.OnRecycleItemClickListener() {
                         @Override
                         public void OnRecycleItemClickListener(int position) {
-                            Intent intent=new Intent(getActivity(),ShopActivity.class);
-                            int shopId=homeRecyclerAdapter.getShopList().get(position).getShopId();
-                            intent.putExtra("shopId",shopId);
+                            Intent intent = new Intent(getActivity(), ShopActivity.class);
+                            int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
+                            intent.putExtra("shopId", shopId);
                             startActivity(intent);
                         }
                     });
