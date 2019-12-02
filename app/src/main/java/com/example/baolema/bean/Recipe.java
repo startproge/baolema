@@ -8,7 +8,7 @@ public class Recipe {
     private double recipePrice;
     private int monthlySale;
     private String recipeNotice;
-    private String recipeImage;
+    private byte[] recipeImage;
     private int recipeRemain;
     private double recipeDiscount;
 
@@ -60,13 +60,7 @@ public class Recipe {
         this.recipeNotice = recipeNotice;
     }
 
-    public String getRecipeImage() {
-        return recipeImage;
-    }
 
-    public void setRecipeImage(String recipeImage) {
-        this.recipeImage = recipeImage;
-    }
 
     public int getRecipeRemain() {
         return recipeRemain;
@@ -82,5 +76,13 @@ public class Recipe {
 
     public void setRecipeDiscount(double recipeDiscount) {
         this.recipeDiscount = recipeDiscount;
+    }
+
+    public byte[] getRecipeImage() {
+        return recipeImage;
+    }
+
+    public void setRecipeImage(byte[] recipeImage) {
+        this.recipeImage = recipeImage;
     }
 }
