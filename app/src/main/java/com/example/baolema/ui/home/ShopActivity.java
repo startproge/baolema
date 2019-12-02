@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.ShopCarRecipe;
@@ -55,6 +56,7 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop_main);
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
         Intent intent = getIntent();
+        toolbar.setTitle(intent.getStringExtra("shopName"));
         shopId = intent.getIntExtra("shopId", 0);
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
@@ -74,8 +76,8 @@ public class ShopActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recipeRecycleView.setLayoutManager(layoutManager);
         //final RecipeAdapter recipeAdapter = new RecipeAdapter();
-        recipes=new ArrayList<Recipe>();
-        recipeAdapter=new RecipeAdapter(recipes,this);
+        recipes = new ArrayList<Recipe>();
+        recipeAdapter = new RecipeAdapter(recipes, this);
         recipeRecycleView.setAdapter(recipeAdapter);
         //添加购物车
         /*recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener() {
@@ -102,14 +104,14 @@ public class ShopActivity extends AppCompatActivity {
             public void OnRecycleItemClickListener(int position) {
                 boolean isExist = true;
                 for (int i = 0; i < shopCarAdapter.getShopCarRecipes().size(); i++)
-                    if (recipes.get(position).getRecipeName().equals(shopCarAdapter.getShopCarRecipes().get(i).getName())){
+                    if (recipes.get(position).getRecipeName().equals(shopCarAdapter.getShopCarRecipes().get(i).getName())) {
                         int num = shopCarAdapter.getShopCarRecipes().get(i).getNum();
                         shopCarAdapter.getShopCarRecipes().get(i).setNum(++num);
                         isExist = false;
                         break;
                     }
                 if (isExist) {
-                    ShopCarRecipe shopCarRecipe=new ShopCarRecipe(recipes.get(position).getRecipeName()
+                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipes.get(position).getRecipeName()
                             , recipes.get(position).getRecipePrice(), 1);
                     shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
                 }
@@ -189,19 +191,16 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     void getShopRecipeListByHttp() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                recipes = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId),
-                        new TypeReference<List<Recipe>>() {
-                        });
-                Log.d("activity123",String.valueOf(recipes.size()));
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
-                //Log.e("ShopActivity", String.valueOf(recipes.size()));
+        new Thread(() -> {
+            recipes = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId),
+                    new TypeReference<List<Recipe>>() {
+                    });
+            Log.d("activity123", String.valueOf(recipes.size()));
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+            //Log.e("ShopActivity", String.valueOf(recipes.size()));
 
-            }
         }).start();
     }
 
@@ -230,7 +229,7 @@ public class ShopActivity extends AppCompatActivity {
                         }
 
                     });*/
-                    Log.d("activity12",String.valueOf(recipes.size()));
+                    Log.d("activity12", String.valueOf(recipes.size()));
                     recipeAdapter.setRecipes(recipes);
                     recipeAdapter.notifyDataSetChanged();
                     break;
