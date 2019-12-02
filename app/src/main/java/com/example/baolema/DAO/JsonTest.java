@@ -20,7 +20,7 @@ public class JsonTest {
         System.out.println("请求商家列表");
         List<Shop> shopList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Shop shop = new Shop(i, "学院" + i, "zucc", "12345463521", 4.5, "jfk的开始啦JFK都是浪费你\nf发生的s", "http://www.gjdsklfjkldsfjd/fjdskl.png", "在线", 390);
+            Shop shop = new Shop(i, "学院" + i, "zucc", "12345463521", 4.5, "jfk的开始啦JFK都是浪费你\nf发生的s", null, "在线", 390);
             shopList.add(shop);
         }
 

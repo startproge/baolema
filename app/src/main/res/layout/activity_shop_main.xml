@@ -18,7 +18,6 @@
             android:layout_height="match_parent"
             android:background="@color/colorBlack"
             app:navigationIcon="@drawable/ic_back"
-            app:title="磨刀餐厅(太阳宫店)"
             app:titleTextColor="@color/colorWhite" />
     </com.google.android.material.appbar.AppBarLayout>
 
