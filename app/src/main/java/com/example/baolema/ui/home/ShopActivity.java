@@ -170,8 +170,8 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShopActivity.this, OrderCommitActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("orderRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
-                intent.putExtra("BUNDLE", args);
+                args.putSerializable("ShopCarRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
+                intent.putExtra("ShopCarToOrderCommit", args);
                 startActivity(intent);
             }
         });

@@ -18,11 +18,14 @@ import com.example.baolema.R;
 import com.example.baolema.bean.ShopCarRecipe;
 import com.example.baolema.ui.order.OrderInfActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderCommitActivity extends AppCompatActivity {
     private RecyclerView orderRecipesRecycleView;
+    private ArrayList<ShopCarRecipe> shopCarRecipes;
+    private int orderId;
     private Button orderCommit;
     private TextView summary;
     private Double totalMoney;
@@ -35,8 +38,8 @@ public class OrderCommitActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar_shop_commit);
 
         Intent intent = getIntent();
-        Bundle args = intent.getBundleExtra("BUNDLE");
-        ArrayList<ShopCarRecipe> shopCarRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("orderRecipes");
+        Bundle args = intent.getBundleExtra("ShopCarToOrderCommit");
+        shopCarRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("ShopCarRecipes");
         orderRecipesRecycleView = findViewById(R.id.recipe_recycleview);
         LinearLayoutManager orderLayoutManager = new LinearLayoutManager(this);
         orderRecipesRecycleView.setLayoutManager(orderLayoutManager);
@@ -59,6 +62,9 @@ public class OrderCommitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable("orderRecipes", (Serializable) shopCarRecipes);
+                intent.putExtra("OrderCommitToOrderInf", args);
                 startActivity(intent);
             }
         });

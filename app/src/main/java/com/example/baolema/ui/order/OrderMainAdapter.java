@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderMain;
 
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -19,11 +20,13 @@ import java.util.Locale;
 
 public class OrderMainAdapter extends RecyclerView.Adapter {
     private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
+    private OnRecycleItemClickListener onRecycleItemClickListener=null;
     private List<OrderMain> orderList;
 
     public OrderMainAdapter(List<OrderMain> orderList) {
         this.orderList = orderList;
     }
+
 
     static class OrderMainViewHolder extends RecyclerView.ViewHolder {
         TextView textShopName;
@@ -31,7 +34,7 @@ public class OrderMainAdapter extends RecyclerView.Adapter {
         ImageView imageShop;
         TextView orderSumPrice;
         TextView orderTime;
-
+        ImageView orderInf;
         OrderMainViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textShopName = itemView.findViewById(R.id.text_order_main_shop);
@@ -39,6 +42,7 @@ public class OrderMainAdapter extends RecyclerView.Adapter {
             this.imageShop = itemView.findViewById(R.id.image_order_main);
             this.orderSumPrice = itemView.findViewById(R.id.text_order_main_price);
             this.orderTime = itemView.findViewById(R.id.text_order_main_time);
+            this.orderInf=itemView.findViewById(R.id.goToOrderInf);
         }
     }
 
@@ -49,19 +53,32 @@ public class OrderMainAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         OrderMainViewHolder orderMainViewHolder = (OrderMainViewHolder) holder;
         orderMainViewHolder.textShopName.setText(orderList.get(position).getShopName());
         orderMainViewHolder.textOrderStatus.setText(orderList.get(position).getOrderStatus());
 //        orderMainViewHolder.orderSumPrice.setText(String.valueOf(orderList.get(position).getOrderPrice()));
 //        orderMainViewHolder.imageShop.setImageBitmap();
         orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderStartTime()));
-
+        orderMainViewHolder.orderInf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onRecycleItemClickListener!=null)
+                    onRecycleItemClickListener.OnRecycleItemClickListener(orderList.get(position).getOrderId());
+            }
+        });
         //评分显示
     }
 
     @Override
     public int getItemCount() {
         return orderList.size();
+    }
+
+    public  void  OnRecycleItemClickListener(OnRecycleItemClickListener v){
+        onRecycleItemClickListener=v;
+    }
+    public interface OnRecycleItemClickListener{
+        void OnRecycleItemClickListener(int orderId);
     }
 }

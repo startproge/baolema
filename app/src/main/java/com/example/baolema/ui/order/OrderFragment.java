@@ -1,5 +1,6 @@
 package com.example.baolema.ui.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,6 +35,7 @@ public class OrderFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
     private OrderViewModel orderViewModel;
     private RecyclerView recyclerView;
+    private OrderMainAdapter orderMainAdapter;
     private int userId = 1;
     private List<Orders> ordersList = new ArrayList<>();
     private List<OrderMain> mainList = new ArrayList<>();
@@ -43,7 +45,16 @@ public class OrderFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    recyclerView.setAdapter(new OrderMainAdapter(mainList));
+                    orderMainAdapter=new OrderMainAdapter(mainList);
+                    recyclerView.setAdapter(orderMainAdapter);
+                    orderMainAdapter.OnRecycleItemClickListener(new OrderMainAdapter.OnRecycleItemClickListener() {
+                        @Override
+                        public void OnRecycleItemClickListener(int orderId) {
+                            Intent intent=new Intent(getActivity(),OrderInfActivity.class);
+                            intent.putExtra("orderId",orderId);
+                            startActivity(intent);
+                        }
+                        });
                     break;
                 default:
                     break;
@@ -79,7 +90,7 @@ public class OrderFragment extends Fragment {
                     mainList.add(new OrderMain(ordersList.get(i)));
                     Shop shop = findShop(mainList.get(i).getShopId(), shopList);
                     mainList.get(i).setShopName(shop.getShopName());
-//                    mainList.get(i).setShopTradeMark(shop.getShopTrademark());
+//                  mainList.get(i).setShopTradeMark(shop.getShopTrademark());
                     mainList.get(i).setOrderInfList(new OrderController().getOrderInfList(ordersList.get(i).getOrderId()));
                 }
                 Message message = new Message();

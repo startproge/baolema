@@ -93,6 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/point2"
         android:layout_marginTop="60sp"
         app:layout_constraintLeft_toLeftOf="@+id/point2"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/shop_order_finish"
@@ -104,8 +105,10 @@
         android:text="商品已完成，请到店自取"
         android:layout_marginTop="2sp"
         android:layout_marginLeft="5sp"
-        android:textSize="20sp" />
-    />
+        android:textSize="20sp"
+        android:visibility="gone"
+        />
+
     <ImageView
         android:id="@+id/divide3"
         android:layout_width="match_parent"
@@ -114,6 +117,7 @@
         android:layout_marginTop="20sp"
         android:background="@color/colorGray"
         android:layout_marginLeft="55sp"
+        android:visibility="gone"
         />
 
     <ImageView
@@ -125,6 +129,7 @@
         app:layout_constraintTop_toBottomOf="@+id/point3"
         android:layout_marginTop="60sp"
         app:layout_constraintLeft_toLeftOf="@+id/point3"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/shop_order_over"
@@ -136,6 +141,7 @@
         android:text="订单完成"
         android:layout_marginTop="2sp"
         android:layout_marginLeft="5sp"
-        android:textSize="20sp" />
-    />
+        android:textSize="20sp"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

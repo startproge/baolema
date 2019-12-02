@@ -90,6 +90,7 @@
         app:layout_constraintTop_toBottomOf="@id/text_order_main_time" />
 
     <ImageView
+        android:id="@+id/goToOrderInf"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/ic_keyboard_arrow_right"

@@ -234,6 +234,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/shop_icon"
                 android:layout_marginTop="10sp"
                 android:textSize="20sp"
+                android:visibility="gone"
                 >
 
             </TextView>
@@ -249,6 +250,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/label_order_commit"
                 android:layout_marginTop="10sp"
                 android:layout_marginLeft="20sp"
+                android:visibility="gone"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

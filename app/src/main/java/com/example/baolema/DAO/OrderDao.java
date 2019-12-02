@@ -16,6 +16,7 @@ public interface OrderDao {
 
     // url/OrderInf/getOrderInfList?orderId=
     List<OrderInf> getOrderInfList(int orderId);
+    //从那个新建的视图中去返回Orderinf
 
     //客户端发送先不写
 //    void addOrderMain(OrderMain orderMain);
