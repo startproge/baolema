@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +22,18 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
+import com.example.baolema.bean.OrderMain;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.util.httpUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
@@ -97,14 +103,14 @@ public class HomeFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    homeRecyclerAdapter = new HomeRecyclerAdapter(shopList);
+                    homeRecyclerAdapter=new HomeRecyclerAdapter(shopList);
                     recyclerView.setAdapter(homeRecyclerAdapter);
                     homeRecyclerAdapter.OnRecycleItemClickListener(new HomeRecyclerAdapter.OnRecycleItemClickListener() {
                         @Override
                         public void OnRecycleItemClickListener(int position) {
-                            Intent intent = new Intent(getActivity(), ShopActivity.class);
-                            int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
-                            intent.putExtra("shopId", shopId);
+                            Intent intent=new Intent(getActivity(),ShopActivity.class);
+                            int shopId=homeRecyclerAdapter.getShopList().get(position).getShopId();
+                            intent.putExtra("shopId",shopId);
                             startActivity(intent);
                         }
                     });
@@ -116,13 +122,30 @@ public class HomeFragment extends Fragment {
     };
 
     void getShopListByHttp() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                shopList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), new TypeReference<List<Shop>>() {});
+//                Message message = new Message();
+//                message.what = 1;
+//                handler.sendMessage(message);
+//            }
+//        }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                shopList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), new TypeReference<List<Shop>>() {});
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(urlStr + "/Shop/getShopList" ).build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    shopList = JSON.parseObject(response.body().string(), new TypeReference<List<Shop>>() {});
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
     }
