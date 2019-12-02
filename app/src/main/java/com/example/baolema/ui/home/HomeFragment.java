@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.recycler_view_shop);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        homeRecyclerAdapter = new HomeRecyclerAdapter(shopList);
+        homeRecyclerAdapter = new HomeRecyclerAdapter(shopList,mainActivity);
         recyclerView.setAdapter(homeRecyclerAdapter);
 
         getShopIdListByHttp();

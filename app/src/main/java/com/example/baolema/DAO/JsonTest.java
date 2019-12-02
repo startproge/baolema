@@ -38,7 +38,7 @@ public class JsonTest {
         //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         System.out.println("\n请求用户信息");
         //数据库查询得到用户bean
-        User user = new User(2, "yl", "password", "13246578945", "zucc", "djksahfdsafnds/fkods.png");
+        User user = new User(2, "yl", "password", "13246578945", "zucc", null);
         String str = JSON.toJSONString(user);//解析成json
         System.out.println(str);
 

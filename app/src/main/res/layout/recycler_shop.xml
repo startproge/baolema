@@ -11,9 +11,17 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/de2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_shop_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorRed"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/text_shop_month_sale"
+        app:layout_constraintTop_toTopOf="@id/image_shop" />
 
     <TextView
         android:id="@+id/text_shop_name"
