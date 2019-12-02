@@ -9,9 +9,9 @@ public class Shop {
     private String shopName;
     private String shopAddress;
     private String shopTel;
-    private double shopScore;
+    private double shopCore;
     private String shopNotice;
-    private String shopTrademark;
+    private byte[] shopTrademark;
     private String shopStatus;
     private int shopMonthSale;
     private List<Recipe> recipeList = new ArrayList<>();
@@ -20,12 +20,12 @@ public class Shop {
 
     }
 
-    public Shop(int shopId, String shopName, String shopAddress, String shopTel, double shopScore, String shopNotice, String shopTrademark, String shopStatus, int shopMonthSale) {
+    public Shop(int shopId, String shopName, String shopAddress, String shopTel, double shopScore, String shopNotice, byte[] shopTrademark, String shopStatus, int shopMonthSale) {
         this.shopId = shopId;
         this.shopName = shopName;
         this.shopAddress = shopAddress;
         this.shopTel = shopTel;
-        this.shopScore = shopScore;
+        this.shopCore = shopCore;
         this.shopNotice = shopNotice;
         this.shopTrademark = shopTrademark;
         this.shopStatus = shopStatus;
@@ -64,12 +64,12 @@ public class Shop {
         this.shopTel = shopTel;
     }
 
-    public double getShopScore() {
-        return shopScore;
+    public double getShopCore() {
+        return shopCore;
     }
 
-    public void setShopScore(double shopScore) {
-        this.shopScore = shopScore;
+    public void setShopCore(double shopCore) {
+        this.shopCore = shopCore;
     }
 
     public String getShopNotice() {
@@ -80,11 +80,11 @@ public class Shop {
         this.shopNotice = shopNotice;
     }
 
-    public String getShopTrademark() {
+    public byte[] getShopTrademark() {
         return shopTrademark;
     }
 
-    public void setShopTrademark(String shopTrademark) {
+    public void setShopTrademark(byte[] shopTrademark) {
         this.shopTrademark = shopTrademark;
     }
 

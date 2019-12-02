@@ -1,6 +1,7 @@
 package com.example.baolema.ui.home;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView notice;
         private TextView monthlySale;
         private TextView money;
+        private ImageView recipeImage;
         public RecipeViewHolder(View view){
             super(view);
             add=view.findViewById(R.id.recipe_add);
@@ -34,6 +36,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             money=view.findViewById(R.id.recipe_money);
             notice=view.findViewById(R.id.recipe_information);
             monthlySale=view.findViewById(R.id.recipe_monthly_sale);
+            recipeImage = view.findViewById(R.id.recipe_image);
         }
     }
 
@@ -63,12 +66,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mHolder.money.setText(Double.toString(recipe.getRecipePrice()));
         mHolder.monthlySale.setText(Integer.toString(recipe.getMonthlySale()));
         mHolder.notice.setText(recipe.getRecipeNotice());
-        mHolder.add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(onRecycleItemClickListener!=null)
-                    onRecycleItemClickListener.OnRecycleItemClickListener(position);
-            }
+        mHolder.recipeImage.setImageBitmap(BitmapFactory.decodeByteArray(recipe.getRecipeImage(),0,recipe.getRecipeImage().length));
+        mHolder.add.setOnClickListener(v -> {
+            if(onRecycleItemClickListener!=null)
+                onRecycleItemClickListener.OnRecycleItemClickListener(position);
         });
     }
 

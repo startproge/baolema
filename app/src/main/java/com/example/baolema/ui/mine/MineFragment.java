@@ -1,6 +1,7 @@
 package com.example.baolema.ui.mine;
 
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,8 +26,6 @@ import com.example.baolema.bean.User;
 import com.example.baolema.util.httpUtil;
 
 
-
-
 public class MineFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
     private int userId = 1;
@@ -44,6 +43,7 @@ public class MineFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.resetTitle("我的");
         textViewUserName = root.findViewById(R.id.text_user_name);
+        imageViewAccountIcon = root.findViewById(R.id.image_mine_account);
 
         getUserByHttp();
 
@@ -65,7 +65,7 @@ public class MineFragment extends Fragment {
             switch (msg.what) {
                 case 1:
                     textViewUserName.setText(user.getUserName());
-//                    imageViewAccountIcon.setImageBitmap(user.getUserImage());
+                    imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(user.getUserImage(), 0, user.getUserImage().length));
                     break;
                 default:
                     break;
@@ -74,14 +74,11 @@ public class MineFragment extends Fragment {
     };
 
     void getUserByHttp() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId=1"), User.class);
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
-            }
+        new Thread(() -> {
+            user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId=1"), User.class);
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
         }).start();
     }
 }

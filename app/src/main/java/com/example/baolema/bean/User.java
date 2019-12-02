@@ -6,13 +6,13 @@ public class User {
     private String userPwd;
     private String  userTel;
     private String userAddress;
-    private String userImage;
+    private byte[] userImage;
 
     public User() {
 
     }
 
-    public User(int userId, String userName, String userPwd, String userTel, String userAddress, String userImage) {
+    public User(int userId, String userName, String userPwd, String userTel, String userAddress, byte[] userImage) {
         this.userId = userId;
         this.userName = userName;
         this.userPwd = userPwd;
@@ -61,11 +61,11 @@ public class User {
         this.userAddress = userAddress;
     }
 
-    public String getUserImage() {
+    public byte[] getUserImage() {
         return userImage;
     }
 
-    public void setUserImage(String userImage) {
+    public void setUserImage(byte[] userImage) {
         this.userImage = userImage;
     }
 }
