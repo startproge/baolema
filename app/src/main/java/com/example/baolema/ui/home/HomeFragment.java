@@ -23,17 +23,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
-import com.example.baolema.bean.OrderMain;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.util.httpUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 public class HomeFragment extends Fragment {
