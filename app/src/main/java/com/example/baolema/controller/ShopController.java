@@ -2,7 +2,6 @@ package com.example.baolema.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.baolema.DAO.ShopDao;
-import com.example.baolema.bean.Orders;
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.util.httpUtil;
