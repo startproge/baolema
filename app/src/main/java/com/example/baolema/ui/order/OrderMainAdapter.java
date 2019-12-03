@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baolema.R;
-import com.example.baolema.bean.OrderMain;
+import com.example.baolema.bean.OrderSum;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,9 +19,9 @@ import java.util.Locale;
 
 public class OrderMainAdapter extends RecyclerView.Adapter {
     private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
-    private List<OrderMain> orderList;
+    private List<OrderSum> orderList;
 
-    public OrderMainAdapter(List<OrderMain> orderList) {
+    public OrderMainAdapter(List<OrderSum> orderList) {
         this.orderList = orderList;
     }
 

@@ -17,12 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
-import com.example.baolema.bean.OrderInf;
-import com.example.baolema.bean.OrderMain;
-import com.example.baolema.bean.Orders;
-import com.example.baolema.bean.Shop;
-import com.example.baolema.controller.OrderController;
-import com.example.baolema.controller.ShopController;
+import com.example.baolema.bean.OrderSum;
 import com.example.baolema.util.httpUtil;
 
 
@@ -35,15 +30,15 @@ public class OrderFragment extends Fragment {
     private OrderViewModel orderViewModel;
     private RecyclerView recyclerView;
     private int userId = 1;
-    private List<Orders> ordersList = new ArrayList<>();
-    private List<OrderMain> mainList = new ArrayList<>();
+    private List<OrderSum> ordersSumList = new ArrayList<>();
+    private List<Integer> ordersSumIdList = new ArrayList<>();
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    recyclerView.setAdapter(new OrderMainAdapter(mainList));
+                    recyclerView.setAdapter(new OrderMainAdapter(ordersSumList));
                     break;
                 default:
                     break;
@@ -69,43 +64,23 @@ public class OrderFragment extends Fragment {
         return root;
     }
 
-    void getOrderListByHttp() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ordersList = new OrderController().getOrderList(userId);
-                List<Shop> shopList = new ShopController().getShopList();
-                for (int i = 0; i < ordersList.size(); i++) {
-                    mainList.add(new OrderMain(ordersList.get(i)));
-                    Shop shop = findShop(mainList.get(i).getShopId(), shopList);
-                    mainList.get(i).setShopName(shop.getShopName());
-//                    mainList.get(i).setShopTradeMark(shop.getShopTrademark());
-                    mainList.get(i).setOrderInfList(new OrderController().getOrderInfList(ordersList.get(i).getOrderId()));
-                }
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
-            }
+    private void getOrderListByHttp() {
+        new Thread(() -> {
+            ordersSumIdList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/"), new TypeReference<>());
+
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
         }).start();
     }
 
-    Shop findShop(int shopId, List<Shop> shopList) {
-        for (Shop s : shopList) {
-            if (s.getShopId() == shopId)
-                return s;
-        }
-        return null;
-    }
+    private void getOrderIdListByHttp(int shopId) {
+        new Thread(() -> {
+            ordersSumList.add(JSON.parseObject(httpUtil.getHttpInterface(urlStr + " "), OrderSum.class));
 
-//    public void initOrderList() {
-//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-//        ordersList.add(new OrderMain("学院学院", 32.94, "已完成"));
-//        ordersList.add(new OrderMain("学院学院", 2.94, "待评价"));
-//        ordersList.add(new OrderMain("学院学院", 329.4, "待评价"));
-//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-//        ordersList.add(new OrderMain("学院学院", 2, "待评价"));
-//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-//        ordersList.add(new OrderMain("学院学院", 32.4, "待评价"));
-//    }
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+        }).start();
+    }
 }
