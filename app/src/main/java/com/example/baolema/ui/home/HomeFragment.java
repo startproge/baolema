@@ -135,8 +135,7 @@ public class HomeFragment extends Fragment {
 
     void getShopIdListByHttp() {
         new Thread(() -> {
-            shopIdList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopIdList"), new TypeReference<List<Integer>>() {
-            });
+            shopIdList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopIdList"), new TypeReference<List<Integer>>() {});
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
