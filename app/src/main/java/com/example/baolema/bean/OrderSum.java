@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 
-public class OrderSum {
+public class OrderSum implements Serializable {
 
 
     private int orderId;
