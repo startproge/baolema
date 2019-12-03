@@ -15,7 +15,7 @@ public interface OrderDao {
 
     OrderSum getOrderSumById(int orderId);
 
-    List<OrderInf> getOrderInformationList(int orderId);
+    List<OrderInf> getOrderInfList(int orderId);
 
     //客户端发送先不写
 //    void addOrderMain(OrderSum orderMain);

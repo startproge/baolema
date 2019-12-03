@@ -2,35 +2,24 @@ package com.example.baolema.bean;
 
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Objects;
+
 
 public class OrderSum {
+
+
     private int orderId;
-    private int shopId;
+    private Integer shopId;
     private String shopName;
-    private byte[] shopTradeMark;
-    private int temporaryId;
-    private double ordersum;
-    private int userId;
+    private byte[] shopTrademark;
+    private Integer temporaryId;
+    private Double ordersum;
+    private Integer userId;
     private String orderStatus;
     private Timestamp orderStartTime;
     private Timestamp orderFinishTime;
 
-
-    public byte[] getShopTradeMark() {
-        return shopTradeMark;
-    }
-
-    public void setShopTradeMark(byte[] shopTradeMark) {
-        this.shopTradeMark = shopTradeMark;
-    }
-
-    public double getOrdersum() {
-        return ordersum;
-    }
-
-    public void setOrdersum(double ordersum) {
-        this.ordersum = ordersum;
-    }
 
     public int getOrderId() {
         return orderId;
@@ -40,13 +29,15 @@ public class OrderSum {
         this.orderId = orderId;
     }
 
-    public int getShopId() {
+
+    public Integer getShopId() {
         return shopId;
     }
 
-    public void setShopId(int shopId) {
+    public void setShopId(Integer shopId) {
         this.shopId = shopId;
     }
+
 
     public String getShopName() {
         return shopName;
@@ -56,13 +47,42 @@ public class OrderSum {
         this.shopName = shopName;
     }
 
-    public int getUserId() {
+
+    public byte[] getShopTrademark() {
+        return shopTrademark;
+    }
+
+    public void setShopTrademark(byte[] shopTrademark) {
+        this.shopTrademark = shopTrademark;
+    }
+
+
+    public Integer getTemporaryId() {
+        return temporaryId;
+    }
+
+    public void setTemporaryId(Integer temporaryId) {
+        this.temporaryId = temporaryId;
+    }
+
+
+    public Double getOrdersum() {
+        return ordersum;
+    }
+
+    public void setOrdersum(Double ordersum) {
+        this.ordersum = ordersum;
+    }
+
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
 
     public String getOrderStatus() {
         return orderStatus;
@@ -72,6 +92,7 @@ public class OrderSum {
         this.orderStatus = orderStatus;
     }
 
+
     public Timestamp getOrderStartTime() {
         return orderStartTime;
     }
@@ -79,6 +100,7 @@ public class OrderSum {
     public void setOrderStartTime(Timestamp orderStartTime) {
         this.orderStartTime = orderStartTime;
     }
+
 
     public Timestamp getOrderFinishTime() {
         return orderFinishTime;
@@ -88,12 +110,27 @@ public class OrderSum {
         this.orderFinishTime = orderFinishTime;
     }
 
-
-    public int getTemporaryId() {
-        return temporaryId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderSum orderSum = (OrderSum) o;
+        return orderId == orderSum.orderId &&
+                Objects.equals(shopId, orderSum.shopId) &&
+                Objects.equals(shopName, orderSum.shopName) &&
+                Arrays.equals(shopTrademark, orderSum.shopTrademark) &&
+                Objects.equals(temporaryId, orderSum.temporaryId) &&
+                Objects.equals(ordersum, orderSum.ordersum) &&
+                Objects.equals(userId, orderSum.userId) &&
+                Objects.equals(orderStatus, orderSum.orderStatus) &&
+                Objects.equals(orderStartTime, orderSum.orderStartTime) &&
+                Objects.equals(orderFinishTime, orderSum.orderFinishTime);
     }
 
-    public void setTemporaryId(int temporaryId) {
-        this.temporaryId = temporaryId;
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(orderId, shopId, shopName, temporaryId, ordersum, userId, orderStatus, orderStartTime, orderFinishTime);
+        result = 31 * result + Arrays.hashCode(shopTrademark);
+        return result;
     }
 }
