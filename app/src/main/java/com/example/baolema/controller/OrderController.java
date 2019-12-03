@@ -1,10 +1,8 @@
 package com.example.baolema.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.example.baolema.DAO.OrderDao;
 import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderSum;
-import com.example.baolema.util.httpUtil;
 
 import java.util.List;
 

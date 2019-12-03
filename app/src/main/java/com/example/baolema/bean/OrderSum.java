@@ -1,9 +1,10 @@
 package com.example.baolema.bean;
 
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class OrderSum {
+public class OrderSum implements Serializable {
     private int orderId;
     private int shopId;
     private String shopName;
