@@ -1,6 +1,7 @@
 package com.example.baolema.bean;
 
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Objects;
@@ -127,10 +128,7 @@ public class OrderSum {
                 Objects.equals(orderFinishTime, orderSum.orderFinishTime);
     }
 
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(orderId, shopId, shopName, temporaryId, ordersum, userId, orderStatus, orderStartTime, orderFinishTime);
-        result = 31 * result + Arrays.hashCode(shopTrademark);
-        return result;
+    public void setTemporaryId(int temporaryId) {
+        this.temporaryId = temporaryId;
     }
 }

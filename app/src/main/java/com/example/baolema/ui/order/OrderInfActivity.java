@@ -37,7 +37,6 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetail_main);
         Intent intent = getIntent();
-        orderId = intent.getIntExtra("orderId", 0);
         if (orderId == 0){
             Bundle args = intent.getBundleExtra("OrderCommitToOrderInf");
             orderRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("orderRecipes");
