@@ -1,5 +1,6 @@
 package com.example.baolema.ui.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -65,6 +66,12 @@ public class OrderFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         orderMainAdapter = new OrderMainAdapter(ordersSumList);
         recyclerView.setAdapter(orderMainAdapter);
+        orderMainAdapter.OnRecycleItemClickListener(position -> {
+            Intent intent = new Intent(getActivity(), OrderInfActivity.class);
+            OrderSum orderSum = ordersSumList.get(position);
+            intent.putExtra("orderSum", orderSum);
+            startActivity(intent);
+        });
 
         getOrderIdListByHttp();
         try {
