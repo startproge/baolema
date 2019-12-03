@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderInf;
+import com.example.baolema.bean.OrderSum;
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.ShopCarRecipe;
 import com.example.baolema.util.httpUtil;
@@ -32,18 +33,22 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
     private Button button_order_status;
     private ArrayList<ShopCarRecipe> orderRecipes;
     private Button button_order_inf;
+    private OrderSum orderSum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetail_main);
         Intent intent = getIntent();
-        if (orderId == 0){
+        orderSum=(OrderSum)intent.getSerializableExtra("orderSum");
+
+        if (orderSum==null){
             Bundle args = intent.getBundleExtra("OrderCommitToOrderInf");
             orderRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("orderRecipes");
         }
         else {
             orderRecipes=new ArrayList<ShopCarRecipe>();
         }
+
         button_order_status=findViewById(R.id.orderdetail_status);
         button_order_inf=findViewById(R.id.orderdetail_detail);
         button_order_status.setOnClickListener(this);
@@ -55,6 +60,7 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(order_status == null){
             order_status = new OrderStatusFragment();
+            Bundle bundle=new Bundle();
             transaction.add(R.id.order_main_frame_layout, order_status);
         }
         hideFragment(transaction);
@@ -67,9 +73,14 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         if(order_inf == null){
             order_inf = new OrderInfFragment();
             Bundle bundle=new Bundle();
-            bundle.putInt("orderId", orderId);
-            if (orderId == 0)
-                bundle.putSerializable("orderRecipes",(Serializable) orderRecipes);
+            if (orderSum==null) {
+                bundle.putInt("orderId", 0);
+                bundle.putSerializable("orderRecipes", (Serializable) orderRecipes);
+            }
+             else {
+                bundle.putInt("orderId", orderSum.getOrderId());
+                bundle.putSerializable("orderSum",orderSum);
+            }
             order_inf.setArguments(bundle);
             transaction.add(R.id.order_main_frame_layout, order_inf);
         }

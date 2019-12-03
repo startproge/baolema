@@ -15,8 +15,11 @@ import com.example.baolema.bean.ShopCarRecipe;
 import java.util.ArrayList;
 
 public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private OnRecycleItemClickListener onRecycleItemClickListener=null;
     private ArrayList<ShopCarRecipe> shopCarRecipes;
     private Context context;
+    private Double money;
+    private Double reduce;
 
     static class ShopCarViewHolder extends RecyclerView.ViewHolder{
          TextView name;
@@ -61,7 +64,11 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onClick(View v) {
                 int num=shopCarRecipe.getNum()+1;
                 shopCarRecipe.setNum(num++);
-                notifyDataSetChanged();
+                resetMoney();
+                resetReduce(money);
+                //notifyDataSetChanged();
+                if(onRecycleItemClickListener!=null)
+                    onRecycleItemClickListener.OnRecycleItemClickListener(position);
             }
         });
         mholder.reduce.setOnClickListener(new View.OnClickListener() {
@@ -71,9 +78,12 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if(num==0)
                    shopCarRecipes.remove(position);
                 else
-                shopCarRecipe.setNum(num);
-
-                notifyDataSetChanged();
+                   shopCarRecipe.setNum(num);
+                resetMoney();
+                resetReduce(money);
+                if(onRecycleItemClickListener!=null)
+                    onRecycleItemClickListener.OnRecycleItemClickListener(position);
+                //notifyDataSetChanged();
             }
         });
     }
@@ -87,4 +97,29 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return this.shopCarRecipes;
     }
 
+    public Double getMoney() {
+        return money;
+    }
+
+    public void resetMoney(){
+        this.money=0.0;
+        for(int i=0;i<shopCarRecipes.size();i++)
+            this.money+=shopCarRecipes.get(i).getMoney()*shopCarRecipes.get(i).getNum();
+    }
+
+    public Double getReduce() {
+        return reduce;
+    }
+
+    public void resetReduce(Double money) {
+        this.reduce = 0.0;
+    }
+
+    public  void  OnRecycleItemClickListener(OnRecycleItemClickListener v){
+        onRecycleItemClickListener=v;
+    }
+
+    public interface OnRecycleItemClickListener{
+        void OnRecycleItemClickListener(int position);
+    }
 }

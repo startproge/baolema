@@ -270,7 +270,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="80sp"
             android:layout_marginTop="5sp"
-            android:text="￥13.5"
+            android:text="￥0.0"
             android:textColor="@color/colorRed"
             android:textSize="30sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -279,10 +279,10 @@
             ></TextView>
 
         <TextView
-            android:id="@+id/delivery_money"
+            android:id="@+id/reduce_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="另需配送费￥3"
+            android:text="优惠￥0"
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="@+id/order_money"
             app:layout_constraintTop_toBottomOf="@id/order_money"></TextView>

@@ -93,10 +93,10 @@ public class OrderFragment extends Fragment {
 
     void getOrderIdListByHttp() {
         new Thread(() -> {
-            ordersSumIdList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/"), new TypeReference<>());
+            /*ordersSumIdList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/"), new TypeReference<>());
             Message message = new Message();
             message.what = 1;
-            handler.sendMessage(message);
+            handler.sendMessage(message);*/
         }).start();
     }
 

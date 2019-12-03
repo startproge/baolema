@@ -38,6 +38,7 @@
                 android:layout_marginLeft="20sp"
                 android:src="@drawable/ic_home"/>
              <TextView
+                 android:id="@+id/shop_name"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  app:layout_constraintLeft_toRightOf="@+id/shop_icon"
@@ -75,7 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@id/divide2"
                 android:layout_marginTop="5sp"
                 android:textSize="15sp"
-                android:text="总计 ￥55.5"
+                android:text="总计 ￥0"
                 />
             <TextView
                 android:id="@+id/order_reduce"
@@ -85,7 +86,7 @@
                 app:layout_constraintTop_toTopOf="@id/total_money"
                 android:layout_marginLeft="5sp"
                 android:textSize="15sp"
-                android:text="优惠 ￥24.2"
+                android:text="优惠 ￥0"
                 />
             <TextView
                 android:id="@+id/total_paid_money"
@@ -95,7 +96,7 @@
                 app:layout_constraintTop_toTopOf="@id/total_money"
                 android:layout_marginLeft="5sp"
                 android:textSize="15sp"
-                android:text="实付 ￥31.3"
+                android:text="实付 ￥0"
                 android:layout_marginRight="10sp"
                 android:textColor="@color/colorRed"
                 />
