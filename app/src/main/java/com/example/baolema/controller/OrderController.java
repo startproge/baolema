@@ -1,9 +1,11 @@
 package com.example.baolema.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.baolema.DAO.OrderDao;
 import com.example.baolema.bean.Activity;
 import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderSum;
+import com.example.baolema.util.httpUtil;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class OrderController implements OrderDao {
     public List<Integer> getOrderSumIdList(int userId) {
         String path="http://ylnzk.cn:8002/blm/OrderSum/getOrderSumIdList?userId="+userId;
         String result= httpUtil.getHttpInterface(path);
-        List<Integer> response=JSON.parseArray(result,Integer.class);
+        List<Integer> response= JSON.parseArray(result,Integer.class);
         return  response;
     }
 
