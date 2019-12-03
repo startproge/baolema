@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderSum;
+import com.example.baolema.ui.home.HomeRecyclerAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ import java.util.Locale;
 public class OrderMainAdapter extends RecyclerView.Adapter {
     private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
     private List<OrderSum> orderList;
+    private OrderMainAdapter.OnRecycleItemClickListener onRecycleItemClickListener=null;
 
     public OrderMainAdapter(List<OrderSum> orderList) {
         this.orderList = orderList;
@@ -59,7 +61,12 @@ public class OrderMainAdapter extends RecyclerView.Adapter {
 
         //评分显示
     }
-
+    public interface OnRecycleItemClickListener {
+        void OnRecycleItemClickListener(int position);
+    }
+    public void OnRecycleItemClickListener(OrderMainAdapter.OnRecycleItemClickListener v) {
+        onRecycleItemClickListener = v;
+    }
     @Override
     public int getItemCount() {
         return orderList.size();
