@@ -239,7 +239,6 @@
 
             </TextView>
             <RatingBar
-
                 android:id="@+id/order_evaluate"
                 android:numStars="5"
                 android:rating = "0"

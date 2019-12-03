@@ -75,7 +75,7 @@ public class OrderInfFragment extends Fragment {
                 case 1:
                     for(int i=0;i<orderInfRecipes.size();i++){
                         OrderInf orderInf=orderInfRecipes.get(i);
-                        orderRecipes.add(new ShopCarRecipe());
+                        //orderRecipes.add(new ShopCarRecipe());
                     }
                     Log.d("orderInf",String.valueOf(orderRecipes.size()));
                     orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
