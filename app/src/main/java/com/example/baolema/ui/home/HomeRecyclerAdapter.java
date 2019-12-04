@@ -1,11 +1,7 @@
 package com.example.baolema.ui.home;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.preference.PreferenceScreen;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +18,7 @@ import com.example.baolema.bean.Shop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter {
+public class HomeRecyclerAdapter extends RecyclerView.Adapter implements View.OnClickListener{
     private List<Shop> shopList;
     private Context mContext;
     private HomeRecyclerAdapter.OnRecycleItemClickListener onRecycleItemClickListener = null;
@@ -30,6 +26,12 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter {
     public HomeRecyclerAdapter(List<Shop> shopList, Context mContext) {
         this.shopList = shopList;
         this.mContext = mContext;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onRecycleItemClickListener != null)
+            onRecycleItemClickListener.OnRecycleItemClickListener(v, (Integer) v.getTag());
     }
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
@@ -56,7 +58,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ShopViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_shop, parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_shop, parent, false);
+        RecyclerView.ViewHolder viewHolder = new ShopViewHolder(view);
+        view.setOnClickListener(this);
+        return viewHolder;
     }
 
     @Override
@@ -70,18 +75,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter {
         shopViewHolder.shopStatus.setText(shop.getShopStatus());
         for (int i = 0; i < getGrades(shop.getShopCore()); ++i)
             shopViewHolder.shopGradeList.get(i).setVisibility(View.VISIBLE);
-        shopViewHolder.shopName.setOnClickListener(v -> {
-            if (onRecycleItemClickListener != null) {
-                if (shop.getShopStatus().equals("离线")) {
-                    new AlertDialog.Builder(mContext).setTitle("提示")
-                            .setMessage("商家休息中( •̀ ω •́ )✧")
-                            .setPositiveButton("确定", null)
-                            .show();
-                } else onRecycleItemClickListener.OnRecycleItemClickListener(position);
-            }
-        });
         shopViewHolder.shopMonthSale.setText("月售" + shop.getShopMonthSale() + "单");
-        //评分显示
+        shopViewHolder.itemView.setTag(position);
     }
 
     private static int getGrades(double grades) {
@@ -103,7 +98,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnRecycleItemClickListener {
-        void OnRecycleItemClickListener(int position);
+        void OnRecycleItemClickListener(View view,int position);
     }
 
     public List<Shop> getShopList() {

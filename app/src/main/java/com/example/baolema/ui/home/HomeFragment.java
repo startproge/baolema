@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        homeRecyclerAdapter.OnRecycleItemClickListener(position -> {
+        homeRecyclerAdapter.OnRecycleItemClickListener((view,position) -> {
             Intent intent = new Intent(getActivity(), ShopActivity.class);
             int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
             String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();
