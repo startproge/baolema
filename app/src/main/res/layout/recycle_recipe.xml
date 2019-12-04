@@ -12,7 +12,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="10sp"
         android:layout_marginLeft="20sp"
-        android:background="@drawable/de1"
         >
     </ImageView>
     <TextView
@@ -53,7 +52,7 @@
         android:id="@+id/recipe_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="￥14"
+        android:text="￥0"
         android:textSize="25sp"
         android:textColor="@color/colorRed"
         app:layout_constraintTop_toBottomOf="@+id/recipe_monthly_sale"

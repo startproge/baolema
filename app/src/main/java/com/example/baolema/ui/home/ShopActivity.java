@@ -43,7 +43,7 @@ public class ShopActivity extends AppCompatActivity {
     private RecyclerView recipeRecycleView;
     private RecipeAdapter recipeAdapter;
     private ArrayList<ShopCarRecipe> shopCarRecipes = new ArrayList<>();
-    private List<Recipe> recipes;
+    private List<Recipe> recipeList;
     private BottomSheetBehavior mBottomSheetBehavior;
     private ConstraintLayout shopCarInf;
     private Button settlement_fee;
@@ -75,13 +75,10 @@ public class ShopActivity extends AppCompatActivity {
         shoppingCarRecycleview.setLayoutManager(shopLayoutManager);
         shopCarAdapter = new ShopCarAdapter(shopCarRecipes, this);
         shoppingCarRecycleview.setAdapter(shopCarAdapter);
-        shopCarAdapter.OnRecycleItemClickListener(new ShopCarAdapter.OnRecycleItemClickListener() {
-            @Override
-            public void OnRecycleItemClickListener(int position) {
-                shopCarAdapter.notifyDataSetChanged();
-                money.setText(String.valueOf(shopCarAdapter.getMoney()));
-                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
-            }
+        shopCarAdapter.OnRecycleItemClickListener(position -> {
+            shopCarAdapter.notifyDataSetChanged();
+            money.setText(String.valueOf(shopCarAdapter.getMoney()));
+            reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
         });
 
         //商家菜单RecycleView
@@ -89,37 +86,35 @@ public class ShopActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recipeRecycleView.setLayoutManager(layoutManager);
         //final RecipeAdapter recipeAdapter = new RecipeAdapter();
-        recipes = new ArrayList<Recipe>();
-        recipeAdapter = new RecipeAdapter(recipes, this);
-        recipeRecycleView.setAdapter(recipeAdapter);
+        recipeList = new ArrayList<>();
 
-        recipeAdapter.OnRecycleItemClickListener(new RecipeAdapter.OnRecycleItemClickListener() {
-            @Override
-            public void OnRecycleItemClickListener(int position) {
-                boolean isExist = true;
-                for (int i = 0; i < shopCarAdapter.getShopCarRecipes().size(); i++)
-                    if (recipes.get(position).getRecipeName().equals(shopCarAdapter.getShopCarRecipes().get(i).getName())) {
-                        int num = shopCarAdapter.getShopCarRecipes().get(i).getNum();
-                        shopCarAdapter.getShopCarRecipes().get(i).setNum(++num);
-                        isExist = false;
-                        break;
-                    }
-                if (isExist) {
-                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipes.get(position).getRecipeName()
-                            , recipes.get(position).getRecipePrice(), 1);
-                    shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
-                }
-                shopCarAdapter.notifyDataSetChanged();
-                shopCarAdapter.resetMoney();
-                shopCarAdapter.resetReduce(shopCarAdapter.getMoney());
-                money.setText(String.valueOf(shopCarAdapter.getMoney()));
-                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
-            }
-
-        });
+//        recipeAdapter.OnRecycleItemClickListener(new RecipeAdapter.OnRecycleItemClickListener() {
+//            @Override
+//            public void OnRecycleItemClickListener(int position) {
+//                boolean isExist = true;
+//                for (int i = 0; i < shopCarAdapter.getShopCarRecipes().size(); i++)
+//                    if (recipeList.get(position).getRecipeName().equals(shopCarAdapter.getShopCarRecipes().get(i).getName())) {
+//                        int num = shopCarAdapter.getShopCarRecipes().get(i).getNum();
+//                        shopCarAdapter.getShopCarRecipes().get(i).setNum(++num);
+//                        isExist = false;
+//                        break;
+//                    }
+//                if (isExist) {
+//                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipeList.get(position).getRecipeName()
+//                            , recipeList.get(position).getRecipePrice(), 1);
+//                    shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
+//                }
+//                shopCarAdapter.notifyDataSetChanged();
+//                shopCarAdapter.resetMoney();
+//                shopCarAdapter.resetReduce(shopCarAdapter.getMoney());
+//                money.setText(String.valueOf(shopCarAdapter.getMoney()));
+//                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+//            }
+//
+//        });
 
         //recipeRecycleView.setAdapter(recipeAdapter);
-        getShopRecipeListByHttp();
+//        getShopRecipeListByHttp();
 
         labelView = findViewById(R.id.shopping_car_icon);
         labelView.setLabelMode(LabelView.LABEL_MODE_IMG);
@@ -136,14 +131,11 @@ public class ShopActivity extends AppCompatActivity {
         String labelNum = labelView.getLabelNum();
         //返回角标依附的文字
         String word = labelView.getWord();
-        labelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                } else if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
+        labelView.setOnClickListener(v -> {
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            } else if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });
         //弹出购物车
@@ -158,47 +150,87 @@ public class ShopActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
         //提交订单
         settlement_fee = findViewById(R.id.settlement_fee);
-        settlement_fee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ShopActivity.this, OrderCommitActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable("ShopCarRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
-                intent.putExtra("ShopCarToOrderCommit", args);
-                startActivity(intent);
-            }
+        settlement_fee.setOnClickListener(v -> {
+            Intent intent1 = new Intent(ShopActivity.this, OrderCommitActivity.class);
+            Bundle args = new Bundle();
+            args.putSerializable("ShopCarRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
+            intent1.putExtra("ShopCarToOrderCommit", args);
+            startActivity(intent1);
         });
 
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击返回主页,对购物车进行操作
-
-                finish();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            //点击返回主页,对购物车进行操作
+            finish();
         });
 
-    }
-
-    void getShopRecipeListByHttp() {
-        new Thread(() -> {
-            recipes = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId),
-                    new TypeReference<List<Recipe>>() {
-                    });
-            Log.d("activity123", String.valueOf(recipes.size()));
+        Thread thread=new Thread(()->{
+            recipeList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId), Recipe.class);
+            Log.d("activity123", String.valueOf(recipeList.size()));
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
-            //Log.e("ShopActivity", String.valueOf(recipes.size()));
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+        }
 
+        recipeAdapter = new RecipeAdapter(recipeList, ShopActivity.this);
+        recipeRecycleView.setAdapter(recipeAdapter);
+        recipeAdapter.OnRecycleItemClickListener(position -> {
+            boolean isExist = true;
+            for (int i = 0; i < shopCarAdapter.getShopCarRecipes().size(); i++)
+                if (recipeList.get(position).getRecipeName().equals(shopCarAdapter.getShopCarRecipes().get(i).getName())) {
+                    int num = shopCarAdapter.getShopCarRecipes().get(i).getNum();
+                    shopCarAdapter.getShopCarRecipes().get(i).setNum(++num);
+                    isExist = false;
+                    break;
+                }
+            if (isExist) {
+                ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipeList.get(position).getRecipeName()
+                        , recipeList.get(position).getRecipePrice(), 1);
+                shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
+            }
+            shopCarAdapter.notifyDataSetChanged();
+            shopCarAdapter.resetMoney();
+            shopCarAdapter.resetReduce(shopCarAdapter.getMoney());
+            money.setText(String.valueOf(shopCarAdapter.getMoney()));
+            reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+        });
+        for (Recipe r : recipeList)
+            getRecipeByHttp(r.getRecipeId());
+    }
+
+//    void getShopRecipeListByHttp() {
+//        new Thread(() -> {
+//            recipeList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId),
+//                    new TypeReference<List<Recipe>>() {
+//                    });
+//            Log.d("activity123", String.valueOf(recipeList.size()));
+//            Message message = new Message();
+//            message.what = 1;
+//            handler.sendMessage(message);
+//            Log.e("ShopActivity", String.valueOf(recipes.size()));
+//
+//        }).start();
+//    }
+
+    void getRecipeByHttp(int recipeId) {
+        new Thread(() -> {
+            Recipe recipe= JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipe?recipeId=" + recipeId), Recipe.class);
+            for (int i = 0; i < recipeList.size(); i++)
+                if (recipeList.get(i).getRecipeId() == recipeId)
+                    recipeList.get(i).setRecipeImage(recipe.getRecipeImage());
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
         }).start();
     }
 
@@ -207,28 +239,8 @@ public class ShopActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    /*recipeAdapter = new RecipeAdapter();
-                    recipeRecycleView.setAdapter(recipeAdapter);
-                    recipeAdapter.OnRecycleItemClickListener(new RecipeAdapter.OnRecycleItemClickListener() {
-                        @Override
-                        public void OnRecycleItemClickListener(int position) {
-                            boolean isExist = true;
-                            for (int i = 0; i < shopCarRecipes.size(); i++)
-                                if (recipes.get(position).getRecipeName().equals(shopCarRecipes.get(i).getName())){
-                                    int num = shopCarAdapter.getRecipes().get(i).getNum();
-                                    shopCarAdapter.getRecipes().get(i).setNum(++num);
-                                    isExist = false;
-                                    break;
-                                }
-                            if (isExist)
-                                shopCarAdapter.getRecipes().add(new ShopCarRecipe( recipes.get(position).getRecipeName()
-                                    , recipes.get(position).getRecipePrice() , 1));
-                                shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
-                        }
-
-                    });*/
-                    Log.d("activity12", String.valueOf(recipes.size()));
-                    recipeAdapter.setRecipes(recipes);
+                    break;
+                case 2:
                     recipeAdapter.notifyDataSetChanged();
                     break;
                 default:
