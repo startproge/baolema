@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderSum;
@@ -34,7 +33,6 @@ public class OrderFragment extends Fragment {
     private RecyclerView recyclerView;
     private int userId = 1;
     private List<OrderSum> ordersSumList;
-    private List<Integer> ordersSumIdList;
     private OrderMainAdapter orderMainAdapter;
 
     private Handler handler = new Handler() {
@@ -42,8 +40,15 @@ public class OrderFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    for (int i = 0; i < ordersSumIdList.size(); i++)
-                        ordersSumList.add(new OrderSum());
+                    orderMainAdapter = new OrderMainAdapter(ordersSumList);
+                    recyclerView.setAdapter(orderMainAdapter);
+                    orderMainAdapter.OnRecycleItemClickListener((view, position) -> {
+                                Intent intent = new Intent(getActivity(), OrderInfActivity.class);
+                                OrderSum orderSum = ordersSumList.get(position);
+                                intent.putExtra("orderSum", orderSum);
+                                startActivity(intent);
+                            }
+                    );
                     break;
                 case 2:
                     orderMainAdapter.notifyDataSetChanged();
@@ -62,61 +67,40 @@ public class OrderFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.resetTitle("我的订单");
 
-        ordersSumIdList = new ArrayList<>();
         ordersSumList = new ArrayList<>();
 
         recyclerView = root.findViewById(R.id.recycler_order_main);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        orderMainAdapter = new OrderMainAdapter(ordersSumList);
-        recyclerView.setAdapter(orderMainAdapter);
-        orderMainAdapter.OnRecycleItemClickListener((view, position) -> {
-                    Intent intent = new Intent(getActivity(), OrderInfActivity.class);
-                    OrderSum orderSum = ordersSumList.get(position);
-                    intent.putExtra("orderSum", orderSum);
-                    startActivity(intent);
-                }
-        );
-
-        getOrderIdListByHttp();
-        try {
-            Thread.sleep(550);
-        } catch (InterruptedException e) {
-            Log.e(e.getLocalizedMessage(), "onCreateView: ");
-        }
 
         return root;
     }
 
     @Override
     public void onResume() {
-        Log.e("resume" + ordersSumList.size(), "onResume: ");
         super.onResume();
-//        ordersSumList.clear();
-        for (Integer id : ordersSumIdList) {
-            Log.e("getOrderSum" + id, "onResume: ");
-            getOrderSumByHttp(id);
-        }
-    }
-
-    void getOrderIdListByHttp() {
-        new Thread(() -> {
-            ordersSumIdList = new OrderController().getOrderSumIdList(userId);
+        ordersSumList.clear();
+        Thread thread = new Thread(() -> {
+            ordersSumList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/OrderSum/getOrderSumList?userId="+userId), OrderSum.class);
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
-        }).start();
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (OrderSum o : ordersSumList)
+            getOrderSumByHttp(o.getOrderId());
     }
 
-    synchronized void getOrderSumByHttp(int id) {
+    void getOrderSumByHttp(int id) {
         new Thread(() -> {
             OrderSum orderSum = new OrderController().getOrderSumById(id);
-//            ordersSumList.add(new OrderController().getOrderSumById(id));
-            for (int i = 0; i < ordersSumList.size(); i++) {
-                if (ordersSumIdList.get(i) == orderSum.getOrderId()) {
-                    ordersSumList.set(i, orderSum);
-                    Log.d("for", "OrderSum id: " + ordersSumList.get(i).getOrderId());
-                }
-            }
+            for (int i = 0; i < ordersSumList.size(); i++)
+                if (ordersSumList.get(i).getOrderId() == id)
+                    ordersSumList.get(i).setShopTrademark(orderSum.getShopTrademark());
             Message message = new Message();
             message.what = 2;
             handler.sendMessage(message);
