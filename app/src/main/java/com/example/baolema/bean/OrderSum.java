@@ -8,8 +8,6 @@ import java.util.Objects;
 
 
 public class OrderSum implements Serializable {
-
-
     private int orderId;
     private Integer shopId;
     private String shopName;

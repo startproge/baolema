@@ -68,7 +68,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter {
         shopViewHolder.shopTrademark.setImageBitmap(bitmap);
         shopViewHolder.shopName.setText(shop.getShopName());
         shopViewHolder.shopStatus.setText(shop.getShopStatus());
-        Log.e("grades" + getGrades(shop.getShopCore()), "onBindViewHolder: " + shop.getShopCore());
         for (int i = 0; i < getGrades(shop.getShopCore()); ++i)
             shopViewHolder.shopGradeList.get(i).setVisibility(View.VISIBLE);
         shopViewHolder.shopName.setOnClickListener(v -> {
