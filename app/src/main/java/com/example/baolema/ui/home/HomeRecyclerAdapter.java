@@ -64,8 +64,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter {
         ShopViewHolder shopViewHolder = (ShopViewHolder) holder;
 
         Shop shop = shopList.get(position);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(shop.getShopTrademark(), 0, shop.getShopTrademark().length);
-        shopViewHolder.shopTrademark.setImageBitmap(bitmap);
+        if (shop.getShopTrademark() != null && shop.getShopTrademark().length > 0)
+            shopViewHolder.shopTrademark.setImageBitmap(BitmapFactory.decodeByteArray(shop.getShopTrademark(), 0, shop.getShopTrademark().length));
         shopViewHolder.shopName.setText(shop.getShopName());
         shopViewHolder.shopStatus.setText(shop.getShopStatus());
         for (int i = 0; i < getGrades(shop.getShopCore()); ++i)
