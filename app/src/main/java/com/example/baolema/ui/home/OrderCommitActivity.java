@@ -28,7 +28,10 @@ public class OrderCommitActivity extends AppCompatActivity {
     private int orderId;
     private Button orderCommit;
     private TextView summary;
-    private Double totalMoney;
+    private TextView reduce;
+    private TextView total_money;
+    private TextView finally_paid;
+    private TextView finally_reduce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +47,20 @@ public class OrderCommitActivity extends AppCompatActivity {
         LinearLayoutManager orderLayoutManager = new LinearLayoutManager(this);
         orderRecipesRecycleView.setLayoutManager(orderLayoutManager);
         OrderCommitAdapter orderCommitAdapter = new OrderCommitAdapter(shopCarRecipes, this);
+        orderCommitAdapter.resetMoney();
         orderRecipesRecycleView.setAdapter(orderCommitAdapter);
         summary=findViewById(R.id.total_money);
-        totalMoney=0.0;
-        for(int i=0;i<shopCarRecipes.size();i++)
-            totalMoney+=(shopCarRecipes.get(i).getMoney()*shopCarRecipes.get(i).getNum());
-        summary.setText("总计￥"+String.valueOf(totalMoney));
+        reduce=findViewById(R.id.reduce_money);
+        total_money=findViewById(R.id.total_paid_money);
+        finally_paid=findViewById(R.id.finally_pay_money);
+        finally_reduce=findViewById(R.id.finally_reduce_money);
+        orderCommitAdapter.resetMoney();
+        orderCommitAdapter.resetReduce(orderCommitAdapter.getMoney());
+        summary.setText("总计￥"+String.valueOf(orderCommitAdapter.getMoney()));
+        reduce.setText("优惠￥"+String.valueOf(orderCommitAdapter.getReduce()));
+        total_money.setText(String.valueOf(orderCommitAdapter.getMoney()-orderCommitAdapter.getReduce()));
+        finally_paid.setText(total_money.getText());
+        finally_reduce.setText(reduce.getText());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +85,8 @@ public class OrderCommitActivity extends AppCompatActivity {
 class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ShopCarRecipe> shopCarRecipes;
     private Context context;
+    private Double money;
+    private Double reduce;
 
     static class ShopCarViewHolder extends RecyclerView.ViewHolder{
         TextView name;
@@ -120,5 +133,23 @@ class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public List<ShopCarRecipe> getRecipes(){
         return this.shopCarRecipes;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void resetMoney(){
+        this.money=0.0;
+        for(int i=0;i<shopCarRecipes.size();i++)
+            this.money+=shopCarRecipes.get(i).getMoney()*shopCarRecipes.get(i).getNum();
+    }
+
+    public Double getReduce() {
+        return reduce;
+    }
+
+    public void resetReduce(Double money) {
+        this.reduce = 0.0;
     }
 }

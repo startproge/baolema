@@ -12,14 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.User;
@@ -65,7 +63,8 @@ public class MineFragment extends Fragment {
             switch (msg.what) {
                 case 1:
                     textViewUserName.setText(user.getUserName());
-                    imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(user.getUserImage(), 0, user.getUserImage().length));
+                    if (user.getUserImage().length > 0)
+                        imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(user.getUserImage(), 0, user.getUserImage().length));
                     break;
                 default:
                     break;

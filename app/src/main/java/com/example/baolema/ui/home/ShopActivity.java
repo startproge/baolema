@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,12 +50,16 @@ public class ShopActivity extends AppCompatActivity {
     private RecyclerView shoppingCarRecycleview;
     private ShopCarAdapter shopCarAdapter;
     private LabelView labelView;
+    private TextView money;
+    private TextView reduce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
+        money=findViewById(R.id.order_money);
+        reduce=findViewById(R.id.reduce_money);
         Intent intent = getIntent();
         toolbar.setTitle(intent.getStringExtra("shopName"));
         shopId = intent.getIntExtra("shopId", 0);
@@ -70,6 +75,14 @@ public class ShopActivity extends AppCompatActivity {
         shoppingCarRecycleview.setLayoutManager(shopLayoutManager);
         shopCarAdapter = new ShopCarAdapter(shopCarRecipes, this);
         shoppingCarRecycleview.setAdapter(shopCarAdapter);
+        shopCarAdapter.OnRecycleItemClickListener(new ShopCarAdapter.OnRecycleItemClickListener() {
+            @Override
+            public void OnRecycleItemClickListener(int position) {
+                shopCarAdapter.notifyDataSetChanged();
+                money.setText(String.valueOf(shopCarAdapter.getMoney()));
+                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+            }
+        });
 
         //商家菜单RecycleView
         recipeRecycleView = findViewById(R.id.recipe_recycleview);
@@ -79,25 +92,6 @@ public class ShopActivity extends AppCompatActivity {
         recipes = new ArrayList<Recipe>();
         recipeAdapter = new RecipeAdapter(recipes, this);
         recipeRecycleView.setAdapter(recipeAdapter);
-        //添加购物车
-        /*recipeAdapter.OnRecycleItemClickListener(new OnRecycleItemClickListener() {
-            @Override
-            public void OnRecycleItemClickListener(int position) {
-                //shopCarRecipes.add(new ShopCarRecipe("红烧排骨"+position,20.0,1));
-                boolean isExist = true;
-                for (int i = 0; i < shopCarAdapter.getRecipes().size(); i++) {
-                    if (shopCarAdapter.getRecipes().get(i).getName().equals("红烧排骨" + position)) {
-                        int num = shopCarAdapter.getRecipes().get(i).getNum();
-                        shopCarAdapter.getRecipes().get(i).setNum(++num);
-                        isExist = false;
-                        break;
-                    }
-                }
-                if (isExist)
-                    shopCarAdapter.getRecipes().add(new ShopCarRecipe("红烧排骨" + position, 20.0, 1));
-                shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
-            }
-        });*/
 
         recipeAdapter.OnRecycleItemClickListener(new RecipeAdapter.OnRecycleItemClickListener() {
             @Override
@@ -111,11 +105,15 @@ public class ShopActivity extends AppCompatActivity {
                         break;
                     }
                 if (isExist) {
-                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipes.get(position).getRecipeName()
+                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipes.get(position).getRecipeId(),recipes.get(position).getRecipeName()
                             , recipes.get(position).getRecipePrice(), 1);
                     shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
                 }
-                shoppingCarRecycleview.getAdapter().notifyDataSetChanged();
+                shopCarAdapter.notifyDataSetChanged();
+                shopCarAdapter.resetMoney();
+                shopCarAdapter.resetReduce(shopCarAdapter.getMoney());
+                money.setText(String.valueOf(shopCarAdapter.getMoney()));
+                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
             }
 
         });

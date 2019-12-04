@@ -24,6 +24,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Shop;
+import com.example.baolema.controller.OrderController;
+import com.example.baolema.controller.ShopController;
 import com.example.baolema.util.httpUtil;
 
 import java.util.ArrayList;
@@ -65,7 +67,7 @@ public class HomeFragment extends Fragment {
 
         getShopIdListByHttp();
         try {
-            Thread.sleep(750);
+            Thread.sleep(800);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -76,7 +78,7 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        homeRecyclerAdapter.OnRecycleItemClickListener(position -> {
+        homeRecyclerAdapter.OnRecycleItemClickListener((view,position) -> {
             Intent intent = new Intent(getActivity(), ShopActivity.class);
             int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
             String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();

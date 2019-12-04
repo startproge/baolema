@@ -15,7 +15,7 @@ public class OrderController implements OrderDao {
     public List<Integer> getOrderSumIdList(int userId) {
         String path="http://ylnzk.cn:8002/blm/OrderSum/getOrderSumIdList?userId="+userId;
         String result= httpUtil.getHttpInterface(path);
-        List<Integer> response=JSON.parseArray(result,Integer.class);
+        List<Integer> response= JSON.parseArray(result,Integer.class);
         return  response;
     }
 

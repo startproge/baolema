@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="25dp"
     android:layout_marginEnd="10dp"
     android:orientation="vertical">
 
@@ -12,7 +12,7 @@
         android:id="@+id/text_order_main_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="学院餐厅"
+        android:text="         "
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="待评价"
+        android:text="奋力加载中"
         android:textColor="@color/colorOrange"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/text_order_main_shop"
@@ -53,7 +53,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/de3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider_order_main" />
@@ -63,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="12.3"
+        android:text="0.0"
         android:textColor="@color/colorRed"
         android:textSize="22sp"
         app:layout_constraintLeft_toRightOf="@id/image_order_main"
@@ -74,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="2017-01-15 17:05:24"
+        android:text="            "
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/text_order_main_tips"
         app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
@@ -97,5 +96,11 @@
         app:layout_constraintBottom_toBottomOf="@id/image_order_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/image_order_main" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

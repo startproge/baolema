@@ -21,5 +21,70 @@
             app:title="设置"
             app:titleTextColor="@color/colorWhite" />
     </com.google.android.material.appbar.AppBarLayout>
+    <ImageView
+        android:id="@+id/image_shake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_shake_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_setting" />
 
+    <TextView
+        android:id="@+id/text_shake"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="摇一摇"
+        app:layout_constraintBottom_toBottomOf="@id/image_shake"
+        app:layout_constraintLeft_toRightOf="@id/image_shake"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_setting" />
+
+    <Switch
+        android:id="@+id/switch_shake"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="10dp"
+        android:checked="true"
+        android:theme="@style/MySwitch"
+        app:layout_constraintBottom_toBottomOf="@id/image_shake"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_setting" />
+
+    <ImageView
+        android:id="@+id/image_night_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_night_mode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_shake" />
+
+    <TextView
+        android:id="@+id/text_night_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="夜间模式"
+        app:layout_constraintBottom_toBottomOf="@id/image_night_mode"
+        app:layout_constraintLeft_toRightOf="@id/image_night_mode"
+        app:layout_constraintTop_toBottomOf="@id/text_shake" />
+
+    <Switch
+        android:id="@+id/switch_night_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:checked="false"
+        android:theme="@style/MySwitch"
+        app:layout_constraintBottom_toBottomOf="@id/image_night_mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switch_shake" />
 </androidx.constraintlayout.widget.ConstraintLayout>

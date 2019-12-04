@@ -20,6 +20,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderSum;
+import com.example.baolema.controller.OrderController;
 import com.example.baolema.util.httpUtil;
 
 
@@ -41,6 +42,8 @@ public class OrderFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
+                    for (int i = 0; i < ordersSumIdList.size(); i++)
+                        ordersSumList.add(new OrderSum());
                     break;
                 case 2:
                     orderMainAdapter.notifyDataSetChanged();
@@ -66,16 +69,17 @@ public class OrderFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         orderMainAdapter = new OrderMainAdapter(ordersSumList);
         recyclerView.setAdapter(orderMainAdapter);
-        orderMainAdapter.OnRecycleItemClickListener(position -> {
-            Intent intent = new Intent(getActivity(), OrderInfActivity.class);
-            OrderSum orderSum = ordersSumList.get(position);
-            intent.putExtra("orderSum", orderSum);
-            startActivity(intent);
-        });
+        orderMainAdapter.OnRecycleItemClickListener((view, position) -> {
+                    Intent intent = new Intent(getActivity(), OrderInfActivity.class);
+                    OrderSum orderSum = ordersSumList.get(position);
+                    intent.putExtra("orderSum", orderSum);
+                    startActivity(intent);
+                }
+        );
 
         getOrderIdListByHttp();
         try {
-            Thread.sleep(750);
+            Thread.sleep(550);
         } catch (InterruptedException e) {
             Log.e(e.getLocalizedMessage(), "onCreateView: ");
         }
@@ -85,25 +89,34 @@ public class OrderFragment extends Fragment {
 
     @Override
     public void onResume() {
+        Log.e("resume" + ordersSumList.size(), "onResume: ");
         super.onResume();
-        ordersSumList.clear();
-        for (Integer id : ordersSumIdList)
+//        ordersSumList.clear();
+        for (Integer id : ordersSumIdList) {
+            Log.e("getOrderSum" + id, "onResume: ");
             getOrderSumByHttp(id);
+        }
     }
 
     void getOrderIdListByHttp() {
         new Thread(() -> {
-            ordersSumIdList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/"), new TypeReference<>());
+            ordersSumIdList = new OrderController().getOrderSumIdList(userId);
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
         }).start();
     }
 
-    void getOrderSumByHttp(int shopId) {
+    synchronized void getOrderSumByHttp(int id) {
         new Thread(() -> {
-            ordersSumList.add(JSON.parseObject(httpUtil.getHttpInterface(urlStr + " " + shopId), OrderSum.class));
-
+            OrderSum orderSum = new OrderController().getOrderSumById(id);
+//            ordersSumList.add(new OrderController().getOrderSumById(id));
+            for (int i = 0; i < ordersSumList.size(); i++) {
+                if (ordersSumIdList.get(i) == orderSum.getOrderId()) {
+                    ordersSumList.set(i, orderSum);
+                    Log.d("for", "OrderSum id: " + ordersSumList.get(i).getOrderId());
+                }
+            }
             Message message = new Message();
             message.what = 2;
             handler.sendMessage(message);

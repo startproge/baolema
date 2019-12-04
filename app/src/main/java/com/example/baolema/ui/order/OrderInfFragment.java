@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderInf;
+import com.example.baolema.bean.OrderSum;
 import com.example.baolema.bean.ShopCarRecipe;
 import com.example.baolema.util.httpUtil;
 
@@ -30,8 +31,16 @@ public class OrderInfFragment extends Fragment {
     private RecyclerView recyclerOrderRecipe;
     private int orderId;
     private List<ShopCarRecipe> orderRecipes;
-    OrderInfAdapter orderinfAdapter;
+    private OrderInfAdapter orderinfAdapter;
     private List<OrderInf> orderInfRecipes;
+    private TextView shopName;
+    private TextView orderNumber;
+    private TextView orderTimeDay;
+    private TextView orderTimeSecond;
+    private TextView order_summary;
+    private TextView order_reduce;
+    private TextView order_money;
+    private OrderSum orderSum;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,13 +48,25 @@ public class OrderInfFragment extends Fragment {
         Bundle bundle= OrderInfFragment.this.getArguments();
         orderId=bundle.getInt("orderId");
         recyclerOrderRecipe=view.findViewById(R.id.order_recipe_recycleview);
+        shopName=view.findViewById(R.id.shop_name);
+        orderNumber=view.findViewById(R.id.order_number);
+        orderTimeDay=view.findViewById(R.id.order_time_day);
+        orderTimeSecond=view.findViewById(R.id.order_time_second);
+        order_summary=view.findViewById(R.id.total_money);
+        order_reduce=view.findViewById(R.id.order_reduce);
+        order_money=view.findViewById(R.id.total_paid_money);
         recyclerOrderRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         if(orderId==0){
             orderRecipes = (ArrayList<ShopCarRecipe>) bundle.getSerializable("orderRecipes");
             orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
             recyclerOrderRecipe.setAdapter(orderinfAdapter);
+            order_summary.setText("总计￥"+String.valueOf(orderinfAdapter.getMoney()));
+            order_reduce.setText("优惠￥"+String.valueOf(orderinfAdapter.getReduce()));
+            order_money.setText("实付￥"+String.valueOf(orderinfAdapter.getMoney()-orderinfAdapter.getReduce()));
         } else{
+            orderSum=(OrderSum)bundle.getSerializable("orderSum");
+            shopName.setText( orderSum.getShopName());
+            orderNumber.setText(orderSum.getTemporaryId());
             orderRecipes=new ArrayList<ShopCarRecipe>();
             getOrderInfRecipeListByHttp();
         }
@@ -91,6 +112,8 @@ public class OrderInfFragment extends Fragment {
 class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ShopCarRecipe> shopCarRecipes;
     private Context context;
+    private Double money;
+    private Double reduce;
 
     static class OrderInfViewHolder extends RecyclerView.ViewHolder{
         TextView name;
@@ -111,6 +134,8 @@ class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         else
             shopCarRecipes=arrayList;
         this.context=context;
+        resetMoney();
+        resetReduce(money);
     }
 
     @Override
@@ -137,5 +162,23 @@ class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public List<ShopCarRecipe> getRecipes(){
         return this.shopCarRecipes;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void resetMoney(){
+        this.money=0.0;
+        for(int i=0;i<shopCarRecipes.size();i++)
+            this.money+=shopCarRecipes.get(i).getMoney()*shopCarRecipes.get(i).getNum();
+    }
+
+    public Double getReduce() {
+        return reduce;
+    }
+
+    public void resetReduce(Double money) {
+        this.reduce = 0.0;
     }
 }
