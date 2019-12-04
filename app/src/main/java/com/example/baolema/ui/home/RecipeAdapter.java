@@ -66,7 +66,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mHolder.money.setText(Double.toString(recipe.getRecipePrice()));
         mHolder.monthlySale.setText(Integer.toString(recipe.getMonthlySale()));
         mHolder.notice.setText(recipe.getRecipeNotice());
-        mHolder.recipeImage.setImageBitmap(BitmapFactory.decodeByteArray(recipe.getRecipeImage(),0,recipe.getRecipeImage().length));
+        //mHolder.recipeImage.setImageBitmap(BitmapFactory.decodeByteArray(recipe.getRecipeImage(),0,recipe.getRecipeImage().length));
         mHolder.add.setOnClickListener(v -> {
             if(onRecycleItemClickListener!=null)
                 onRecycleItemClickListener.OnRecycleItemClickListener(position);

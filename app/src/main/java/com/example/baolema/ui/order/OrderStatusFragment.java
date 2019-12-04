@@ -31,7 +31,6 @@ public class OrderStatusFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_order_status,container,false);
         Bundle bundle= OrderStatusFragment.this.getArguments();
         orderStatus=bundle.getString("orderStatus");
-
         point3=view.findViewById(R.id.point3);
         shop_order_finish=view.findViewById(R.id.shop_order_finish);
         divide3=view.findViewById(R.id.divide3);
