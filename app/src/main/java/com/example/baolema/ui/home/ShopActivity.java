@@ -172,6 +172,7 @@ public class ShopActivity extends AppCompatActivity {
                 Bundle args = new Bundle();
                 args.putSerializable("ShopCarRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
                 intent.putExtra("ShopCarToOrderCommit", args);
+                intent.putExtra("shopId",shopId);
                 startActivity(intent);
             }
         });

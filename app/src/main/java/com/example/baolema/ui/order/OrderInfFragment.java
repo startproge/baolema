@@ -46,7 +46,7 @@ public class OrderInfFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_order_inf,container,false);
         Bundle bundle= OrderInfFragment.this.getArguments();
-        orderId=bundle.getInt("orderId");
+        //orderId=bundle.getInt("orderId");
         recyclerOrderRecipe=view.findViewById(R.id.order_recipe_recycleview);
         shopName=view.findViewById(R.id.shop_name);
         orderNumber=view.findViewById(R.id.order_number);
@@ -56,7 +56,11 @@ public class OrderInfFragment extends Fragment {
         order_reduce=view.findViewById(R.id.order_reduce);
         order_money=view.findViewById(R.id.total_paid_money);
         recyclerOrderRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
-        if(orderId==0){
+        orderRecipes=new ArrayList<>();
+        orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
+
+        orderSum=(OrderSum)bundle.getSerializable("orderSum");
+        /*if(orderId==0){
             orderRecipes = (ArrayList<ShopCarRecipe>) bundle.getSerializable("orderRecipes");
             orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
             recyclerOrderRecipe.setAdapter(orderinfAdapter);
@@ -69,11 +73,19 @@ public class OrderInfFragment extends Fragment {
             orderNumber.setText(orderSum.getTemporaryId());
             orderRecipes=new ArrayList<ShopCarRecipe>();
             getOrderInfRecipeListByHttp();
+        }*/
+        if(orderSum!=null){
+            orderId=orderSum.getOrderId();
+            shopName.setText(orderSum.getShopName());
+            orderNumber.setText(orderSum.getTemporaryId());
+            order_summary.setText("总计￥"+String.valueOf(orderSum.getOrdersum()));
+            order_reduce.setText("优惠￥"+String.valueOf(0));
+            order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-0));
         }
         return view;
     }
 
-    void getOrderInfRecipeListByHttp() {
+    void getOrderInfByHttp() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -99,8 +111,9 @@ public class OrderInfFragment extends Fragment {
                         //orderRecipes.add(new ShopCarRecipe());
                     }
                     Log.d("orderInf",String.valueOf(orderRecipes.size()));
-                    orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
-                    recyclerOrderRecipe.setAdapter(orderinfAdapter);
+                    //orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
+                    //orderinfAdapter.getRecipes().add();
+                    orderinfAdapter.notifyDataSetChanged();
                     break;
                 default:
                     break;
@@ -162,6 +175,10 @@ class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public List<ShopCarRecipe> getRecipes(){
         return this.shopCarRecipes;
+    }
+
+    public void setShopCarRecipes(List<ShopCarRecipe> shopCarRecipes) {
+        this.shopCarRecipes = shopCarRecipes;
     }
 
     public Double getMoney() {

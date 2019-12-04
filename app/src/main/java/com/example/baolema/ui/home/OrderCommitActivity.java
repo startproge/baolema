@@ -3,19 +3,27 @@ package com.example.baolema.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baolema.R;
+import com.example.baolema.bean.OrderInf;
+import com.example.baolema.bean.OrderSum;
+import com.example.baolema.bean.Orders;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.controller.OrderController;
 import com.example.baolema.ui.order.OrderInfActivity;
 
 import java.io.Serializable;
@@ -25,14 +33,16 @@ import java.util.List;
 public class OrderCommitActivity extends AppCompatActivity {
     private RecyclerView orderRecipesRecycleView;
     private ArrayList<ShopCarRecipe> shopCarRecipes;
+    private ArrayList<OrderInf> orderInfs;
     private int orderId;
+    private int shopId;
     private Button orderCommit;
     private TextView summary;
     private TextView reduce;
     private TextView total_money;
     private TextView finally_paid;
     private TextView finally_reduce;
-
+    private OrderSum orderSum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +51,7 @@ public class OrderCommitActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar_shop_commit);
 
         Intent intent = getIntent();
+        shopId=intent.getIntExtra("shopId",0);
         Bundle args = intent.getBundleExtra("ShopCarToOrderCommit");
         shopCarRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("ShopCarRecipes");
         orderRecipesRecycleView = findViewById(R.id.recipe_recycleview);
@@ -72,13 +83,67 @@ public class OrderCommitActivity extends AppCompatActivity {
         orderCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
+                Orders orders=new Orders();
+                orders.setUserId(1);
+                orders.setShopId(shopId);
+                orders.setOrderRemark("无");
+                addOrderByHttp(orders);
+                //getOrderSumByHttp();
                 Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable("orderRecipes", (Serializable) shopCarRecipes);
-                intent.putExtra("OrderCommitToOrderInf", args);
+                intent.putExtra("orderSum", orderSum);
                 startActivity(intent);
+                //intent.putExtra("orderId",orderId);
+                //startActivity(intent);
+                //finish();
             }
         });
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 1:
+                    Log.d("addOrders", "handleMessage: " );
+                    break;
+                case 2:
+                    Log.d("getOrderSum", "handleMessage: " );
+                    //finish();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    void addOrderByHttp(Orders orders) {
+        new Thread(() -> {
+            /*orderId=addOrder(orders);
+            for(int i=0;i<shopCarRecipes.size();i++){
+                OrderInf orderInf=new OrderInf();
+                orderInf.setListId(i+1);
+                orderInf.setOrderRecipeNumber(shopCarRecipes.get(i).getNum());
+                orderInf.setRecipeId(shopCarRecipes.get(i).getRecipeId());
+                orderInf.setOrdersId(orderId);
+                orderInfs.add(orderInf);
+            }
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+            addOrderInf(orderInfs);*/
+
+        }).start();
+    }
+
+    void getOrderSumByHttp() {
+        new Thread(() -> {
+            orderSum=new OrderController().getOrderSumById(orderId);
+            Message message = new Message();
+            message.what = 2;
+            handler.sendMessage(message);
+        }).start();
+
     }
 }
 

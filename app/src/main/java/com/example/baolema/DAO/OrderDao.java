@@ -18,6 +18,6 @@ public interface OrderDao {
     List<OrderInf> getOrderInfList(int orderId);
 
     //客户端发送先不写
-//    void addOrderMain(OrderSum orderMain);
+//    void addOrder(Orders orders);
 //    void addOrderInf(ArrayList<OrderInf> orderInf);
 }
