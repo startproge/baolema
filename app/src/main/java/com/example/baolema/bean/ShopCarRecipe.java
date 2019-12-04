@@ -3,6 +3,7 @@ package com.example.baolema.bean;
 import java.io.Serializable;
 
 public class ShopCarRecipe implements Serializable {
+    int recipeId;
     String name;
     Double money;
     int num;
@@ -10,7 +11,8 @@ public class ShopCarRecipe implements Serializable {
     public  ShopCarRecipe(){
 
     }
-    public ShopCarRecipe(String name,Double money,int num){
+    public ShopCarRecipe(int recipeId,String name,Double money,int num){
+        this.recipeId=recipeId;
         this.name=name;
         this.money=money;
         this.num=num;
@@ -40,4 +42,11 @@ public class ShopCarRecipe implements Serializable {
         this.num = num;
     }
 
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
 }

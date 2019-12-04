@@ -105,7 +105,7 @@ public class ShopActivity extends AppCompatActivity {
                         break;
                     }
                 if (isExist) {
-                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipes.get(position).getRecipeName()
+                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipes.get(position).getRecipeId(),recipes.get(position).getRecipeName()
                             , recipes.get(position).getRecipePrice(), 1);
                     shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
                 }
