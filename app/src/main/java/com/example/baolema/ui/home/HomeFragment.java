@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,24 +64,9 @@ public class HomeFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycler_view_shop);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        textView = root.findViewById(R.id.text_surf);
-        textView.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ShopActivity.class);
-            startActivity(intent);
-        });
-
-
-        return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        shopList.clear();
-//        getShopListByHttp();
-        Thread thread=new Thread(() -> {
+        Thread thread = new Thread(() -> {
             shopList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), Shop.class);
-            Log.e("shopList", "getShopListByHttp: "+shopList.size() );
+            Log.e("shopList", "getShopListByHttp: " + shopList.size());
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
@@ -92,8 +78,27 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
+        homeRecyclerAdapter = new HomeRecyclerAdapter(shopList, getActivity());
+        recyclerView.setAdapter(homeRecyclerAdapter);
+        homeRecyclerAdapter.OnRecycleItemClickListener((view, position) -> {
+            if (shopList.get(position).getShopStatus().equals("离线")) {
+                new AlertDialog.Builder(mainActivity).setTitle("提示")
+                        .setMessage("商家休息中( •̀ ω •́ )✧")
+                        .setPositiveButton("确定", null)
+                        .show();
+            } else {
+                Intent intent = new Intent(getActivity(), ShopActivity.class);
+                int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
+                String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();
+                intent.putExtra("shopId", shopId);
+                intent.putExtra("shopName", shopName);
+                startActivity(intent);
+            }
+        });
         for (Shop shop : shopList)
             getShopByHttp(shop.getShopId());
+
+        return root;
     }
 
     void initImages() {
@@ -111,16 +116,16 @@ public class HomeFragment extends Fragment {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    homeRecyclerAdapter = new HomeRecyclerAdapter(shopList, getActivity());
-                    recyclerView.setAdapter(homeRecyclerAdapter);
-                    homeRecyclerAdapter.OnRecycleItemClickListener((view, position) -> {
-                        Intent intent = new Intent(getActivity(), ShopActivity.class);
-                        int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
-                        String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();
-                        intent.putExtra("shopId", shopId);
-                        intent.putExtra("shopName", shopName);
-                        startActivity(intent);
-                    });
+//                    homeRecyclerAdapter = new HomeRecyclerAdapter(shopList, getActivity());
+//                    recyclerView.setAdapter(homeRecyclerAdapter);
+//                    homeRecyclerAdapter.OnRecycleItemClickListener((view, position) -> {
+//                        Intent intent = new Intent(getActivity(), ShopActivity.class);
+//                        int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
+//                        String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();
+//                        intent.putExtra("shopId", shopId);
+//                        intent.putExtra("shopName", shopName);
+//                        startActivity(intent);
+//                    });
                     break;
                 case 2:
                     homeRecyclerAdapter.notifyDataSetChanged();
@@ -140,15 +145,6 @@ public class HomeFragment extends Fragment {
 //        }).start();
 //    }
 
-    void getShopListByHttp() {
-        new Thread(() -> {
-            shopList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), Shop.class);
-            Log.e("shopList", "getShopListByHttp: "+shopList.size() );
-            Message message = new Message();
-            message.what = 1;
-            handler.sendMessage(message);
-        }).start();
-    }
 
     void getShopByHttp(final int id) {
         new Thread(() -> {
