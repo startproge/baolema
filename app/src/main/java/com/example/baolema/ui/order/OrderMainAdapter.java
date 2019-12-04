@@ -1,5 +1,7 @@
 package com.example.baolema.ui.order;
 
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,24 +9,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.LayoutInflaterFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderSum;
 import com.example.baolema.ui.home.HomeRecyclerAdapter;
+import com.example.baolema.ui.home.ShopCarAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class OrderMainAdapter extends RecyclerView.Adapter {
+public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
     private List<OrderSum> orderList;
-    private OrderMainAdapter.OnRecycleItemClickListener onRecycleItemClickListener=null;
+    private OrderMainAdapter.OnRecycleItemClickListener onRecycleItemClickListener = null;
 
     public OrderMainAdapter(List<OrderSum> orderList) {
         this.orderList = orderList;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onRecycleItemClickListener != null)
+            onRecycleItemClickListener.OnRecycleItemClickListener(v, (Integer) v.getTag());
+
     }
 
     static class OrderMainViewHolder extends RecyclerView.ViewHolder {
@@ -47,26 +58,39 @@ public class OrderMainAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new OrderMainViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_order_main, parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_order_main, parent, false);
+        RecyclerView.ViewHolder viewHolder = new OrderMainViewHolder(view);
+        view.setOnClickListener(this);
+        return viewHolder;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         OrderMainViewHolder orderMainViewHolder = (OrderMainViewHolder) holder;
-        orderMainViewHolder.textShopName.setText(orderList.get(position).getShopName());
-        orderMainViewHolder.textOrderStatus.setText(orderList.get(position).getOrderStatus());
-//        orderMainViewHolder.orderSumPrice.setText(String.valueOf(orderList.get(position).getOrderPrice()));
-//        orderMainViewHolder.imageShop.setImageBitmap();
-        orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderStartTime()));
+        if (orderList.get(position).getShopName() != null)
+            orderMainViewHolder.textShopName.setText(orderList.get(position).getShopName());
+        if (orderList.get(position).getOrderStatus() != null)
+            orderMainViewHolder.textOrderStatus.setText(orderList.get(position).getOrderStatus());
+        if (orderList.get(position).getOrdersum() != null)
+            orderMainViewHolder.orderSumPrice.setText(String.valueOf(orderList.get(position).getOrdersum()));
+        if (orderList.get(position).getShopTrademark() != null && orderList.get(position).getShopTrademark().length > 0)
+            orderMainViewHolder.imageShop.setImageBitmap(BitmapFactory.decodeByteArray(orderList.get(position).getShopTrademark(), 0, orderList.get(position).getShopTrademark().length));
+        if (orderList.get(position).getOrderStartTime() != null)
+            orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderStartTime()));
+        orderMainViewHolder.itemView.setTag(position);
 
-        //评分显示
     }
+
     public interface OnRecycleItemClickListener {
-        void OnRecycleItemClickListener(int position);
+        void OnRecycleItemClickListener(View view, int position);
+
     }
+
     public void OnRecycleItemClickListener(OrderMainAdapter.OnRecycleItemClickListener v) {
         onRecycleItemClickListener = v;
     }
+
     @Override
     public int getItemCount() {
         return orderList.size();
