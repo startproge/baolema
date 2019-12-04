@@ -40,14 +40,13 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_orderdetail_main);
         Intent intent = getIntent();
         orderSum=(OrderSum)intent.getSerializableExtra("orderSum");
-
-        if (orderSum==null){
+        /*if (orderSum==null){
             Bundle args = intent.getBundleExtra("OrderCommitToOrderInf");
             orderRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("orderRecipes");
         }
         else {
             orderRecipes=new ArrayList<ShopCarRecipe>();
-        }
+        }*/
 
         button_order_status=findViewById(R.id.orderdetail_status);
         button_order_inf=findViewById(R.id.orderdetail_detail);
@@ -60,7 +59,11 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(order_status == null){
             order_status = new OrderStatusFragment();
-            Bundle bundle=new Bundle();
+            if(orderSum!=null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("orderStatus", orderSum.getOrderStatus());
+                order_status.setArguments(bundle);
+            }
             transaction.add(R.id.order_main_frame_layout, order_status);
         }
         hideFragment(transaction);
@@ -73,14 +76,16 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         if(order_inf == null){
             order_inf = new OrderInfFragment();
             Bundle bundle=new Bundle();
-            if (orderSum==null) {
+            /*if (orderSum==null) {
                 bundle.putInt("orderId", 0);
                 bundle.putSerializable("orderRecipes", (Serializable) orderRecipes);
             }
              else {
                 bundle.putInt("orderId", orderSum.getOrderId());
                 bundle.putSerializable("orderSum",orderSum);
-            }
+            }*/
+            if(orderSum!=null)
+                bundle.putSerializable("orderSum",orderSum);
             order_inf.setArguments(bundle);
             transaction.add(R.id.order_main_frame_layout, order_inf);
         }

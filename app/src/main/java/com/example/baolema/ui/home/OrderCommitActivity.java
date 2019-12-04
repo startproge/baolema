@@ -1,38 +1,52 @@
 package com.example.baolema.ui.home;
 
+import android.content.AbstractThreadedSyncAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
 import com.example.baolema.R;
+import com.example.baolema.bean.OrderInf;
+import com.example.baolema.bean.OrderSum;
+import com.example.baolema.bean.Orders;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.controller.OrderController;
 import com.example.baolema.ui.order.OrderInfActivity;
+import com.example.baolema.util.httpUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderCommitActivity extends AppCompatActivity {
+    private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView orderRecipesRecycleView;
     private ArrayList<ShopCarRecipe> shopCarRecipes;
+    private ArrayList<OrderInf> orderInfs;
     private int orderId;
+    private int shopId;
     private Button orderCommit;
     private TextView summary;
     private TextView reduce;
     private TextView total_money;
     private TextView finally_paid;
     private TextView finally_reduce;
-
+    private OrderSum orderSum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +55,7 @@ public class OrderCommitActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar_shop_commit);
 
         Intent intent = getIntent();
+        shopId=intent.getIntExtra("shopId",0);
         Bundle args = intent.getBundleExtra("ShopCarToOrderCommit");
         shopCarRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("ShopCarRecipes");
         orderRecipesRecycleView = findViewById(R.id.recipe_recycleview);
@@ -72,14 +87,132 @@ public class OrderCommitActivity extends AppCompatActivity {
         orderCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable("orderRecipes", (Serializable) shopCarRecipes);
-                intent.putExtra("OrderCommitToOrderInf", args);
-                startActivity(intent);
+                //Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
+                Orders orders=new Orders();
+                orders.setUserId(1);
+                orders.setShopId(shopId);
+                orders.setOrderRemark("无");
+                //addOrderByHttp(orders);
+                try {
+                    ThreadAddOrder thread1=new ThreadAddOrder();
+                    thread1.start();
+                    thread1.join();
+                    for(int i=0;i<shopCarRecipes.size();i++){
+                        ShopCarRecipe shopCarRecipe=shopCarRecipes.get(i);
+                        ThreadAddOrderInf thread2=new ThreadAddOrderInf(shopCarRecipe.getRecipeId(),i+1,
+                                shopCarRecipe.getNum());
+                        thread2.start();
+                        thread2.join();
+                    }
+                    ThreadgetOrderSum thread3=new ThreadgetOrderSum();
+                    thread3.start();
+                }catch (Exception e){
+
+                }
+
+                //getOrderSumByHttp();
+                //intent.putExtra("orderId",orderId);
+                //startActivity(intent);
+                //finish();
             }
         });
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 1:
+                    Log.d("addOrders", "handleMessage: " );
+                    break;
+                case 2:
+                    Log.d("getOrderSum", "handleMessage: " );
+                    break;
+                    //finish();
+                case 3:
+                    Log.d("case3", "handleMessage: " );
+                    Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
+                    intent.putExtra("orderSum", orderSum);
+                    startActivity(intent);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private class  ThreadAddOrder extends Thread{
+        @Override
+        public void run() {
+            orderId= JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/addOrders?shopId=" + shopId
+                    +"&userId=1"+"&orderRemark="+"abc"), Integer.class);
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+        }
+    }
+
+    private class  ThreadAddOrderInf extends Thread{
+        private int recipeId;
+        private int listId;
+        private int num;
+        public  ThreadAddOrderInf(int recipeId,int listId,int num){
+            this.recipeId=recipeId;
+            this.listId=listId;
+            this.num=num;
+        }
+        @Override
+        public void run() {
+            JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInf/addOrderInf?recipe_id=" + recipeId
+                    +"&order_id="+orderId+"&list_id="+listId+"&order_recipe_number="+num), Integer.class);
+            Message message = new Message();
+            message.what = 2;
+            handler.sendMessage(message);
+        }
+
+
+    }
+    private class  ThreadgetOrderSum extends Thread{
+        @Override
+        public void run() {
+            orderSum=new OrderController().getOrderSumById(orderId);
+            Log.d("CommitStatus",orderSum.getOrderStatus());
+            Message message = new Message();
+            message.what = 3;
+            handler.sendMessage(message);
+        }
+
+
+    }
+//    void addOrderByHttp(Orders orders) {
+//        new Thread(() -> {
+//            orderId= JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/addOrders?shopId=" + shopId
+//                            +"&userId=1"+"&orderRemark="+"abc"), Integer.class);
+//            for(int i=0;i<shopCarRecipes.size();i++){
+//                OrderInf orderInf=new OrderInf();
+//                orderInf.setListId(i+1);
+//                orderInf.setOrderRecipeNumber(shopCarRecipes.get(i).getNum());
+//                orderInf.setRecipeId(shopCarRecipes.get(i).getRecipeId());
+//                orderInf.setOrdersId(orderId);
+//                orderInfs.add(orderInf);
+//            }
+//            Message message = new Message();
+//            message.what = 1;
+//            handler.sendMessage(message);
+//            //addOrderInf(orderInfs);*/
+//
+//        }).start();
+//    }
+
+//    void getOrderSumByHttp() {
+//        new Thread(() -> {
+//            orderSum=new OrderController().getOrderSumById(orderId);
+//            Message message = new Message();
+//            message.what = 2;
+//            handler.sendMessage(message);
+//        }).start();
+//
+//    }
 }
 
 class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
