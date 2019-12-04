@@ -59,9 +59,11 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(order_status == null){
             order_status = new OrderStatusFragment();
-            Bundle bundle=new Bundle();
-            if(orderSum!=null)
-                bundle.putString("orderStatus",orderSum.getOrderStatus());
+            if(orderSum!=null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("orderStatus", orderSum.getOrderStatus());
+                order_status.setArguments(bundle);
+            }
             transaction.add(R.id.order_main_frame_layout, order_status);
         }
         hideFragment(transaction);

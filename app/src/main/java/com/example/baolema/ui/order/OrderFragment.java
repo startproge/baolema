@@ -72,6 +72,7 @@ public class OrderFragment extends Fragment {
         orderMainAdapter.OnRecycleItemClickListener((view, position) -> {
                     Intent intent = new Intent(getActivity(), OrderInfActivity.class);
                     OrderSum orderSum = ordersSumList.get(position);
+
                     intent.putExtra("orderSum", orderSum);
                     startActivity(intent);
                 }

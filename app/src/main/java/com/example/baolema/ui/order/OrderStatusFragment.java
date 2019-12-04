@@ -40,12 +40,12 @@ public class OrderStatusFragment extends Fragment {
         finish=view.findViewById(R.id.finish);
 
         if(orderStatus!=null){
-            if(orderStatus.equals("")){
+            if(orderStatus.equals("完成")){
                 point3.setVisibility(View.VISIBLE);
                 shop_order_finish.setVisibility(View.VISIBLE);
                 divide3.setVisibility(View.VISIBLE);
             }
-            else if(orderStatus.equals("")){
+            else if(orderStatus.equals("待自提")){
                 point3.setVisibility(View.VISIBLE);
                 shop_order_finish.setVisibility(View.VISIBLE);
                 divide3.setVisibility(View.VISIBLE);

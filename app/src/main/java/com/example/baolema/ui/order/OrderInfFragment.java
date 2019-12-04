@@ -77,7 +77,7 @@ public class OrderInfFragment extends Fragment {
         if(orderSum!=null){
             orderId=orderSum.getOrderId();
             shopName.setText(orderSum.getShopName());
-            orderNumber.setText(orderSum.getTemporaryId());
+            orderNumber.setText(String.valueOf(orderSum.getTemporaryId()));
             order_summary.setText("总计￥"+String.valueOf(orderSum.getOrdersum()));
             order_reduce.setText("优惠￥"+String.valueOf(0));
             order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-0));
