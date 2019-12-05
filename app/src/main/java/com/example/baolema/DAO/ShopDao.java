@@ -2,6 +2,7 @@ package com.example.baolema.DAO;
 
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.Shop;
+import com.example.baolema.bean.ShopEva;
 import com.example.baolema.bean.ShopEvaluate;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface ShopDao {
 
     void addShopEvaluate(int shopId,int orderId,double shopGrade,int userId,String shopEvaluateContent);
 
+    List<ShopEva> getShopEva(int shopId);
 }

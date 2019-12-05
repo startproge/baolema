@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.baolema.DAO.OrderDao;
 import com.example.baolema.bean.Activity;
 import com.example.baolema.bean.OrderInf;
+import com.example.baolema.bean.OrderInformation;
 import com.example.baolema.bean.OrderSum;
 import com.example.baolema.util.httpUtil;
 
@@ -28,10 +29,20 @@ public class OrderController implements OrderDao {
     }
 
     @Override
-    public List<OrderInf> getOrderInfList(int orderId) {
-        String path="http://ylnzk.cn:8002/blm/OrderInf/getOrderInfList?orderId="+orderId;
+    public List<OrderInformation> getOrderInformationList(int orderId) {
+        String path="http://ylnzk.cn:8002/blm/OrderInformation/getOrderInformationList?orderId="+orderId;
         String result= httpUtil.getHttpInterface(path);
-        List<OrderInf> response=JSON.parseArray(result,OrderInf.class);
+        List<OrderInformation> response=JSON.parseArray(result,OrderInformation.class);
         return  response;
+    }
+
+    @Override
+    public void addOrderInf(int orderId) {
+    }
+
+    @Override
+    public void updateOrderStatus(int orderId) {
+        String path="http://ylnzk.cn:8002/blm/Order/updateOrderStatus?orderId="+orderId;
+        httpUtil.getHttpInterface(path);
     }
 }

@@ -16,13 +16,14 @@ public interface OrderDao {
 
     OrderSum getOrderSumById(int orderId);
 
-    List<OrderInf> getOrderInfList(int orderId);
+    List<OrderInformation> getOrderInformationList(int orderId);
 
     //客户端发送先不写
 //    void addOrder(Orders orders);
 //    void addOrderInf(ArrayList<OrderInf> orderInf);
 
-    List<OrderInformation> addOrderInf(int orderId);
-    void  upDateOrderStatus(String status);
+    void addOrderInf(int orderId);
+
+    void updateOrderStatus(int orderId);
 
 }
