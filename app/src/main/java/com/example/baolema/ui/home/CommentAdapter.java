@@ -17,7 +17,7 @@ import com.example.baolema.customControl.CommentGridView;
 
 import java.util.ArrayList;
 
-public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class CommenterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -39,7 +39,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public CommentAdapter(Context context){
+    public CommenterAdapter(Context context){
         super();
         this.context=context;
     }

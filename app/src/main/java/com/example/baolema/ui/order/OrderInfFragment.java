@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class OrderInfFragment extends Fragment {
     private OrderSum orderSum;
     private List<Activity> activitys;
 
+    private Button shopEvaCommit;
     private OrderInfActivity orderInfActivity=(OrderInfActivity)getActivity();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -78,7 +80,7 @@ public class OrderInfFragment extends Fragment {
         order_comment=view.findViewById(R.id.order_comment);
         label_order_image=view.findViewById(R.id.label_order_image);
         order_image=view.findViewById(R.id.order_image);
-
+        shopEvaCommit=view.findViewById(R.id.shopEva_commit);
         recyclerOrderRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
         orderInfRecipes=new ArrayList<>();
         orderinfAdapter= new OrderInfAdapter(orderInfRecipes, getActivity());
@@ -95,7 +97,12 @@ public class OrderInfFragment extends Fragment {
                 ThreadgetActivity thread3=new ThreadgetActivity();
                     thread3.start();
                     thread3.join();
+                shopEvaCommit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                    }
+                });
             } catch (Exception e){
             }
         }
