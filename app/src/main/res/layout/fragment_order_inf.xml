@@ -285,15 +285,25 @@
                 />
             <ImageView
                 android:id="@+id/order_image"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="80sp"
+                android:layout_height="80sp"
                 android:layout_marginTop="10sp"
                 app:layout_constraintLeft_toLeftOf="@id/order_comment"
-                app:layout_constraintRight_toRightOf="@id/order_comment"
                 app:layout_constraintTop_toBottomOf="@id/order_comment"
                 android:visibility="gone"
                 >
             </ImageView>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/shopEva_commit"
+                android:text="提交评论"
+                android:layout_marginTop="10sp"
+                app:layout_constraintTop_toBottomOf="@id/order_image"
+                app:layout_constraintLeft_toLeftOf="@id/order_image"
+                android:visibility="gone"
+                >
+            </Button>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

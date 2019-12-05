@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -27,7 +30,9 @@ import com.example.baolema.bean.Activity;
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.bean.ShopEva;
 import com.example.baolema.controller.ActivityController;
+import com.example.baolema.controller.ShopController;
 import com.example.baolema.util.httpUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -63,7 +68,8 @@ public class ShopActivity extends AppCompatActivity {
     private TextView text_shop_location;
     private TextView shop_board;
     private RecyclerView shop_evaluate_recyclerview;
-
+    private List<ShopEva> shopEvas;
+    CommentAdapter commentAdapter;
 
     private TextView activityText;
 
@@ -126,36 +132,8 @@ public class ShopActivity extends AppCompatActivity {
         recipeRecycleView = findViewById(R.id.recipe_recycleview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recipeRecycleView.setLayoutManager(layoutManager);
-        //final RecipeAdapter recipeAdapter = new RecipeAdapter();
         recipeList = new ArrayList<>();
 
-//        recipeAdapter.OnRecycleItemClickListener(new RecipeAdapter.OnRecycleItemClickListener() {
-//            @Override
-//            public void OnRecycleItemClickListener(int position) {
-//                boolean isExist = true;
-//                for (int i = 0; i < shopCarAdapter.getShopCarRecipes().size(); i++)
-//                    if (recipeList.get(position).getRecipeName().equals(shopCarAdapter.getShopCarRecipes().get(i).getName())) {
-//                        int num = shopCarAdapter.getShopCarRecipes().get(i).getNum();
-//                        shopCarAdapter.getShopCarRecipes().get(i).setNum(++num);
-//                        isExist = false;
-//                        break;
-//                    }
-//                if (isExist) {
-//                    ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipeList.get(position).getRecipeName()
-//                            , recipeList.get(position).getRecipePrice(), 1);
-//                    shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
-//                }
-//                shopCarAdapter.notifyDataSetChanged();
-//                shopCarAdapter.resetMoney();
-//                shopCarAdapter.resetReduce(shopCarAdapter.getMoney());
-//                money.setText(String.valueOf(shopCarAdapter.getMoney()));
-//                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
-//            }
-//
-//        });
-
-        //recipeRecycleView.setAdapter(recipeAdapter);
-//        getShopRecipeListByHttp();
 
         labelView = findViewById(R.id.shopping_car_icon);
         labelView.setLabelMode(LabelView.LABEL_MODE_IMG);
@@ -179,6 +157,7 @@ public class ShopActivity extends AppCompatActivity {
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });
+
         //弹出购物车
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -195,6 +174,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
+
         //提交订单
         settlement_fee = findViewById(R.id.settlement_fee);
         settlement_fee.setOnClickListener(v -> {
@@ -249,6 +229,13 @@ public class ShopActivity extends AppCompatActivity {
         });
         for (Recipe r : recipeList)
             getRecipeByHttp(r.getRecipeId());
+
+        shop_evaluate_recyclerview=findViewById(R.id.shop_evaluate_recyclerview);
+        LinearLayoutManager ShopEvalayoutManager = new LinearLayoutManager(this);
+        shop_evaluate_recyclerview.setLayoutManager(ShopEvalayoutManager);
+        commentAdapter=new CommentAdapter(this);
+        shop_evaluate_recyclerview.setAdapter(commentAdapter);
+        //getShopEvaByHttp();
     }
 
 //    void getShopRecipeListByHttp() {
@@ -286,6 +273,16 @@ public class ShopActivity extends AppCompatActivity {
         }).start();
     }
 
+    void getShopEvaByHttp(){
+        new Thread(() -> {
+            shopEvas=new ShopController().getShopEva(shopId);
+            Log.d("shopEva",String.valueOf(shopId));
+            Message message = new Message();
+            message.what = 4;
+            handler.sendMessage(message);
+        }).start();
+    }
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -309,6 +306,11 @@ public class ShopActivity extends AppCompatActivity {
                     recipeAdapter.notifyDataSetChanged();
 
                     break;
+                case 4:
+                    commentAdapter.setShopEvaList(shopEvas);
+                    //Log.d("shopEva",String.valueOf(commentAdapter.getShopEvaList().size()));
+                    commentAdapter.notifyDataSetChanged();
+                    break;
                 default:
                     break;
             }
@@ -317,4 +319,62 @@ public class ShopActivity extends AppCompatActivity {
 
 }
 
+class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    private  List<ShopEva> shopEvaList;
+    private Context context;
+    static class CommentViewHolder extends RecyclerView.ViewHolder{
+        ImageView headImage;
+        TextView name;
+        TextView evaluate;
+        TextView date;
+        TextView content;
+        ImageView contentImage;
+        public CommentViewHolder(View view){
+            super(view);
+            headImage=view.findViewById(R.id.headImage);
+            name=view.findViewById(R.id.name);
+            evaluate=view.findViewById(R.id.evaluate);
+            date=view.findViewById(R.id.date);
+            content=view.findViewById(R.id.content);
+            contentImage=view.findViewById(R.id.contentImage);
+        }
+    }
+
+    public CommentAdapter(Context context){
+        this.context=context;
+        shopEvaList=new ArrayList<>();
+    }
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_comment,parent,false);
+        CommentViewHolder holder=new CommentViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ShopEva shopEva=shopEvaList.get(position);
+        CommentViewHolder mholder=(CommentViewHolder)holder;
+        mholder.headImage.setImageResource(R.drawable.ic_night_mode);
+        mholder.name.setText(shopEva.getUserName());
+        //mholder.evaluate.setText(shopEva.get);
+        mholder.content.setText(shopEva.getShopEvaluateContent());
+        //mholder.date.setText(shopEva.getD);
+        mholder.contentImage.setImageResource(R.drawable.ic_night_mode);
+    }
+
+    @Override
+    public int getItemCount() {
+        return shopEvaList.size();
+    }
+
+    public List<ShopEva> getShopEvaList() {
+        return shopEvaList;
+    }
+
+    public void setShopEvaList(List<ShopEva> shopEvaList) {
+        this.shopEvaList = shopEvaList;
+    }
+}
 
