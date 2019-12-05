@@ -229,9 +229,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="订单评价"
-                android:id="@+id/label_order_commit"
-                app:layout_constraintTop_toTopOf="@id/order_evaluate"
+                android:text="评价等级"
+                android:id="@+id/label_order_grade"
+                app:layout_constraintTop_toTopOf="@id/order_grade"
                 app:layout_constraintLeft_toLeftOf="@id/shop_icon"
                 android:layout_marginTop="10sp"
                 android:textSize="20sp"
@@ -240,18 +240,62 @@
 
             </TextView>
             <RatingBar
-                android:id="@+id/order_evaluate"
+                android:id="@+id/order_grade"
                 android:numStars="5"
                 android:rating = "0"
                 android:isIndicator="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/divide6"
-                app:layout_constraintLeft_toRightOf="@+id/label_order_commit"
+                app:layout_constraintTop_toBottomOf="@id/divide6"
+                app:layout_constraintLeft_toRightOf="@id/label_order_grade"
                 android:layout_marginTop="10sp"
                 android:layout_marginLeft="20sp"
                 android:visibility="gone"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评价内容"
+                android:id="@+id/label_order_comment"
+                app:layout_constraintTop_toTopOf="@id/order_comment"
+                app:layout_constraintLeft_toLeftOf="@id/label_order_grade"
+                android:textSize="20sp"
+                android:visibility="gone"
+                />
+            <EditText
+                android:id="@+id/order_comment"
+                android:textSize="20sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/order_grade"
+                app:layout_constraintRight_toRightOf="@id/order_grade"
+                app:layout_constraintTop_toBottomOf="@id/order_grade"
+                android:layout_marginTop="10sp"
+                android:hint="在此写入评价内容"
+                android:background="@null"
+                android:visibility="gone"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片"
+                android:id="@+id/label_order_image"
+                app:layout_constraintTop_toTopOf="@id/order_image"
+                app:layout_constraintLeft_toLeftOf="@id/label_order_comment"
+                android:textSize="20sp"
+                android:visibility="gone"
+                />
+            <ImageView
+                android:id="@+id/order_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                app:layout_constraintLeft_toLeftOf="@id/order_comment"
+                app:layout_constraintRight_toRightOf="@id/order_comment"
+                app:layout_constraintTop_toBottomOf="@id/order_comment"
+                android:visibility="gone"
+                >
+            </ImageView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

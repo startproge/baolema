@@ -39,20 +39,31 @@ public class OrderStatusFragment extends Fragment {
         finish=view.findViewById(R.id.finish);
 
         if(orderStatus!=null){
-            if(orderStatus.equals("完成")){
+            if(orderStatus.equals("自提")){
                 point3.setVisibility(View.VISIBLE);
                 shop_order_finish.setVisibility(View.VISIBLE);
                 divide3.setVisibility(View.VISIBLE);
+                finish.setVisibility(View.VISIBLE);
             }
-            else if(orderStatus.equals("待自提")){
+            else if(orderStatus.equals("完成")){
                 point3.setVisibility(View.VISIBLE);
                 shop_order_finish.setVisibility(View.VISIBLE);
                 divide3.setVisibility(View.VISIBLE);
                 point4.setVisibility(View.VISIBLE);
                 shop_order_over.setVisibility(View.VISIBLE);
-                finish.setVisibility(View.VISIBLE);
+                //finish.setVisibility(View.VISIBLE);
             }
         }
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                point4.setVisibility(View.VISIBLE);
+                shop_order_over.setVisibility(View.VISIBLE);
+                finish.setVisibility(View.GONE);
+            }
+        });
         return view;
     }
+
 }
