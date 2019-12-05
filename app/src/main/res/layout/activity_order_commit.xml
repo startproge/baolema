@@ -81,46 +81,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/raising_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20sp"
-        android:layout_marginTop="10sp"
-        android:text="自提时间"
-        android:textColor="@color/colorBlack"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personal_information"></TextView>
-
-    <TextView
-        android:id="@+id/estimated_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120sp"
-        android:text="预计时间"
-        android:textColor="@color/colorBlue"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toRightOf="@+id/raising_time"
-        app:layout_constraintTop_toTopOf="@+id/raising_time"></TextView>
-
-    <ImageView
-        android:id="@+id/ahead2"
-        android:layout_width="30sp"
-        android:layout_height="30sp"
-        android:layout_marginTop="5sp"
-        android:layout_marginRight="10sp"
-        android:background="@drawable/ic_ahead"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personal_information"></ImageView>
-
-    <ImageView
-        android:id="@+id/divide1"
-        android:layout_width="match_parent"
-        android:layout_height="0.5sp"
-        android:layout_marginTop="10sp"
-        android:background="@color/colorGray"
-        app:layout_constraintTop_toBottomOf="@+id/ahead2"></ImageView>
 
     <TextView
         android:id="@+id/pay_method"
@@ -154,7 +114,7 @@
         android:layout_marginRight="10sp"
         android:background="@drawable/ic_ahead"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divide1"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/personal_information"></ImageView>
 
     <ImageView
         android:id="@+id/divide2"

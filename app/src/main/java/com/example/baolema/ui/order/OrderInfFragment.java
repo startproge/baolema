@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +42,13 @@ public class OrderInfFragment extends Fragment {
     private TextView order_summary;
     private TextView order_reduce;
     private TextView order_money;
+
+    private TextView label_order_grade;
+    private RatingBar order_grade;
+    private TextView label_order_comment;
+    private TextView order_comment;
+    private TextView label_order_image;
+    private ImageView order_image;
     private OrderSum orderSum;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -48,6 +57,7 @@ public class OrderInfFragment extends Fragment {
         Bundle bundle= OrderInfFragment.this.getArguments();
         //orderId=bundle.getInt("orderId");
         recyclerOrderRecipe=view.findViewById(R.id.order_recipe_recycleview);
+
         shopName=view.findViewById(R.id.shop_name);
         orderNumber=view.findViewById(R.id.order_number);
         orderTimeDay=view.findViewById(R.id.order_time_day);
@@ -55,6 +65,14 @@ public class OrderInfFragment extends Fragment {
         order_summary=view.findViewById(R.id.total_money);
         order_reduce=view.findViewById(R.id.order_reduce);
         order_money=view.findViewById(R.id.total_paid_money);
+
+        label_order_grade=view.findViewById(R.id.label_order_grade);
+        order_grade=view.findViewById(R.id.order_grade);
+        label_order_comment=view.findViewById(R.id.label_order_comment);
+        order_comment=view.findViewById(R.id.order_comment);
+        label_order_image=view.findViewById(R.id.label_order_image);
+        order_image=view.findViewById(R.id.order_image);
+
         recyclerOrderRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
         orderRecipes=new ArrayList<>();
         orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
@@ -81,6 +99,14 @@ public class OrderInfFragment extends Fragment {
             order_summary.setText("总计￥"+String.valueOf(orderSum.getOrdersum()));
             order_reduce.setText("优惠￥"+String.valueOf(0));
             order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-0));
+            if(orderSum.getOrderStatus().equals("完成")){
+                label_order_grade.setVisibility(View.VISIBLE);
+                order_grade.setVisibility(View.VISIBLE);
+                label_order_comment.setVisibility(View.VISIBLE);
+                order_comment.setVisibility(View.VISIBLE);
+                label_order_image.setVisibility(View.VISIBLE);
+                order_image.setVisibility(View.VISIBLE);
+            }
         }
         return view;
     }
