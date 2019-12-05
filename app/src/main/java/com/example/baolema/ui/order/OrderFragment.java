@@ -1,9 +1,11 @@
 package com.example.baolema.ui.order;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,21 +21,30 @@ import com.alibaba.fastjson.JSON;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderSum;
+import com.example.baolema.bean.Shop;
 import com.example.baolema.controller.OrderController;
 import com.example.baolema.util.httpUtil;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class OrderFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
     private OrderViewModel orderViewModel;
     private RecyclerView recyclerView;
-    private int userId = 1;
     private List<OrderSum> ordersSumList;
+    private List<OrderSum> ordersSumStartList;
+    private List<OrderSum> ordersSumFinishList;
+    private Set<Integer> shopIdSet;
     private OrderMainAdapter orderMainAdapter;
+    private SharedPreferences pref;
 
     private Handler handler = new Handler() {
         @Override
@@ -67,7 +78,9 @@ public class OrderFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.resetTitle("我的订单");
 
+        pref = mainActivity.getSharedPreferences("user", MODE_PRIVATE);
         ordersSumList = new ArrayList<>();
+        shopIdSet = new TreeSet<>();
 
         recyclerView = root.findViewById(R.id.recycler_order_main);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -79,8 +92,19 @@ public class OrderFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ordersSumList.clear();
+        shopIdSet.clear();
         Thread thread = new Thread(() -> {
-            ordersSumList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/OrderSum/getOrderSumList?userId="+userId), OrderSum.class);
+            ordersSumList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/OrderSum/getOrderSumList?userId=" + pref.getInt("userId", -1)), OrderSum.class);
+            ordersSumStartList = new ArrayList<>();
+            ordersSumFinishList = new ArrayList<>();
+            Collections.reverse(ordersSumList);
+            for (int i = 0; i < ordersSumList.size(); i++) {
+                if (ordersSumList.get(i).getOrderStatus().equals("下单"))
+                    ordersSumStartList.add(ordersSumList.get(i));
+                else
+                    ordersSumFinishList.add(ordersSumList.get(i));
+            }
+            ordersSumList = ordersSumStartList;
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
@@ -92,18 +116,39 @@ public class OrderFragment extends Fragment {
             e.printStackTrace();
         }
         for (OrderSum o : ordersSumList)
-            getOrderSumByHttp(o.getOrderId());
+            shopIdSet.add(o.getShopId());
+        for (Integer i : shopIdSet)
+            getShopByHttp(i);
+
+        Set<Integer> shopIdSet2 = new TreeSet<>();
+        ordersSumList.addAll(ordersSumFinishList);
+        for (OrderSum o : ordersSumList)
+            shopIdSet2.add(o.getShopId());
+        for (Integer i : shopIdSet2)
+            getShopByHttp(i);
     }
 
-    void getOrderSumByHttp(int id) {
+    void getShopByHttp(final int id) {
         new Thread(() -> {
-            OrderSum orderSum = new OrderController().getOrderSumById(id);
-            for (int i = 0; i < ordersSumList.size(); i++)
-                if (ordersSumList.get(i).getOrderId() == id)
-                    ordersSumList.get(i).setShopTrademark(orderSum.getShopTrademark());
+            Shop shop = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopById?shopId=" + id), Shop.class);
+            for (int i = 0; i < ordersSumList.size(); i++) {
+                if (ordersSumList.get(i).getShopId() == id)
+                    ordersSumList.get(i).setShopTrademark(shop.getShopTrademark());
+            }
             Message message = new Message();
             message.what = 2;
             handler.sendMessage(message);
         }).start();
     }
+//    void getOrderSumByHttp(int id) {
+//        new Thread(() -> {
+//            OrderSum orderSum = new OrderController().getOrderSumById(id);
+//            for (int i = 0; i < ordersSumList.size(); i++)
+//                if (ordersSumList.get(i).getShopId().equals(orderSum.getShopId()))
+//                    ordersSumList.get(i).setShopTrademark(orderSum.getShopTrademark());
+//            Message message = new Message();
+//            message.what = 2;
+//            handler.sendMessage(message);
+//        }).start();
+//    }
 }

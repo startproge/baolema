@@ -1,5 +1,6 @@
 package com.example.baolema.ui.mine;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -26,7 +27,6 @@ import com.example.baolema.util.httpUtil;
 
 public class MineFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
-    private int userId = 1;
     private User user;
     private TextView textViewUserName;
     private ImageView imageViewAccountIcon;
@@ -40,10 +40,10 @@ public class MineFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_mine, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.resetTitle("我的");
+        pref = mainActivity.getSharedPreferences("user", Context.MODE_PRIVATE);
+
         textViewUserName = root.findViewById(R.id.text_user_name);
         imageViewAccountIcon = root.findViewById(R.id.image_mine_account);
-
-        getUserByHttp();
 
 //        final TextView textView = root.findViewById(R.id.text_dashboard);
 //        mineViewModel.getText().observe(this, new Observer<String>() {
@@ -52,9 +52,13 @@ public class MineFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
-
-
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserByHttp();
     }
 
     private Handler handler = new Handler() {
@@ -74,7 +78,7 @@ public class MineFragment extends Fragment {
 
     void getUserByHttp() {
         new Thread(() -> {
-            user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId=1"), User.class);
+            user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId="+pref.getInt("userId",-1)), User.class);
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnClickListener {
-    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
+    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private List<OrderSum> orderList;
     private OrderMainAdapter.OnRecycleItemClickListener onRecycleItemClickListener = null;
 
@@ -73,8 +73,19 @@ public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnCli
             orderMainViewHolder.orderSumPrice.setText(String.valueOf(orderList.get(position).getOrdersum()));
         if (orderList.get(position).getShopTrademark() != null && orderList.get(position).getShopTrademark().length > 0)
             orderMainViewHolder.imageShop.setImageBitmap(BitmapFactory.decodeByteArray(orderList.get(position).getShopTrademark(), 0, orderList.get(position).getShopTrademark().length));
-        if (orderList.get(position).getOrderStartTime() != null)
-            orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderStartTime()));
+        if (orderList.get(position).getOrderStatus().equals("下单")) {
+            if (orderList.get(position).getOrderStartTime() != null)
+                orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderStartTime()));
+            else
+                orderMainViewHolder.orderTime.setText("订单数据错误");
+        } else if (orderList.get(position).getOrderStatus().equals("完成")) {
+            if (orderList.get(position).getOrderFinishTime() != null)
+                orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderFinishTime()));
+            else
+                orderMainViewHolder.orderTime.setText("订单数据错误");
+        } else
+            Log.e("订单状态有问题", "onBindViewHolder: ");
+
         orderMainViewHolder.itemView.setTag(position);
 
     }
@@ -82,6 +93,11 @@ public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnCli
     public interface OnRecycleItemClickListener {
         void OnRecycleItemClickListener(View view, int position);
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public void OnRecycleItemClickListener(OrderMainAdapter.OnRecycleItemClickListener v) {
