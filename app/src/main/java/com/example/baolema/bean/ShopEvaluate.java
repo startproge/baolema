@@ -9,7 +9,7 @@ public class ShopEvaluate {
     private double shopGrade;
     private int userId;
     private String shopEvaluateContent;
-    private List<String> shopEvaluateImage;
+    private byte shopEvaluateImage;
 
     public int getShopEvaluateId() {
         return shopEvaluateId;
@@ -59,11 +59,11 @@ public class ShopEvaluate {
         this.shopEvaluateContent = shopEvaluateContent;
     }
 
-    public List<String> getShopEvaluateImage() {
+    public byte getShopEvaluateImage() {
         return shopEvaluateImage;
     }
 
-    public void setShopEvaluateImage(List<String> shopEvaluateImage) {
+    public void setShopEvaluateImage(byte shopEvaluateImage) {
         this.shopEvaluateImage = shopEvaluateImage;
     }
 }

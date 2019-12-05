@@ -1,6 +1,7 @@
 package com.example.baolema.DAO;
 
 import com.example.baolema.bean.OrderInf;
+import com.example.baolema.bean.OrderInformation;
 import com.example.baolema.bean.OrderSum;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface OrderDao {
     //客户端发送先不写
 //    void addOrder(Orders orders);
 //    void addOrderInf(ArrayList<OrderInf> orderInf);
+
+    List<OrderInformation> addOrderInf(int orderId);
+    void  upDateOrderStatus(String status);
+
 }
