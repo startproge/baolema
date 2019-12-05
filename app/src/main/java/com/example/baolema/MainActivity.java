@@ -1,10 +1,12 @@
 package com.example.baolema;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.baolema.ui.home.LocationActivity;
+import com.example.baolema.ui.mine.LoginActivity;
 import com.example.baolema.ui.mine.MinePhoneActivity;
 import com.example.baolema.ui.mine.SettingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+        if (pref.getInt("userId", -1) == -1) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
         toolbar = findViewById(R.id.tool_bar_main);
         resetTitle("");
         setSupportActionBar(toolbar);
@@ -73,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.constraint_mine_tel:
                 intent = new Intent(MainActivity.this, MinePhoneActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.image_mine_account:
+                intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }

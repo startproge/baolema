@@ -21,6 +21,7 @@
             app:title="设置"
             app:titleTextColor="@color/colorWhite" />
     </com.google.android.material.appbar.AppBarLayout>
+
     <ImageView
         android:id="@+id/image_shake"
         android:layout_width="wrap_content"
@@ -87,4 +88,31 @@
         app:layout_constraintBottom_toBottomOf="@id/image_night_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switch_shake" />
+
+    <ImageView
+        android:id="@+id/image_setting_logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baolema"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/text_logo" />
+
+    <TextView
+        android:id="@+id/text_logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="饱了就上\n饱了嘛~"
+        android:textColor="@color/colorOrange"
+        android:textSize="25sp"
+        android:textStyle="italic|bold"
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/image_setting_logo"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image_setting_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

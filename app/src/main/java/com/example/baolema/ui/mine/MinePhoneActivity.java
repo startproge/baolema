@@ -31,29 +31,21 @@ public class MinePhoneActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_phone);
 
-        edt_phone = findViewById(R.id.edt_setting_phone);
         pref = getSharedPreferences("user", MODE_PRIVATE);
+        edt_phone = findViewById(R.id.edt_setting_phone);
         edt_phone.setText(pref.getString("phone", ""));
 
         bt_change_tel = findViewById(R.id.bt_change_tel);
 
-        bt_change_tel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("phone", edt_phone.getText().toString());
-                editor.apply();
-            }
+        bt_change_tel.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("phone", edt_phone.getText().toString());
+            editor.apply();
         });
 
         getUserByHttp();
         Toolbar toolbar = findViewById(R.id.tool_bar_phone);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private Handler handler = new Handler() {
@@ -70,14 +62,11 @@ public class MinePhoneActivity extends AppCompatActivity {
     };
 
     void getUserByHttp() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId=1"), User.class);
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
-            }
+        new Thread(() -> {
+            user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId=" + pref.getInt("userId", -1)), User.class);
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
         }).start();
     }
 }

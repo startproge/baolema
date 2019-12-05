@@ -16,11 +16,6 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mine_setting);
 
         Toolbar toolbar = findViewById(R.id.tool_bar_setting);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 }
