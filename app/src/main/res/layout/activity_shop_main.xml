@@ -50,7 +50,7 @@
             android:layout_marginTop="5sp"
             android:layout_marginBottom="5sp"
             android:gravity="center"
-            android:text="满21减21；满50减35；满100减60"
+            android:text=""
             android:textColor="@color/colorGray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/preferential_image"
@@ -156,7 +156,10 @@
                                 android:layout_height="20sp"
                                 android:layout_marginTop="10sp"
                                 app:layout_constraintLeft_toLeftOf="@+id/icon_shop_phone"
-                                app:layout_constraintTop_toBottomOf="@+id/split1"></ImageView>
+                                app:layout_constraintTop_toBottomOf="@+id/split1"
+                                android:background="@drawable/ic_locate"
+                                >
+                            </ImageView>
 
                             <TextView
                                 android:id="@+id/text_shop_location"

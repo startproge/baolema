@@ -88,10 +88,11 @@ public class HomeFragment extends Fragment {
                         .show();
             } else {
                 Intent intent = new Intent(getActivity(), ShopActivity.class);
-                int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
+                /*int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
                 String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();
                 intent.putExtra("shopId", shopId);
-                intent.putExtra("shopName", shopName);
+                intent.putExtra("shopName", shopName);*/
+                intent.putExtra("shop",homeRecyclerAdapter.getShopList().get(position));
                 startActivity(intent);
             }
         });

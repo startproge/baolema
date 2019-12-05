@@ -40,9 +40,10 @@ public class OrderCommitActivity extends AppCompatActivity {
     private ArrayList<OrderInf> orderInfs;
     private int orderId;
     private int shopId;
+    private double reduce;
     private Button orderCommit;
     private TextView summary;
-    private TextView reduce;
+    private TextView reduceTextView;
     private TextView total_money;
     private TextView finally_paid;
     private TextView finally_reduce;
@@ -56,6 +57,7 @@ public class OrderCommitActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         shopId=intent.getIntExtra("shopId",0);
+        reduce=intent.getDoubleExtra("reduce",-1);
         Bundle args = intent.getBundleExtra("ShopCarToOrderCommit");
         shopCarRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("ShopCarRecipes");
         orderRecipesRecycleView = findViewById(R.id.recipe_recycleview);
@@ -65,17 +67,16 @@ public class OrderCommitActivity extends AppCompatActivity {
         orderCommitAdapter.resetMoney();
         orderRecipesRecycleView.setAdapter(orderCommitAdapter);
         summary=findViewById(R.id.total_money);
-        reduce=findViewById(R.id.reduce_money);
+        reduceTextView=findViewById(R.id.reduce_money);
         total_money=findViewById(R.id.total_paid_money);
         finally_paid=findViewById(R.id.finally_pay_money);
         finally_reduce=findViewById(R.id.finally_reduce_money);
         orderCommitAdapter.resetMoney();
-        orderCommitAdapter.resetReduce(orderCommitAdapter.getMoney());
         summary.setText("总计￥"+String.valueOf(orderCommitAdapter.getMoney()));
-        reduce.setText("优惠￥"+String.valueOf(orderCommitAdapter.getReduce()));
-        total_money.setText(String.valueOf(orderCommitAdapter.getMoney()-orderCommitAdapter.getReduce()));
+        reduceTextView.setText("优惠￥"+String.valueOf(reduce));
+        total_money.setText(String.valueOf(orderCommitAdapter.getMoney()-reduce));
         finally_paid.setText(total_money.getText());
-        finally_reduce.setText(reduce.getText());
+        finally_reduce.setText(String.valueOf(reduce));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +107,7 @@ public class OrderCommitActivity extends AppCompatActivity {
                     }
                     ThreadgetOrderSum thread3=new ThreadgetOrderSum();
                     thread3.start();
+                    thread3.join();
                 }catch (Exception e){
 
                 }
@@ -125,15 +127,16 @@ public class OrderCommitActivity extends AppCompatActivity {
                 case 1:
                     Log.d("addOrders", "handleMessage: " );
                     break;
-                case 2:
-                    Log.d("getOrderSum", "handleMessage: " );
-                    break;
-                    //finish();
                 case 3:
-                    Log.d("case3", "handleMessage: " );
+                    Log.d("getOrderSum", "handleMessage: " );
                     Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
                     intent.putExtra("orderSum", orderSum);
                     startActivity(intent);
+                    break;
+                    //finish();
+                case 2:
+                    Log.d("case3", "handleMessage: " );
+
                     break;
                 default:
                     break;
@@ -184,42 +187,12 @@ public class OrderCommitActivity extends AppCompatActivity {
 
 
     }
-//    void addOrderByHttp(Orders orders) {
-//        new Thread(() -> {
-//            orderId= JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/addOrders?shopId=" + shopId
-//                            +"&userId=1"+"&orderRemark="+"abc"), Integer.class);
-//            for(int i=0;i<shopCarRecipes.size();i++){
-//                OrderInf orderInf=new OrderInf();
-//                orderInf.setListId(i+1);
-//                orderInf.setOrderRecipeNumber(shopCarRecipes.get(i).getNum());
-//                orderInf.setRecipeId(shopCarRecipes.get(i).getRecipeId());
-//                orderInf.setOrdersId(orderId);
-//                orderInfs.add(orderInf);
-//            }
-//            Message message = new Message();
-//            message.what = 1;
-//            handler.sendMessage(message);
-//            //addOrderInf(orderInfs);*/
-//
-//        }).start();
-//    }
-
-//    void getOrderSumByHttp() {
-//        new Thread(() -> {
-//            orderSum=new OrderController().getOrderSumById(orderId);
-//            Message message = new Message();
-//            message.what = 2;
-//            handler.sendMessage(message);
-//        }).start();
-//
-//    }
 }
 
 class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ShopCarRecipe> shopCarRecipes;
     private Context context;
     private Double money;
-    private Double reduce;
 
     static class ShopCarViewHolder extends RecyclerView.ViewHolder{
         TextView name;
@@ -278,11 +251,4 @@ class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.money+=shopCarRecipes.get(i).getMoney()*shopCarRecipes.get(i).getNum();
     }
 
-    public Double getReduce() {
-        return reduce;
-    }
-
-    public void resetReduce(Double money) {
-        this.reduce = 0.0;
-    }
 }

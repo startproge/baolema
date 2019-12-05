@@ -2,7 +2,7 @@ package com.example.baolema.bean;
 
 public class Activity {
     private int activityId;
-    private Shop shop;
+    private int shopId;
     private double fullMoney;
     private double reduceMoney;
 
@@ -14,12 +14,12 @@ public class Activity {
         this.activityId = activityId;
     }
 
-    public Shop getShop() {
-        return shop;
+    public int getShop() {
+        return shopId;
     }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
+    public void setShop(int shopId) {
+        this.shopId = shopId;
     }
 
     public double getFullMoney() {

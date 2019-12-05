@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,9 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.R;
+import com.example.baolema.bean.Activity;
 import com.example.baolema.bean.OrderInf;
+import com.example.baolema.bean.OrderInformation;
 import com.example.baolema.bean.OrderSum;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.controller.ActivityController;
+import com.example.baolema.controller.OrderController;
 import com.example.baolema.util.httpUtil;
 
 import java.util.ArrayList;
@@ -32,9 +37,8 @@ public class OrderInfFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView recyclerOrderRecipe;
     private int orderId;
-    private List<ShopCarRecipe> orderRecipes;
     private OrderInfAdapter orderinfAdapter;
-    private List<OrderInf> orderInfRecipes;
+    private List<OrderInformation> orderInfRecipes;
     private TextView shopName;
     private TextView orderNumber;
     private TextView orderTimeDay;
@@ -50,6 +54,9 @@ public class OrderInfFragment extends Fragment {
     private TextView label_order_image;
     private ImageView order_image;
     private OrderSum orderSum;
+    private List<Activity> activitys;
+
+    private OrderInfActivity orderInfActivity=(OrderInfActivity)getActivity();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +64,6 @@ public class OrderInfFragment extends Fragment {
         Bundle bundle= OrderInfFragment.this.getArguments();
         //orderId=bundle.getInt("orderId");
         recyclerOrderRecipe=view.findViewById(R.id.order_recipe_recycleview);
-
         shopName=view.findViewById(R.id.shop_name);
         orderNumber=view.findViewById(R.id.order_number);
         orderTimeDay=view.findViewById(R.id.order_time_day);
@@ -74,72 +80,127 @@ public class OrderInfFragment extends Fragment {
         order_image=view.findViewById(R.id.order_image);
 
         recyclerOrderRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
-        orderRecipes=new ArrayList<>();
-        orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
+        orderInfRecipes=new ArrayList<>();
+        orderinfAdapter= new OrderInfAdapter(orderInfRecipes, getActivity());
+        recyclerOrderRecipe.setAdapter(orderinfAdapter);
+        orderId=(int) bundle.getInt("orderId");
+        if(orderId!=0){
+            try {
+                ThreadgetOrderSum thread1 =new ThreadgetOrderSum();
+                    thread1.start();
+                    thread1.join();
+                ThreadgetOrderInf thread2 = new ThreadgetOrderInf();
+                    thread2.start();
+                    thread2.join();
+                ThreadgetActivity thread3=new ThreadgetActivity();
+                    thread3.start();
+                    thread3.join();
 
-        orderSum=(OrderSum)bundle.getSerializable("orderSum");
-        /*if(orderId==0){
-            orderRecipes = (ArrayList<ShopCarRecipe>) bundle.getSerializable("orderRecipes");
-            orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
-            recyclerOrderRecipe.setAdapter(orderinfAdapter);
-            order_summary.setText("总计￥"+String.valueOf(orderinfAdapter.getMoney()));
-            order_reduce.setText("优惠￥"+String.valueOf(orderinfAdapter.getReduce()));
-            order_money.setText("实付￥"+String.valueOf(orderinfAdapter.getMoney()-orderinfAdapter.getReduce()));
-        } else{
-            orderSum=(OrderSum)bundle.getSerializable("orderSum");
-            shopName.setText( orderSum.getShopName());
-            orderNumber.setText(orderSum.getTemporaryId());
-            orderRecipes=new ArrayList<ShopCarRecipe>();
-            getOrderInfRecipeListByHttp();
-        }*/
-        if(orderSum!=null){
-            orderId=orderSum.getOrderId();
-            shopName.setText(orderSum.getShopName());
-            orderNumber.setText(String.valueOf(orderSum.getTemporaryId()));
-            order_summary.setText("总计￥"+String.valueOf(orderSum.getOrdersum()));
-            order_reduce.setText("优惠￥"+String.valueOf(0));
-            order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-0));
-            if(orderSum.getOrderStatus().equals("完成")){
-                label_order_grade.setVisibility(View.VISIBLE);
-                order_grade.setVisibility(View.VISIBLE);
-                label_order_comment.setVisibility(View.VISIBLE);
-                order_comment.setVisibility(View.VISIBLE);
-                label_order_image.setVisibility(View.VISIBLE);
-                order_image.setVisibility(View.VISIBLE);
+            } catch (Exception e){
             }
         }
         return view;
     }
 
-    void getOrderInfByHttp() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                orderInfRecipes = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInf/getOrderInfList?orderId=" + orderId),
-                        new TypeReference<List<OrderInf>>() {
-                        });
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
-                //Log.e("ShopActivity", String.valueOf(recipes.size()));
+    private class  ThreadgetOrderSum extends Thread{
+        @Override
+        public void run() {
+            Log.d("orderSumId",String.valueOf(orderId));
+            orderSum=new OrderController().getOrderSumById(orderId);
+            if(orderSum!=null)
+            Log.d("CommitStatus",String.valueOf(1));
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+        }
 
-            }
-        }).start();
     }
+
+
+    private class  ThreadgetOrderInf extends Thread {
+        @Override
+        public void run() {
+            Log.d("orderInfId",String.valueOf(orderSum.getOrderId()));
+            orderInfRecipes=new OrderController().getOrderInformationList(orderSum.getOrderId());
+            Message message = new Message();
+            message.what = 2;
+            handler.sendMessage(message);
+        }
+    }
+
+
+    private class  ThreadgetActivity extends Thread {
+        @Override
+        public void run() {
+
+            activitys=new ActivityController().getActivitiesByShopId(orderSum.getShopId());
+            Message message = new Message();
+            message.what = 3;
+            handler.sendMessage(message);
+        }
+    }
+
+//    void getOrderInfByHttp() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                /*orderInfRecipes = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInformation/getOrderInformationList?orderId=" + orderId),
+//                        new TypeReference<List<OrderInformation>>() {
+//                        });*/
+//                orderInfRecipes=new OrderController().getOrderInformationList(orderSum.getOrderId());
+//                //Log.d("orderInfRecipes",String.valueOf(orderInfRecipes.size()));
+//                Message message = new Message();
+//                message.what = 1;
+//                handler.sendMessage(message);
+//                //Log.e("ShopActivity", String.valueOf(recipes.size()));
+//
+//            }
+//        }).start();
+//    }
+
+
+//    void getActivityByHttp() {
+//        new Thread(() -> {
+//            activitys=new ActivityController().getActivitiesByShopId(orderSum.getShopId());
+//            Message message = new Message();
+//            message.what = 2;
+//            handler.sendMessage(message);
+//        }).start();
+//    }
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    for(int i=0;i<orderInfRecipes.size();i++){
-                        OrderInf orderInf=orderInfRecipes.get(i);
-                        //orderRecipes.add(new ShopCarRecipe());
-                    }
-                    Log.d("orderInf",String.valueOf(orderRecipes.size()));
-                    //orderinfAdapter= new OrderInfAdapter(orderRecipes, getActivity());
-                    //orderinfAdapter.getRecipes().add();
+                    Log.d("getOrderSum", "handleMessage: " );
+                    break;
+                case 2:
+                    Log.d("getOrderInf", "handleMessage: " );
+                    break;
+                case 3:
+                    shopName.setText(orderSum.getShopName());
+                    orderNumber.setText(String.valueOf(orderSum.getTemporaryId()));
+
+                    orderinfAdapter.setOrderRecipes(orderInfRecipes);
+                    orderinfAdapter.setMoney(orderSum.getOrdersum());
+                    //Log.d("orderInfRecipes",orderinfAdapter.getOrderRecipes().get(2).getRecipeName());
                     orderinfAdapter.notifyDataSetChanged();
+
+                    orderinfAdapter.setActivities(activitys);
+                    orderinfAdapter.resetReduce();
+                    orderinfAdapter.notifyDataSetChanged();
+                    order_summary.setText("总价￥"+String.valueOf(orderSum.getOrdersum()));
+                    order_reduce.setText("优惠￥"+String.valueOf(orderinfAdapter.getReduce()));
+                    order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-orderinfAdapter.getReduce()));
+                    if(orderSum.getOrderStatus().equals("完成")){
+                        label_order_grade.setVisibility(View.VISIBLE);
+                        order_grade.setVisibility(View.VISIBLE);
+                        label_order_comment.setVisibility(View.VISIBLE);
+                        order_comment.setVisibility(View.VISIBLE);
+                        label_order_image.setVisibility(View.VISIBLE);
+                        order_image.setVisibility(View.VISIBLE);
+                    }
                     break;
                 default:
                     break;
@@ -148,11 +209,15 @@ public class OrderInfFragment extends Fragment {
     };
 }
 
+
+
 class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<ShopCarRecipe> shopCarRecipes;
+    private List<OrderInformation> orderInfRecipes;
     private Context context;
     private Double money;
     private Double reduce;
+    private List<Activity> activities;
+
 
     static class OrderInfViewHolder extends RecyclerView.ViewHolder{
         TextView name;
@@ -167,14 +232,13 @@ class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public OrderInfAdapter (List<ShopCarRecipe> arrayList, Context context){
+    public OrderInfAdapter (List<OrderInformation> arrayList, Context context){
         if(arrayList.size()==0)
-            shopCarRecipes=new ArrayList<>();
+            orderInfRecipes=new ArrayList<>();
         else
-            shopCarRecipes=arrayList;
+            orderInfRecipes=arrayList;
         this.context=context;
-        resetMoney();
-        resetReduce(money);
+        activities=new ArrayList<>();
     }
 
     @Override
@@ -187,41 +251,54 @@ class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         OrderInfViewHolder mholder=(OrderInfViewHolder) holder;
-        final ShopCarRecipe shopCarRecipe=shopCarRecipes.get(position);
-        mholder.name.setText( shopCarRecipe.getName());
-        mholder.money.setText("￥"+(shopCarRecipe.getMoney()*shopCarRecipe.getNum()));
-        mholder.num.setText("*"+Integer.toString(shopCarRecipe.getNum()));
+        final OrderInformation orderInfRecipe=orderInfRecipes.get(position);
+        mholder.name.setText( orderInfRecipe.getRecipeName());
+        mholder.money.setText("￥"+(orderInfRecipe.getRecipePrice()*orderInfRecipe.getOrderRecipeNumber()));
+        mholder.num.setText("*"+Integer.toString(orderInfRecipe.getOrderRecipeNumber()));
 
     }
 
     @Override
     public int getItemCount() {
-        return shopCarRecipes.size();
+        return orderInfRecipes.size();
     }
 
-    public List<ShopCarRecipe> getRecipes(){
-        return this.shopCarRecipes;
+    public List<OrderInformation> getOrderRecipes(){
+        return this.orderInfRecipes;
     }
 
-    public void setShopCarRecipes(List<ShopCarRecipe> shopCarRecipes) {
-        this.shopCarRecipes = shopCarRecipes;
+    public void setOrderRecipes(List<OrderInformation> shopCarRecipes) {
+        this.orderInfRecipes = shopCarRecipes;
     }
 
     public Double getMoney() {
         return money;
     }
 
-    public void resetMoney(){
-        this.money=0.0;
-        for(int i=0;i<shopCarRecipes.size();i++)
-            this.money+=shopCarRecipes.get(i).getMoney()*shopCarRecipes.get(i).getNum();
+    public void setMoney(Double money) {
+        this.money = money;
     }
 
     public Double getReduce() {
         return reduce;
     }
 
-    public void resetReduce(Double money) {
+    public void resetReduce() {
         this.reduce = 0.0;
+        //Log.d("activities.size",String.valueOf(activities.get(0).getFullMoney()));
+        for(int i=0;i<activities.size();i++){
+            if(this.money>activities.get(i).getFullMoney()&&this.reduce<activities.get(i).getReduceMoney())
+                this.reduce=activities.get(i).getReduceMoney();
+            Log.d("thissize",String.valueOf( this.money));
+        }
+
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 }

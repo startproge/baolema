@@ -23,8 +23,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.MainActivity;
 import com.example.baolema.R;
+import com.example.baolema.bean.Activity;
 import com.example.baolema.bean.Recipe;
+import com.example.baolema.bean.Shop;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.controller.ActivityController;
 import com.example.baolema.util.httpUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -38,6 +41,7 @@ import im.unicolas.trollbadgeview.LabelView;
 import static com.example.baolema.ui.home.RecipeAdapter.*;
 
 public class ShopActivity extends AppCompatActivity {
+    private Shop shop;
     private int shopId;
     private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView recipeRecycleView;
@@ -52,6 +56,16 @@ public class ShopActivity extends AppCompatActivity {
     private LabelView labelView;
     private TextView money;
     private TextView reduce;
+    private Button clear_shopping_car;
+    private List<Activity> activitys;
+
+    private TextView text_shop_phone;
+    private TextView text_shop_location;
+    private TextView shop_board;
+    private RecyclerView shop_evaluate_recyclerview;
+
+
+    private TextView activityText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +74,26 @@ public class ShopActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
         money=findViewById(R.id.order_money);
         reduce=findViewById(R.id.reduce_money);
-        Intent intent = getIntent();
-        toolbar.setTitle(intent.getStringExtra("shopName"));
-        shopId = intent.getIntExtra("shopId", 0);
+        clear_shopping_car=findViewById(R.id.clear_shopping_car);
+        activityText=findViewById(R.id.preferential_text);
+
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
+
+        text_shop_phone=findViewById(R.id.text_shop_phone);
+        text_shop_location=findViewById(R.id.text_shop_location);
+        shop_board=findViewById(R.id.shop_board);
+        Intent intent = getIntent();
+        shop = (Shop) intent.getSerializableExtra("shop");
+        if(shop!=null) {
+            toolbar.setTitle(shop.getShopName());
+            shopId = shop.getShopId();
+            text_shop_phone.setText(shop.getShopTel());
+            text_shop_location.setText(shop.getShopAddress());
+            shop_board.setText(shop.getShopNotice());
+        }
         //getShopRecipeListByHttp();
         //购物车RecycleView
         mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
@@ -79,6 +106,20 @@ public class ShopActivity extends AppCompatActivity {
             shopCarAdapter.notifyDataSetChanged();
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
             reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+        });
+
+        getActivityByHttp();
+
+        clear_shopping_car.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopCarAdapter.getShopCarRecipes().clear();
+                shopCarAdapter.resetMoney();
+                shopCarAdapter.resetReduce();
+                shopCarAdapter.notifyDataSetChanged();
+                money.setText(String.valueOf(shopCarAdapter.getMoney()));
+                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+            }
         });
 
         //商家菜单RecycleView
@@ -162,6 +203,7 @@ public class ShopActivity extends AppCompatActivity {
             args.putSerializable("ShopCarRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
             intent1.putExtra("ShopCarToOrderCommit", args);
             intent1.putExtra("shopId", shopId);
+            intent1.putExtra("reduce", shopCarAdapter.getReduce());
             startActivity(intent1);
         });
 
@@ -201,7 +243,7 @@ public class ShopActivity extends AppCompatActivity {
             }
             shopCarAdapter.notifyDataSetChanged();
             shopCarAdapter.resetMoney();
-            shopCarAdapter.resetReduce(shopCarAdapter.getMoney());
+            shopCarAdapter.resetReduce();
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
             reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
         });
@@ -235,6 +277,15 @@ public class ShopActivity extends AppCompatActivity {
         }).start();
     }
 
+    void getActivityByHttp() {
+        new Thread(() -> {
+            activitys=new ActivityController().getActivitiesByShopId(shopId);
+            Message message = new Message();
+            message.what = 3;
+            handler.sendMessage(message);
+        }).start();
+    }
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -243,6 +294,20 @@ public class ShopActivity extends AppCompatActivity {
                     break;
                 case 2:
                     recipeAdapter.notifyDataSetChanged();
+                    break;
+                case 3:
+                    Log.d("ActivitySize",String.valueOf(activitys.size()));
+                    String text="";
+                    for(int i=0;i<activitys.size();i++){
+                        text+="满"+activitys.get(i).getFullMoney()+"减"+activitys.get(i).getReduceMoney();
+                        //shopCarAdapter.getActivities().add(activitys.get(i));
+                    }
+                    activityText.setText(text);
+                    shopCarAdapter.setActivities(activitys);
+                    shopCarAdapter.resetMoney();
+                    shopCarAdapter.resetReduce();
+                    recipeAdapter.notifyDataSetChanged();
+
                     break;
                 default:
                     break;

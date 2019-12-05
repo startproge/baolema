@@ -1,22 +1,27 @@
 package com.example.baolema.ui.home;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baolema.R;
+import com.example.baolema.bean.Activity;
 import com.example.baolema.bean.ShopCarRecipe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnRecycleItemClickListener onRecycleItemClickListener=null;
     private ArrayList<ShopCarRecipe> shopCarRecipes;
+    private List<Activity> activities;
     private Context context;
     private Double money;
     private Double reduce;
@@ -42,6 +47,7 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
             shopCarRecipes=new ArrayList<>();
         else
             shopCarRecipes=arrayList;
+        activities=new ArrayList<>();
         this.context=context;
     }
 
@@ -65,7 +71,7 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 int num=shopCarRecipe.getNum()+1;
                 shopCarRecipe.setNum(num++);
                 resetMoney();
-                resetReduce(money);
+                resetReduce();
                 //notifyDataSetChanged();
                 if(onRecycleItemClickListener!=null)
                     onRecycleItemClickListener.OnRecycleItemClickListener(position);
@@ -80,7 +86,7 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 else
                    shopCarRecipe.setNum(num);
                 resetMoney();
-                resetReduce(money);
+                resetReduce();
                 if(onRecycleItemClickListener!=null)
                     onRecycleItemClickListener.OnRecycleItemClickListener(position);
                 //notifyDataSetChanged();
@@ -97,6 +103,14 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return this.shopCarRecipes;
     }
 
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
+
     public Double getMoney() {
         return money;
     }
@@ -111,9 +125,16 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return reduce;
     }
 
-    public void resetReduce(Double money) {
+    public void resetReduce() {
         this.reduce = 0.0;
+        //Log.d("activities.size",String.valueOf(activities.get(0).getFullMoney()));
+        for(int i=0;i<activities.size();i++){
+            if(this.money>activities.get(i).getFullMoney()&&this.reduce<activities.get(i).getReduceMoney())
+                this.reduce=activities.get(i).getReduceMoney();
+        }
     }
+
+
 
     public  void  OnRecycleItemClickListener(OnRecycleItemClickListener v){
         onRecycleItemClickListener=v;

@@ -84,8 +84,10 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
                 bundle.putInt("orderId", orderSum.getOrderId());
                 bundle.putSerializable("orderSum",orderSum);
             }*/
-            if(orderSum!=null)
-                bundle.putSerializable("orderSum",orderSum);
+            if(orderSum!=null) {
+                bundle.putInt("orderId", orderSum.getOrderId());
+                Log.d("orderSum",String.valueOf(orderSum.getOrderId()));
+            }
             order_inf.setArguments(bundle);
             transaction.add(R.id.order_main_frame_layout, order_inf);
         }
