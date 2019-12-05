@@ -58,30 +58,30 @@ public class MineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getUserByHttp();
+        textViewUserName.setText(pref.getString("userName","加载失败"));
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case 1:
-                    textViewUserName.setText(user.getUserName());
-                    if (user.getUserImage().length > 0)
-                        imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(user.getUserImage(), 0, user.getUserImage().length));
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    void getUserByHttp() {
-        new Thread(() -> {
-            user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId="+pref.getInt("userId",-1)), User.class);
-            Message message = new Message();
-            message.what = 1;
-            handler.sendMessage(message);
-        }).start();
-    }
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            switch (msg.what) {
+//                case 1:
+//                    textViewUserName.setText(user.getUserName());
+//                    if (user.getUserImage().length > 0)
+//                        imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(user.getUserImage(), 0, user.getUserImage().length));
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    };
+//
+//    void getUserByHttp() {
+//        new Thread(() -> {
+//            user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId="+pref.getInt("userId",-1)), User.class);
+//            Message message = new Message();
+//            message.what = 1;
+//            handler.sendMessage(message);
+//        }).start();
+//    }
 }

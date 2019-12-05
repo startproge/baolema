@@ -3,6 +3,7 @@ package com.example.baolema.ui.home;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,12 +48,26 @@ public class OrderCommitActivity extends AppCompatActivity {
     private TextView finally_paid;
     private TextView finally_reduce;
     private OrderSum orderSum;
+    private TextView userName;
+    private TextView userTel;
+    private TextView userLocation;
+    private SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_commit);
 
         Toolbar toolbar = findViewById(R.id.tool_bar_shop_commit);
+
+        pref = getSharedPreferences("user", MODE_PRIVATE);
+
+        userName = findViewById(R.id.user_name);
+        userName.setText("姓名"+pref.getString("userName",""));
+        userTel = findViewById(R.id.user_tel);
+        userTel.setText("电话"+pref.getString("userTel","  "));
+        userLocation = findViewById(R.id.user_location);
+        userLocation.setText("地址"+pref.getString("userAddress",""));
 
         Intent intent = getIntent();
         shopId=intent.getIntExtra("shopId",0);
@@ -89,7 +104,8 @@ public class OrderCommitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
                 Orders orders=new Orders();
-                orders.setUserId(1);
+                SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+                orders.setUserId(pref.getInt("userId",-1));
                 orders.setShopId(shopId);
                 orders.setOrderRemark("无");
                 //addOrderByHttp(orders);
