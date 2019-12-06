@@ -40,6 +40,7 @@ public class OrderInfFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView recyclerOrderRecipe;
     private int orderId;
+    private String orderStatus;
     private OrderInfAdapter orderinfAdapter;
     private List<OrderInformation> orderInfRecipes;
     private TextView shopName;
@@ -90,6 +91,8 @@ public class OrderInfFragment extends Fragment {
         orderinfAdapter= new OrderInfAdapter(orderInfRecipes, getActivity());
         recyclerOrderRecipe.setAdapter(orderinfAdapter);
         orderId=(int) bundle.getInt("orderId");
+        orderStatus=(String) bundle.getString("orderStatus");
+        Log.d("orderStatus1",orderStatus);
         if(orderId!=0){
             try {
                 ThreadgetOrderSum thread1 =new ThreadgetOrderSum();
@@ -116,10 +119,9 @@ public class OrderInfFragment extends Fragment {
     private class  ThreadgetOrderSum extends Thread{
         @Override
         public void run() {
-            Log.d("orderSumId",String.valueOf(orderId));
             orderSum=new OrderController().getOrderSumById(orderId);
-            if(orderSum!=null)
-            Log.d("CommitStatus",String.valueOf(1));
+            /*if(orderSum!=null)
+            Log.d("OrderCommitStatus",orderSum.getOrderStatus());*/
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
@@ -224,7 +226,8 @@ public class OrderInfFragment extends Fragment {
                     order_summary.setText("总价￥"+String.valueOf(orderSum.getOrdersum()));
                     order_reduce.setText("优惠￥"+String.valueOf(orderinfAdapter.getReduce()));
                     order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-orderinfAdapter.getReduce()));
-                    if(orderSum.getOrderStatus().equals("完成")){
+
+                    if(orderStatus.equals("完成")){
                         label_order_grade.setVisibility(View.VISIBLE);
                         order_grade.setVisibility(View.VISIBLE);
                         label_order_comment.setVisibility(View.VISIBLE);
