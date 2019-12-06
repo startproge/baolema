@@ -1,6 +1,7 @@
 package com.example.baolema.ui.mine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ public class MineFragment extends Fragment {
     private MineViewModel mineViewModel;
     private SharedPreferences pref;
 
+    private static final int GET_ACCOUNT_ICON=1;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mineViewModel =
@@ -44,6 +47,10 @@ public class MineFragment extends Fragment {
 
         textViewUserName = root.findViewById(R.id.text_user_name);
         imageViewAccountIcon = root.findViewById(R.id.image_mine_account);
+        imageViewAccountIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(mainActivity, LoginActivity.class);
+            startActivityForResult(intent, GET_ACCOUNT_ICON);
+        });
 
 //        final TextView textView = root.findViewById(R.id.text_dashboard);
 //        mineViewModel.getText().observe(this, new Observer<String>() {
@@ -58,10 +65,20 @@ public class MineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        textViewUserName.setText(pref.getString("userName","加载失败"));
+        textViewUserName.setText(pref.getString("userName", "加载失败"));
     }
 
-//    private Handler handler = new Handler() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GET_ACCOUNT_ICON && resultCode == -1) {
+            byte[] iconArray = data.getByteArrayExtra("userIcon");
+            Log.e(String.valueOf(iconArray.length), "onActivityResult: " );
+            imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(iconArray,0,iconArray.length));
+        }
+    }
+
+    //    private Handler handler = new Handler() {
 //        @Override
 //        public void handleMessage(@NonNull Message msg) {
 //            switch (msg.what) {

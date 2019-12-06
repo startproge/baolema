@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.baolema.ui.home.LocationActivity;
 import com.example.baolema.ui.mine.LoginActivity;
@@ -20,6 +21,8 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    private ImageView imageAccount;
+    private static final int GET_ACCOUNT_ICON=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         resetTitle("");
         setSupportActionBar(toolbar);
 
+        imageAccount = findViewById(R.id.image_mine_account);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -79,10 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.constraint_mine_tel:
                 intent = new Intent(MainActivity.this, MinePhoneActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.image_mine_account:
-                intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 break;
             default:

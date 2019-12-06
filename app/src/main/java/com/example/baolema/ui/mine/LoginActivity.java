@@ -1,5 +1,6 @@
 package com.example.baolema.ui.mine;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText edtPasswd;
     private SharedPreferences pref;
     private User user;
-
     private String urlStr = "http://47.98.229.17:8002/blm";
 
     @Override
@@ -84,6 +84,9 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("userAddress", user.getUserAddress());
                     editor.apply();
                     Toast.makeText(LoginActivity.this, "登录成功!😆", Toast.LENGTH_LONG).show();
+                    Intent data = new Intent();
+                    data.putExtra("userIcon", user.getUserImage());
+                    setResult(RESULT_OK,data);
                     finish();
                     break;
                 case 2:

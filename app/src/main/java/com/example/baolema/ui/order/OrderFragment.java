@@ -99,7 +99,7 @@ public class OrderFragment extends Fragment {
             ordersSumFinishList = new ArrayList<>();
             Collections.reverse(ordersSumList);
             for (int i = 0; i < ordersSumList.size(); i++) {
-                if (ordersSumList.get(i).getOrderStatus().equals("下单"))
+                if (ordersSumList.get(i).getOrderStatus().equals("下单") || ordersSumList.get(i).getOrderStatus().equals("待取"))
                     ordersSumStartList.add(ordersSumList.get(i));
                 else
                     ordersSumFinishList.add(ordersSumList.get(i));
