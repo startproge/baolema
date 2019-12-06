@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -29,7 +30,6 @@ import java.util.List;
 public class OrderInfActivity extends AppCompatActivity implements View.OnClickListener{
     private Fragment order_status;
     private Fragment order_inf;
-    private int orderId;
     private Button button_order_status;
     private ArrayList<ShopCarRecipe> orderRecipes;
     private Button button_order_inf;
@@ -38,8 +38,10 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetail_main);
+        Toolbar toolbar = findViewById(R.id.tool_bar_order_inf);
         Intent intent = getIntent();
         orderSum=(OrderSum)intent.getSerializableExtra("orderSum");
+        toolbar.setTitle(orderSum.getShopName());
         /*if (orderSum==null){
             Bundle args = intent.getBundleExtra("OrderCommitToOrderInf");
             orderRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("orderRecipes");

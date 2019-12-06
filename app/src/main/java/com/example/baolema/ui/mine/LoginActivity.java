@@ -2,9 +2,12 @@ package com.example.baolema.ui.mine;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +23,8 @@ import com.alibaba.fastjson.JSON;
 import com.example.baolema.R;
 import com.example.baolema.bean.User;
 import com.example.baolema.util.httpUtil;
+
+import java.io.ByteArrayOutputStream;
 
 public class LoginActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -79,14 +84,15 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putInt("userId", user.getUserId());
                     editor.putString("userName", user.getUserName());
-                    Log.e(user.getUserName(), "handleMessage: " );
+                    Log.e(user.getUserName(), "handleMessage: ");
                     editor.putString("userTel", user.getUserTel());
                     editor.putString("userAddress", user.getUserAddress());
+                    editor.putString("userIcon", Base64.encodeToString(user.getUserImage(), Base64.DEFAULT));
                     editor.apply();
                     Toast.makeText(LoginActivity.this, "登录成功!😆", Toast.LENGTH_LONG).show();
-                    Intent data = new Intent();
-                    data.putExtra("userIcon", user.getUserImage());
-                    setResult(RESULT_OK,data);
+//                    Intent data = new Intent();
+//                    data.putExtra("userIcon", user.getUserImage());
+//                    setResult(RESULT_OK,data);
                     finish();
                     break;
                 case 2:

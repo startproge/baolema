@@ -29,6 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
+        android:textColor="@color/colorOrange"
+        android:textStyle="bold"
         android:textSize="22sp"
         app:layout_constraintLeft_toRightOf="@id/image_shop"
         app:layout_constraintTop_toTopOf="@id/image_shop" />

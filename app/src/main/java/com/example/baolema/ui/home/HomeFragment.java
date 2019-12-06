@@ -103,6 +103,7 @@ public class HomeFragment extends Fragment {
     }
 
     void initImages() {
+        integerArrayList.add(R.drawable.baolema_light_yellow);
         integerArrayList.add(R.drawable.de1);
         integerArrayList.add(R.drawable.de2);
         integerArrayList.add(R.drawable.de3);

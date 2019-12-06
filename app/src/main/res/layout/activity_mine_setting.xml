@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/colorLightYellow"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +17,7 @@
             android:id="@+id/tool_bar_setting"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBlack"
+            android:background="@color/colorOrange"
             app:navigationIcon="@drawable/ic_back"
             app:title="设置"
             app:titleTextColor="@color/colorWhite" />
@@ -89,30 +90,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switch_shake" />
 
-    <ImageView
-        android:id="@+id/image_setting_logo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baolema"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/text_logo" />
 
     <TextView
         android:id="@+id/text_logo"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
         android:text="饱了就上\n饱了嘛~"
         android:textColor="@color/colorOrange"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="italic|bold"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toRightOf="@id/image_setting_logo"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/image_setting_logo" />
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

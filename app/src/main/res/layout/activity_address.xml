@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorLightYellow"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -17,7 +18,7 @@
             android:id="@+id/tool_bar_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBlack"
+            android:background="@color/colorOrange"
             app:navigationIcon="@drawable/ic_back"
             app:title="选择学校"
             app:titleTextColor="@color/colorWhite" />
@@ -45,6 +46,7 @@
             android:layout_weight="1"
             android:background="@drawable/round_editstyle"
             android:drawableStart="@drawable/ic_search"
+            android:textColor="@color/colorWhite"
             android:hint="请输入学校"
             android:padding="3dp" />
 
@@ -60,20 +62,12 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/line1"
-        android:background="#EEEEEE"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_address_linear"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line1"
+        app:layout_constraintTop_toBottomOf="@id/activity_address_linear"
         android:layout_marginTop="10dp">
 
         <!--layout_constraintHorizontal_chainStyle:水平方向链分格 packed:并一起-->

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/colorLightYellow"
     android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +14,7 @@
                 android:id="@+id/layout_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGrey"
+                android:background="@color/colorOrange"
                 app:layout_constraintTop_toTopOf="parent">
                 <TextView
                     android:layout_width="wrap_content"
@@ -112,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/divide3"
-                android:background="@color/colorGrey">
+                android:background="@color/colorOrange">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

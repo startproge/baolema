@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.User;
 import com.example.baolema.util.httpUtil;
+
+import java.io.ByteArrayInputStream;
 
 
 public class MineFragment extends Fragment {
@@ -49,7 +53,7 @@ public class MineFragment extends Fragment {
         imageViewAccountIcon = root.findViewById(R.id.image_mine_account);
         imageViewAccountIcon.setOnClickListener(v -> {
             Intent intent = new Intent(mainActivity, LoginActivity.class);
-            startActivityForResult(intent, GET_ACCOUNT_ICON);
+            startActivity(intent);
         });
 
 //        final TextView textView = root.findViewById(R.id.text_dashboard);
@@ -66,17 +70,19 @@ public class MineFragment extends Fragment {
     public void onResume() {
         super.onResume();
         textViewUserName.setText(pref.getString("userName", "加载失败"));
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.decode(pref.getString("userIcon", ""), Base64.DEFAULT));
+        imageViewAccountIcon.setImageDrawable(Drawable.createFromStream(inputStream,""));
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GET_ACCOUNT_ICON && resultCode == -1) {
-            byte[] iconArray = data.getByteArrayExtra("userIcon");
-            Log.e(String.valueOf(iconArray.length), "onActivityResult: " );
-            imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(iconArray,0,iconArray.length));
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == GET_ACCOUNT_ICON && resultCode == -1) {
+//            byte[] iconArray = data.getByteArrayExtra("userIcon");
+//            Log.e(String.valueOf(iconArray.length), "onActivityResult: " );
+//            imageViewAccountIcon.setImageBitmap(BitmapFactory.decodeByteArray(iconArray,0,iconArray.length));
+//        }
+//    }
 
     //    private Handler handler = new Handler() {
 //        @Override

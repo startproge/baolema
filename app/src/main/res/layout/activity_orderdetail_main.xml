@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/colorLightYellow"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_main"
+        android:id="@+id/app_bar_order_inf"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,19 +16,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tool_bar_main"
+            android:id="@+id/tool_bar_order_inf"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBlack"
+            android:background="@color/colorOrange"
             app:navigationIcon="@drawable/ic_back"
-            app:title="磨刀餐厅"
             app:titleTextColor="@color/colorWhite" />
     </com.google.android.material.appbar.AppBarLayout>
 
 
     <Button
         android:id="@+id/orderdetail_status"
-        app:layout_constraintTop_toBottomOf="@id/app_bar_main"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_order_inf"
         app:layout_constraintStart_toStartOf="parent"
         android:text="订单状况"
         android:textSize="20dp"
@@ -37,7 +37,7 @@
 
     <Button
         android:id="@+id/orderdetail_detail"
-        app:layout_constraintTop_toBottomOf="@id/app_bar_main"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_order_inf"
         app:layout_constraintStart_toEndOf="@id/orderdetail_status"
         android:text="订单详情"
         android:textSize="20dp"
@@ -48,7 +48,7 @@
     <ImageView
         android:id="@+id/orderdetail_phone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar_main"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_order_inf"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_margin="5dp"
