@@ -2,6 +2,8 @@ package com.example.baolema.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,7 +34,9 @@ import com.example.baolema.bean.Shop;
 import com.example.baolema.bean.ShopCarRecipe;
 import com.example.baolema.bean.ShopEva;
 import com.example.baolema.controller.ActivityController;
+import com.example.baolema.controller.MyDBHelperController;
 import com.example.baolema.controller.ShopController;
+import com.example.baolema.sqlite.MyShopDBHelper;
 import com.example.baolema.util.httpUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -46,8 +50,13 @@ import im.unicolas.trollbadgeview.LabelView;
 import static com.example.baolema.ui.home.RecipeAdapter.*;
 
 public class ShopActivity extends AppCompatActivity {
+    private MyShopDBHelper dbHelper;
+    private  SQLiteDatabase db;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     private Shop shop;
     private int shopId;
+    private int userId;
     private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView recipeRecycleView;
     private RecipeAdapter recipeAdapter;
@@ -72,11 +81,18 @@ public class ShopActivity extends AppCompatActivity {
     CommentAdapter commentAdapter;
 
     private TextView activityText;
+    private boolean isCommit=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
+        dbHelper = new MyShopDBHelper(this, "ShopCarList.db", null, 2);
+        db=dbHelper.getWritableDatabase();
+        pref = getSharedPreferences("user", MODE_PRIVATE);
+        editor=pref.edit();
+
+        userId=pref.getInt("userId",0);
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
         money=findViewById(R.id.order_money);
         reduce=findViewById(R.id.reduce_money);
@@ -106,16 +122,21 @@ public class ShopActivity extends AppCompatActivity {
         LinearLayoutManager shopLayoutManager = new LinearLayoutManager(this);
         shoppingCarRecycleview = findViewById(R.id.shopping_car_recycleview);
         shoppingCarRecycleview.setLayoutManager(shopLayoutManager);
+        shopCarRecipes=new MyDBHelperController().getShopCars(db,shopId,userId);
         shopCarAdapter = new ShopCarAdapter(shopCarRecipes, this);
+        try {
+            ThreadgetActivity threadgetActivity=new ThreadgetActivity();
+            threadgetActivity.start();
+            threadgetActivity.join();
+        }catch (Exception e){
+
+        }
         shoppingCarRecycleview.setAdapter(shopCarAdapter);
         shopCarAdapter.OnRecycleItemClickListener(position -> {
             shopCarAdapter.notifyDataSetChanged();
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
             reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
         });
-
-        getActivityByHttp();
-
         clear_shopping_car.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +205,7 @@ public class ShopActivity extends AppCompatActivity {
             intent1.putExtra("ShopCarToOrderCommit", args);
             intent1.putExtra("shopId", shopId);
             intent1.putExtra("reduce", shopCarAdapter.getReduce());
-            startActivity(intent1);
+            startActivityForResult(intent1,1);
         });
 
         toolbar.setNavigationOnClickListener(v -> {
@@ -238,19 +259,27 @@ public class ShopActivity extends AppCompatActivity {
         getShopEvaByHttp();
     }
 
-//    void getShopRecipeListByHttp() {
-//        new Thread(() -> {
-//            recipeList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId),
-//                    new TypeReference<List<Recipe>>() {
-//                    });
-//            Log.d("activity123", String.valueOf(recipeList.size()));
-//            Message message = new Message();
-//            message.what = 1;
-//            handler.sendMessage(message);
-//            Log.e("ShopActivity", String.valueOf(recipes.size()));
-//
-//        }).start();
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if(resultCode==RESULT_OK) {
+                    isCommit =data.getBooleanExtra("isCommit",false);
+                    if(isCommit==true){
+                        shopCarAdapter.getShopCarRecipes().clear();
+                        shopCarAdapter.resetMoney();
+                        shopCarAdapter.resetReduce();
+                        shopCarAdapter.notifyDataSetChanged();
+                        new MyDBHelperController().deleteShopCar(db, shopId, userId);
+                        finish();
+                    }
+                }
+                break;
+        }
+
+    }
+
 
     void getRecipeByHttp(int recipeId) {
         new Thread(() -> {
@@ -264,15 +293,24 @@ public class ShopActivity extends AppCompatActivity {
         }).start();
     }
 
-    void getActivityByHttp() {
+   /* void getActivityByHttp() {
         new Thread(() -> {
             activitys=new ActivityController().getActivitiesByShopId(shopId);
             Message message = new Message();
             message.what = 3;
             handler.sendMessage(message);
         }).start();
-    }
+    }*/
 
+    private class ThreadgetActivity extends Thread{
+        @Override
+        public void run() {
+            activitys=new ActivityController().getActivitiesByShopId(shopId);
+            Message message = new Message();
+            message.what = 3;
+            handler.sendMessage(message);
+        }
+    }
     void getShopEvaByHttp(){
         new Thread(() -> {
             Log.d("shopEvasSize", String.valueOf(shopId));
@@ -305,10 +343,14 @@ public class ShopActivity extends AppCompatActivity {
                     }
                     activityText.setText(text);
                     shopCarAdapter.setActivities(activitys);
+                    Log.d("reduceMoney",String.valueOf(shopCarAdapter.getActivities().size()));
                     shopCarAdapter.resetMoney();
                     shopCarAdapter.resetReduce();
+                    shopCarAdapter.notifyDataSetChanged();
                     recipeAdapter.notifyDataSetChanged();
-
+                    Log.d("reduceMoney",String.valueOf(shopCarAdapter.getReduce()));
+                    money.setText(String.valueOf(shopCarAdapter.getMoney()));
+                    reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
                     break;
                 case 4:
                     commentAdapter.setShopEvaList(shopEvas);
@@ -321,6 +363,15 @@ public class ShopActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        new MyDBHelperController().deleteShopCar(db, shopId, userId);
+        if(shopCarAdapter.getShopCarRecipes().size()!=0){
+            new MyDBHelperController().addShopCar(db,shopId,userId,shopCarAdapter.getShopCarRecipes());
+        }
+        Log.d("MyDBhelper","保存成功"+shopCarAdapter.getShopCarRecipes().size());
+        super.onDestroy();
+    }
 }
 
 class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
