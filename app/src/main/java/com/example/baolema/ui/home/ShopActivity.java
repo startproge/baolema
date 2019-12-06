@@ -235,7 +235,7 @@ public class ShopActivity extends AppCompatActivity {
         shop_evaluate_recyclerview.setLayoutManager(ShopEvalayoutManager);
         commentAdapter=new CommentAdapter(this);
         shop_evaluate_recyclerview.setAdapter(commentAdapter);
-        //getShopEvaByHttp();
+        getShopEvaByHttp();
     }
 
 //    void getShopRecipeListByHttp() {
@@ -275,11 +275,15 @@ public class ShopActivity extends AppCompatActivity {
 
     void getShopEvaByHttp(){
         new Thread(() -> {
+            Log.d("shopEvasSize", String.valueOf(shopId));
             shopEvas=new ShopController().getShopEva(shopId);
-            Log.d("shopEva",String.valueOf(shopId));
-            Message message = new Message();
-            message.what = 4;
-            handler.sendMessage(message);
+            if(shopEvas!=null) {
+                Log.d("shopEvasSize", String.valueOf(shopEvas.size()));
+                Log.d("shopEva", String.valueOf(shopId));
+                Message message = new Message();
+                message.what = 4;
+                handler.sendMessage(message);
+            }
         }).start();
     }
 
@@ -358,9 +362,9 @@ class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         CommentViewHolder mholder=(CommentViewHolder)holder;
         mholder.headImage.setImageResource(R.drawable.ic_night_mode);
         mholder.name.setText(shopEva.getUserName());
-        //mholder.evaluate.setText(shopEva.get);
+        mholder.evaluate.setText(String.valueOf(shopEva.getShopGrade()));
         mholder.content.setText(shopEva.getShopEvaluateContent());
-        //mholder.date.setText(shopEva.getD);
+        //mholder.date.setText(shopEv);
         mholder.contentImage.setImageResource(R.drawable.ic_night_mode);
     }
 

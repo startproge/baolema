@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ import com.example.baolema.bean.OrderSum;
 import com.example.baolema.bean.ShopCarRecipe;
 import com.example.baolema.controller.ActivityController;
 import com.example.baolema.controller.OrderController;
+import com.example.baolema.controller.ShopController;
 import com.example.baolema.util.httpUtil;
 
 import java.util.ArrayList;
@@ -81,6 +83,8 @@ public class OrderInfFragment extends Fragment {
         label_order_image=view.findViewById(R.id.label_order_image);
         order_image=view.findViewById(R.id.order_image);
         shopEvaCommit=view.findViewById(R.id.shopEva_commit);
+
+
         recyclerOrderRecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
         orderInfRecipes=new ArrayList<>();
         orderinfAdapter= new OrderInfAdapter(orderInfRecipes, getActivity());
@@ -147,6 +151,26 @@ public class OrderInfFragment extends Fragment {
         }
     }
 
+    private class ThreadaddShopEva extends Thread{
+        private Double grade;
+        private String content;
+        private int shopId;
+        private int orderId;
+        private int userId;
+        public ThreadaddShopEva(int shopId,int orderId,double grade,int userId,String content){
+            this.shopId=shopId;
+            this.orderId=orderId;
+            this.grade=grade;
+            this.userId=userId;
+            this.content=content;
+        }
+        @Override
+        public void run() {
+            new ShopController().addShopEvaluate(orderSum.getShopId(), orderSum.getOrderId(), grade,
+                    orderSum.getUserId(), content);
+        }
+    }
+
 //    void getOrderInfByHttp() {
 //        new Thread(new Runnable() {
 //            @Override
@@ -207,6 +231,23 @@ public class OrderInfFragment extends Fragment {
                         order_comment.setVisibility(View.VISIBLE);
                         label_order_image.setVisibility(View.VISIBLE);
                         order_image.setVisibility(View.VISIBLE);
+                        shopEvaCommit.setVisibility(View.VISIBLE);
+                        shopEvaCommit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Double grade=Double.valueOf(order_grade.getRating());
+                                String content=String.valueOf(order_comment.getText());
+                                try {
+                                    ThreadaddShopEva addShopEva=new ThreadaddShopEva(orderSum.getShopId(),orderSum.getOrderId(),grade
+                                            ,orderSum.getUserId(),content);
+                                    addShopEva.start();
+                                    addShopEva.join();
+                                    Toast.makeText(getActivity(),"评论提交成功",Toast.LENGTH_SHORT).show();
+                                }catch (Exception e){
+                                    Toast.makeText(getActivity(),"评论提交失败",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                     break;
                 default:

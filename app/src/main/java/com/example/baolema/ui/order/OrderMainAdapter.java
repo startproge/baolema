@@ -83,6 +83,11 @@ public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnCli
                 orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderFinishTime()));
             else
                 orderMainViewHolder.orderTime.setText("订单数据错误");
+        } else if (orderList.get(position).getOrderStatus().equals("待取")) {
+            if (orderList.get(position).getOrderFinishTime() != null)
+                orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderFinishTime()));
+            else
+                orderMainViewHolder.orderTime.setText("订单数据错误");
         } else
             Log.e("订单状态有问题", "onBindViewHolder: ");
 
