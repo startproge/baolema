@@ -62,6 +62,7 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
             if(orderSum!=null) {
                 Bundle bundle = new Bundle();
                 bundle.putString("orderStatus", orderSum.getOrderStatus());
+                bundle.putInt("orderId",orderSum.getOrderId());
                 order_status.setArguments(bundle);
             }
             transaction.add(R.id.order_main_frame_layout, order_status);

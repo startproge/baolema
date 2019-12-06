@@ -239,7 +239,7 @@ class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         final ShopCarRecipe shopCarRecipe=shopCarRecipes.get(position);
         mholder.name.setText( shopCarRecipe.getName());
         mholder.money.setText("￥"+(shopCarRecipe.getMoney()*shopCarRecipe.getNum()));
-        mholder.num.setText("*"+shopCarRecipe.getNum());
+        mholder.num.setText("×"+shopCarRecipe.getNum());
 
     }
 

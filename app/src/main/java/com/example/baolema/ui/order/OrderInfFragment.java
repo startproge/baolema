@@ -302,7 +302,7 @@ class OrderInfAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final OrderInformation orderInfRecipe=orderInfRecipes.get(position);
         mholder.name.setText( orderInfRecipe.getRecipeName());
         mholder.money.setText("￥"+(orderInfRecipe.getRecipePrice()*orderInfRecipe.getOrderRecipeNumber()));
-        mholder.num.setText("*"+Integer.toString(orderInfRecipe.getOrderRecipeNumber()));
+        mholder.num.setText("×"+Integer.toString(orderInfRecipe.getOrderRecipeNumber()));
 
     }
 

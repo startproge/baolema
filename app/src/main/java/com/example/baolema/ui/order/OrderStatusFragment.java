@@ -1,21 +1,26 @@
 package com.example.baolema.ui.order;
 
 import android.os.Bundle;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.baolema.R;
+import com.example.baolema.controller.OrderController;
 
 public class OrderStatusFragment extends Fragment {
 
     private String orderStatus;
+    private int orderId;
 
     private ImageView point3;
     private TextView shop_order_finish;
@@ -31,6 +36,7 @@ public class OrderStatusFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_order_status,container,false);
         Bundle bundle= OrderStatusFragment.this.getArguments();
         orderStatus=bundle.getString("orderStatus");
+        orderId=bundle.getInt("orderId");
         point3=view.findViewById(R.id.point3);
         shop_order_finish=view.findViewById(R.id.shop_order_finish);
         divide3=view.findViewById(R.id.divide3);
@@ -58,12 +64,27 @@ public class OrderStatusFragment extends Fragment {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                point4.setVisibility(View.VISIBLE);
-                shop_order_over.setVisibility(View.VISIBLE);
-                finish.setVisibility(View.GONE);
+                try {
+                    ThreadUpdateStatus thread=new ThreadUpdateStatus();
+                    thread.start();
+                    thread.join();
+                    Toast.makeText(getActivity(),"收货成功",Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(getActivity(),"收货失败",Toast.LENGTH_SHORT).show();
+                }
+                    finish.setVisibility(View.GONE);
+                    point4.setVisibility(View.VISIBLE);
+                    shop_order_over.setVisibility(View.VISIBLE);
+
             }
         });
         return view;
     }
 
+    private class  ThreadUpdateStatus extends Thread{
+        @Override
+        public void run() {
+            new OrderController().updateOrderStatus(orderId);
+        }
+    }
 }
