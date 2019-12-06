@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+   >
 
     <ImageView
         android:id="@+id/point1"
@@ -138,11 +139,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="完成订单"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="80sp"
+        app:layout_constraintTop_toBottomOf="@+id/point3"
+        android:layout_marginTop="120sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-
+        android:visibility="gone"
         >
     </Button>
 </androidx.constraintlayout.widget.ConstraintLayout>
