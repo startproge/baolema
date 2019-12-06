@@ -21,6 +21,7 @@ import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderSum;
 import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.ShopCarRecipe;
+import com.example.baolema.controller.OrderController;
 import com.example.baolema.util.httpUtil;
 
 import java.io.Serializable;
@@ -75,8 +76,9 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void ShowFragmentOrderInf(){
+        Log.d("OrderCommitStatus",orderSum.getOrderStatus());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(order_inf == null){
+        //if(order_inf == null){
             order_inf = new OrderInfFragment();
             Bundle bundle=new Bundle();
             /*if (orderSum==null) {
@@ -89,11 +91,11 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
             }*/
             if(orderSum!=null) {
                 bundle.putInt("orderId", orderSum.getOrderId());
-                Log.d("orderSum",String.valueOf(orderSum.getOrderId()));
+                bundle.putString("orderStatus",orderSum.getOrderStatus());
             }
             order_inf.setArguments(bundle);
             transaction.add(R.id.order_main_frame_layout, order_inf);
-        }
+        //}
         hideFragment(transaction);
         transaction.show(order_inf);
         transaction.commit();
@@ -114,10 +116,26 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         if(v == button_order_status){
             ShowFragmentOrderStatus();
         }else if(v == button_order_inf){
+            try {
+                ThreadgetOrderSum order=new ThreadgetOrderSum();
+                order.start();
+                order.join();
+            }catch (Exception e){
+            }
             ShowFragmentOrderInf();
         }
     }
 
+    private class  ThreadgetOrderSum extends Thread{
+        @Override
+        public void run() {
+            orderSum=new OrderController().getOrderSumById( orderSum.getOrderId());
+            if(orderSum!=null)
+                Log.d("CommitStatus",String.valueOf(1));
+        }
 
+    }
 
 }
+
+

@@ -141,9 +141,15 @@ public class OrderCommitActivity extends AppCompatActivity {
                     break;
                 case 3:
                     Log.d("getOrderSum", "handleMessage: " );
+                    Intent back = new Intent();
+                    back.putExtra("isCommit", true);
+                    OrderCommitActivity.this.setResult(RESULT_OK,back);
+
                     Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
                     intent.putExtra("orderSum", orderSum);
                     startActivity(intent);
+
+                    OrderCommitActivity.this.finish();
                     break;
                     //finish();
                 case 2:
@@ -195,7 +201,6 @@ public class OrderCommitActivity extends AppCompatActivity {
             message.what = 3;
             handler.sendMessage(message);
         }
-
 
     }
 }

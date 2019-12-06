@@ -15,7 +15,9 @@ import java.util.ArrayList;
 public class MyShopDBHelper extends SQLiteOpenHelper {
     private static final String CREATE_SHOPCAR = "Create table ShopCar("
             + "id integer primary key autoincrement,"
+            + "userId integer,"
             + "shopId integer,"
+            + "recipeId integer,"
             + "name text,"
             + "money real,"
             + "num integer)";
@@ -35,40 +37,5 @@ public class MyShopDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
-
-    public void addShopCar(SQLiteDatabase db, int shopId, ArrayList<ShopCarRecipe> shopCarRecipes){
-
-        for (ShopCarRecipe recipe: shopCarRecipes) {
-            ContentValues values = new ContentValues();
-            values.put("shopId", shopId);
-            values.put("name", recipe.getName());
-            values.put("money", recipe.getMoney());
-            values.put("num", recipe.getNum());
-
-            db.insert("ShopCar", null, values);
-        }
-
-    }
-
-    public ArrayList<ShopCarRecipe> getShopCars(SQLiteDatabase db, int shopId){
-        ArrayList<ShopCarRecipe> recipes = new ArrayList<>();
-
-        Cursor cursor = db.query("shopId", new String[]{"id, shopId, name, money, num"},
-               "shopId=?", new String[]{shopId+""}, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            ShopCarRecipe recipe = new ShopCarRecipe();
-            do {
-                recipe.setName(cursor.getString(cursor.getColumnIndex("name")));
-                recipe.setMoney(cursor.getDouble(cursor.getColumnIndex("money")));
-                recipe.setNum(cursor.getInt(cursor.getColumnIndex("num")));
-                recipes.add(recipe);
-            } while (cursor.moveToNext());
-        }
-        return recipes;
-    }
-
-    public void deleteShopCar(){
-
-    }
 
 }
