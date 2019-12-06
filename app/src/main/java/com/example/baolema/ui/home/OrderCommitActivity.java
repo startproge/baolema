@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,6 @@ import com.example.baolema.controller.OrderController;
 import com.example.baolema.ui.order.OrderInfActivity;
 import com.example.baolema.util.httpUtil;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,12 +47,14 @@ public class OrderCommitActivity extends AppCompatActivity {
     private TextView reduceTextView;
     private TextView total_money;
     private TextView finally_paid;
+    private EditText editRemark;
     private TextView finally_reduce;
     private OrderSum orderSum;
     private TextView userName;
     private TextView userTel;
     private TextView userLocation;
     private SharedPreferences pref;
+    private Orders orders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +62,23 @@ public class OrderCommitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_commit);
 
         Toolbar toolbar = findViewById(R.id.tool_bar_shop_commit);
+        Intent intent = getIntent();
 
+        orders=new Orders();
         pref = getSharedPreferences("user", MODE_PRIVATE);
+        orders.setUserId(pref.getInt("userId", -1));
+        shopId=intent.getIntExtra("shopId",0);
+        orders.setShopId(shopId);
 
         userName = findViewById(R.id.user_name);
-        userName.setText("姓名"+pref.getString("userName",""));
+        userName.setText("姓名: "+pref.getString("userName",""));
         userTel = findViewById(R.id.user_tel);
-        userTel.setText("电话"+pref.getString("userTel","  "));
+        userTel.setText("电话: "+pref.getString("userTel","  "));
         userLocation = findViewById(R.id.user_location);
-        userLocation.setText("地址"+pref.getString("userAddress",""));
+        userLocation.setText("地址: "+pref.getString("userAddress",""));
 
-        Intent intent = getIntent();
-        shopId=intent.getIntExtra("shopId",0);
+        editRemark = findViewById(R.id.edt_remark);
+
         reduce=intent.getDoubleExtra("reduce",-1);
         Bundle args = intent.getBundleExtra("ShopCarToOrderCommit");
         shopCarRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("ShopCarRecipes");
@@ -87,52 +94,41 @@ public class OrderCommitActivity extends AppCompatActivity {
         finally_paid=findViewById(R.id.finally_pay_money);
         finally_reduce=findViewById(R.id.finally_reduce_money);
         orderCommitAdapter.resetMoney();
+
         summary.setText("总计￥"+String.valueOf(orderCommitAdapter.getMoney()));
         reduceTextView.setText("优惠￥"+String.valueOf(reduce));
         total_money.setText(String.valueOf(orderCommitAdapter.getMoney()-reduce));
         finally_paid.setText(total_money.getText());
         finally_reduce.setText(String.valueOf(reduce));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         orderCommit=findViewById(R.id.order_commit);
-        orderCommit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
-                Orders orders=new Orders();
-                SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
-                orders.setUserId(pref.getInt("userId",-1));
-                orders.setShopId(shopId);
-                orders.setOrderRemark("无");
-                //addOrderByHttp(orders);
-                try {
-                    ThreadAddOrder thread1=new ThreadAddOrder();
-                    thread1.start();
-                    thread1.join();
-                    for(int i=0;i<shopCarRecipes.size();i++){
-                        ShopCarRecipe shopCarRecipe=shopCarRecipes.get(i);
-                        ThreadAddOrderInf thread2=new ThreadAddOrderInf(shopCarRecipe.getRecipeId(),i+1,
-                                shopCarRecipe.getNum());
-                        thread2.start();
-                        thread2.join();
-                    }
-                    ThreadgetOrderSum thread3=new ThreadgetOrderSum();
-                    thread3.start();
-                    thread3.join();
-                }catch (Exception e){
-
+        orderCommit.setOnClickListener(v -> {
+            //Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
+            orders.setOrderRemark(editRemark.getText().toString());
+            //addOrderByHttp(orders);
+            try {
+                ThreadAddOrder thread1=new ThreadAddOrder();
+                thread1.start();
+                thread1.join();
+                for(int i=0;i<shopCarRecipes.size();i++){
+                    ShopCarRecipe shopCarRecipe=shopCarRecipes.get(i);
+                    ThreadAddOrderInf thread2=new ThreadAddOrderInf(shopCarRecipe.getRecipeId(),i+1,
+                            shopCarRecipe.getNum());
+                    thread2.start();
+                    thread2.join();
                 }
+                ThreadgetOrderSum thread3=new ThreadgetOrderSum();
+                thread3.start();
+                thread3.join();
+            }catch (Exception e){
 
-                //getOrderSumByHttp();
-                //intent.putExtra("orderId",orderId);
-                //startActivity(intent);
-                //finish();
             }
+
+            //getOrderSumByHttp();
+            //intent.putExtra("orderId",orderId);
+            //startActivity(intent);
+            //finish();
         });
     }
 
@@ -163,8 +159,7 @@ public class OrderCommitActivity extends AppCompatActivity {
     private class  ThreadAddOrder extends Thread{
         @Override
         public void run() {
-            orderId= JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/addOrders?shopId=" + shopId
-                    +"&userId=1"+"&orderRemark="+"abc"), Integer.class);
+            orderId= JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Order/addOrders?shopId=" +orders.getShopId() +"&userId="+orders.getUserId()+"&orderRemark="+orders.getOrderRemark()), Integer.class);
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
@@ -244,17 +239,13 @@ class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         final ShopCarRecipe shopCarRecipe=shopCarRecipes.get(position);
         mholder.name.setText( shopCarRecipe.getName());
         mholder.money.setText("￥"+(shopCarRecipe.getMoney()*shopCarRecipe.getNum()));
-        mholder.num.setText("*"+Integer.toString(shopCarRecipe.getNum()));
+        mholder.num.setText("*"+shopCarRecipe.getNum());
 
     }
 
     @Override
     public int getItemCount() {
         return shopCarRecipes.size();
-    }
-
-    public List<ShopCarRecipe> getRecipes(){
-        return this.shopCarRecipes;
     }
 
     public Double getMoney() {

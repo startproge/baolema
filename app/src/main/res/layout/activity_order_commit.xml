@@ -38,7 +38,7 @@
             android:layout_marginTop="20sp"
             android:text="名字"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
 
@@ -49,7 +49,7 @@
             android:layout_marginLeft="10sp"
             android:text="电话"
             app:layout_constraintLeft_toRightOf="@+id/user_name"
-            app:layout_constraintTop_toTopOf="@+id/user_name"></TextView>
+            app:layout_constraintTop_toTopOf="@+id/user_name"/>
 
         <TextView
             android:id="@+id/user_location"
@@ -60,7 +60,7 @@
             android:text="地址"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/user_name"
-            app:layout_constraintTop_toBottomOf="@+id/user_name"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/user_name"/>
 
         <ImageView
             android:id="@+id/ahead1"
@@ -70,7 +70,7 @@
             android:background="@drawable/ic_ahead"
             app:layout_constraintBottom_toBottomOf="@+id/user_location"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/user_name"></ImageView>
+            app:layout_constraintTop_toTopOf="@+id/user_name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,7 +85,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/ahead3"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ahead3"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/ahead3"/>
 
     <TextView
         android:id="@+id/online_pay"
@@ -97,7 +97,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/ahead3"
         app:layout_constraintRight_toLeftOf="@+id/ahead3"
-        app:layout_constraintTop_toTopOf="@+id/ahead3"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/ahead3"/>
 
     <ImageView
         android:id="@+id/ahead3"
@@ -107,7 +107,7 @@
         android:layout_marginRight="10sp"
         android:background="@drawable/ic_ahead"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personal_information"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/personal_information"/>
 
     <ImageView
         android:id="@+id/divide2"
@@ -115,7 +115,7 @@
         android:layout_height="0.5sp"
         android:layout_marginTop="10sp"
         android:background="@color/colorGray"
-        app:layout_constraintTop_toBottomOf="@+id/ahead3"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/ahead3"/>
 
     <ImageView
         android:id="@+id/shop_icon"
@@ -124,7 +124,7 @@
         android:layout_marginTop="10sp"
         android:src="@drawable/ic_shop_icon"
         app:layout_constraintLeft_toLeftOf="@+id/pay_method"
-        app:layout_constraintTop_toBottomOf="@+id/divide2"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/divide2"/>
 
     <TextView
         android:id="@+id/shop_name"
@@ -135,7 +135,7 @@
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="@+id/shop_icon"
         app:layout_constraintLeft_toRightOf="@id/shop_icon"
-        app:layout_constraintTop_toTopOf="@+id/shop_icon"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/shop_icon"/>
 
     <ImageView
         android:id="@+id/divide3"
@@ -143,7 +143,7 @@
         android:layout_height="0.5sp"
         android:layout_marginTop="10sp"
         android:background="@color/colorGray"
-        app:layout_constraintTop_toBottomOf="@+id/shop_icon"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/shop_icon"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipe_recycleview"
@@ -158,7 +158,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5sp"
         android:background="@color/colorGray"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_recycleview"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/recipe_recycleview"/>
 
     <TextView
         android:id="@+id/total_money"
@@ -168,7 +168,7 @@
         android:text="总计￥42"
         android:textColor="@color/colorGray"
         app:layout_constraintLeft_toLeftOf="@id/shop_icon"
-        app:layout_constraintTop_toBottomOf="@id/divide4"></TextView>
+        app:layout_constraintTop_toBottomOf="@id/divide4"/>
 
     <TextView
         android:id="@+id/reduce_money"
@@ -178,7 +178,7 @@
         android:text="优惠￥14.4"
         android:textColor="@color/colorGray"
         app:layout_constraintLeft_toRightOf="@+id/total_money"
-        app:layout_constraintTop_toTopOf="@+id/total_money"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/total_money"/>
 
     <TextView
         android:id="@+id/total_paid"
@@ -189,7 +189,7 @@
         android:text="实付"
         android:textColor="@color/colorBlack"
         app:layout_constraintRight_toLeftOf="@id/total_paid_money"
-        app:layout_constraintTop_toTopOf="@+id/total_money"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/total_money"/>
 
     <TextView
         android:id="@+id/total_paid_money"
@@ -198,7 +198,7 @@
         android:text="￥27.6"
         android:textColor="@color/colorRed"
         app:layout_constraintRight_toRightOf="@id/ahead3"
-        app:layout_constraintTop_toTopOf="@+id/total_money"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/total_money"/>
 
     <ImageView
         android:id="@+id/divide6"
@@ -206,7 +206,33 @@
         android:layout_height="0.5sp"
         android:layout_marginTop="10sp"
         android:background="@color/colorGray"
-        app:layout_constraintTop_toBottomOf="@+id/total_money"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/total_money"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_remark"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divide6">
+
+        <EditText
+            android:id="@+id/edt_remark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:hint="备注"
+            android:maxLines="5"
+            android:gravity="top"
+            android:maxLength="200"
+            android:minLines="1"
+            android:background="@drawable/edt_commit_remark"
+            android:inputType="textMultiLine"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/order_commit_bottomlayout"
@@ -223,7 +249,7 @@
             android:text="提交订单"
             android:textColor="@color/colorBlack"
             android:textSize="15sp"
-            app:layout_constraintRight_toRightOf="parent"></Button>
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
             android:id="@+id/finally_pay_money"
@@ -235,7 +261,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
         </TextView>
 
         <ImageView
@@ -246,7 +271,7 @@
             android:background="@color/colorBlack"
             app:layout_constraintBottom_toBottomOf="@+id/finally_pay_money"
             app:layout_constraintLeft_toRightOf="@+id/finally_pay_money"
-            app:layout_constraintTop_toTopOf="@+id/finally_pay_money"></ImageView>
+            app:layout_constraintTop_toTopOf="@+id/finally_pay_money"/>
 
         <TextView
             android:id="@+id/finally_reduce"
@@ -257,7 +282,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/divide5"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/finally_reduce_money"
@@ -268,6 +293,6 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/finally_reduce"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

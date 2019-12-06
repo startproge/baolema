@@ -18,7 +18,7 @@ import com.example.baolema.bean.Shop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter implements View.OnClickListener{
+public class HomeRecyclerAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private List<Shop> shopList;
     private Context mContext;
     private HomeRecyclerAdapter.OnRecycleItemClickListener onRecycleItemClickListener = null;
@@ -72,7 +72,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter implements View.On
         if (shop.getShopTrademark() != null && shop.getShopTrademark().length > 0)
             shopViewHolder.shopTrademark.setImageBitmap(BitmapFactory.decodeByteArray(shop.getShopTrademark(), 0, shop.getShopTrademark().length));
         shopViewHolder.shopName.setText(shop.getShopName());
-        shopViewHolder.shopStatus.setText(shop.getShopStatus());
+        if (shop.getShopStatus().equals("离线"))
+            shopViewHolder.shopStatus.setText(shop.getShopStatus());
         for (int i = 0; i < getGrades(shop.getShopCore()); ++i)
             shopViewHolder.shopGradeList.get(i).setVisibility(View.VISIBLE);
         shopViewHolder.shopMonthSale.setText("月售" + shop.getShopMonthSale() + "单");
@@ -98,7 +99,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter implements View.On
     }
 
     public interface OnRecycleItemClickListener {
-        void OnRecycleItemClickListener(View view,int position);
+        void OnRecycleItemClickListener(View view, int position);
     }
 
     public List<Shop> getShopList() {
