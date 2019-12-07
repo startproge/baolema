@@ -21,12 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.example.baolema.MainActivity;
+import com.example.baolema.ui.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Shop;
-import com.example.baolema.controller.OrderController;
-import com.example.baolema.controller.ShopController;
 import com.example.baolema.util.httpUtil;
 
 import java.util.ArrayList;

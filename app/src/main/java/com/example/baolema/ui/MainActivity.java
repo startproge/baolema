@@ -1,4 +1,4 @@
-package com.example.baolema;
+package com.example.baolema.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.baolema.R;
 import com.example.baolema.ui.home.LocationActivity;
 import com.example.baolema.ui.mine.LoginActivity;
 import com.example.baolema.ui.mine.MinePhoneActivity;
@@ -22,18 +23,25 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView imageAccount;
-    private static final int GET_ACCOUNT_ICON=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
         if (pref.getInt("userId", -1) == -1) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
+
+        if (pref.getBoolean("FirstStart", true)) {
+            Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+            startActivity(intent);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("FirstStart", false);
+            editor.apply();
+        }
+
         toolbar = findViewById(R.id.tool_bar_main);
         resetTitle("");
         setSupportActionBar(toolbar);

@@ -10,7 +10,7 @@
     <color name="colorOrange">#FF9800</color>
     <color name="colorRed">#F30606</color>
     <color name="colorYellow">#70FFC800</color>
-    <color name="colorLightYellow">#FFE230</color>
+    <color name="colorLightYellow">#F5DEB3</color>
     <color name="colorBlue">#9200C4FF</color>
     <color name="colorWeakBlue">#F2B0F0F5</color>
 </resources>

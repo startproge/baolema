@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -25,8 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.example.baolema.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Activity;
 import com.example.baolema.bean.Recipe;
@@ -45,9 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import im.unicolas.trollbadgeview.LabelView;
-
-
-import static com.example.baolema.ui.home.RecipeAdapter.*;
 
 public class ShopActivity extends AppCompatActivity {
     private MyShopDBHelper dbHelper;

@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.ArraySet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
-import com.example.baolema.MainActivity;
+import com.example.baolema.ui.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.OrderSum;
 import com.example.baolema.bean.Shop;
-import com.example.baolema.controller.OrderController;
 import com.example.baolema.util.httpUtil;
 
 
