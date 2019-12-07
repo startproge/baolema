@@ -131,16 +131,13 @@ public class ShopActivity extends AppCompatActivity {
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
             reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
         });
-        clear_shopping_car.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shopCarAdapter.getShopCarRecipes().clear();
-                shopCarAdapter.resetMoney();
-                shopCarAdapter.resetReduce();
-                shopCarAdapter.notifyDataSetChanged();
-                money.setText(String.valueOf(shopCarAdapter.getMoney()));
-                reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
-            }
+        clear_shopping_car.setOnClickListener(v -> {
+            shopCarAdapter.getShopCarRecipes().clear();
+            shopCarAdapter.resetMoney();
+            shopCarAdapter.resetReduce();
+            shopCarAdapter.notifyDataSetChanged();
+            money.setText(String.valueOf(shopCarAdapter.getMoney()));
+            reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
         });
 
         //商家菜单RecycleView

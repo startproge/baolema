@@ -95,8 +95,8 @@ public class OrderCommitActivity extends AppCompatActivity {
         finally_reduce=findViewById(R.id.finally_reduce_money);
         orderCommitAdapter.resetMoney();
 
-        summary.setText("总计￥"+String.valueOf(orderCommitAdapter.getMoney()));
-        reduceTextView.setText("优惠￥"+String.valueOf(reduce));
+        summary.setText("总计￥"+ orderCommitAdapter.getMoney());
+        reduceTextView.setText("优惠￥"+ reduce);
         total_money.setText(String.valueOf(orderCommitAdapter.getMoney()-reduce));
         finally_paid.setText(total_money.getText());
         finally_reduce.setText(String.valueOf(reduce));

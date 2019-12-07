@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,18 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.R;
 import com.example.baolema.bean.Activity;
-import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderInformation;
 import com.example.baolema.bean.OrderSum;
-import com.example.baolema.bean.ShopCarRecipe;
 import com.example.baolema.controller.ActivityController;
 import com.example.baolema.controller.OrderController;
 import com.example.baolema.controller.ShopController;
-import com.example.baolema.util.httpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
