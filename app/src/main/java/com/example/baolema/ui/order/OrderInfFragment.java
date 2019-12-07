@@ -1,9 +1,21 @@
 package com.example.baolema.ui.order;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +51,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderInfFragment extends Fragment {
+    public static final int CHOOSE_PHOTO=1;
+
     private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView recyclerOrderRecipe;
     private int orderId;
@@ -226,7 +242,6 @@ public class OrderInfFragment extends Fragment {
                     order_summary.setText("总价￥"+String.valueOf(orderSum.getOrdersum()));
                     order_reduce.setText("优惠￥"+String.valueOf(orderinfAdapter.getReduce()));
                     order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-orderinfAdapter.getReduce()));
-
                     if(orderStatus.equals("完成")){
                         label_order_grade.setVisibility(View.VISIBLE);
                         order_grade.setVisibility(View.VISIBLE);
@@ -234,6 +249,19 @@ public class OrderInfFragment extends Fragment {
                         order_comment.setVisibility(View.VISIBLE);
                         label_order_image.setVisibility(View.VISIBLE);
                         order_image.setVisibility(View.VISIBLE);
+                        order_image.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                                    //Toast.makeText(getActivity(),"权限申请",Toast.LENGTH_SHORT).show();
+                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+
+                                }else{
+                                    openAlbum();
+                                    Toast.makeText(getActivity(),"点击图片",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                         shopEvaCommit.setVisibility(View.VISIBLE);
                         shopEvaCommit.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -258,6 +286,105 @@ public class OrderInfFragment extends Fragment {
             }
         }
     };
+
+    private void openAlbum(){
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        startActivityForResult(intent,CHOOSE_PHOTO);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getActivity(), "you use the permission", Toast.LENGTH_SHORT).show();
+                    openAlbum();
+                } else {
+                    Toast.makeText(getActivity(), "you denied the permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            /*case TAKE_PHOTO:
+                if(resultCode == getActivity().RESULT_OK){
+                    try{
+                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(imageUri));
+                        image_head.setImageBitmap(bitmap);
+                    }catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }
+                }
+                break;*/
+            case CHOOSE_PHOTO:
+                if(resultCode==getActivity().RESULT_OK){
+                    if(Build.VERSION.SDK_INT >= 19) {
+                        handleImageOnKitKat(data);
+                    }else {
+                        handleImageBeforeKitKat(data);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @TargetApi(19)
+    private void handleImageOnKitKat(Intent data){
+        String imagePath = null;
+        Uri uri = data.getData();
+        if(DocumentsContract.isDocumentUri(getActivity(),uri)){
+            String docId = DocumentsContract.getDocumentId(uri);
+            if("com.android.providers.media.documents".equals(uri.getAuthority())){
+                String id = docId.split(":")[1];
+                String selection = MediaStore.Images.Media._ID + "=" +id;
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,selection);
+            }else if("com.android.providers.downloads.documents".equals(uri.getAuthority())){
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        }else if("content".equalsIgnoreCase(uri.getScheme())){
+            imagePath = getImagePath(uri,null);
+        }else if("file".equalsIgnoreCase(uri.getScheme())){
+            imagePath = uri.getPath();
+        }
+        displayImage(imagePath);
+    }
+
+    private void handleImageBeforeKitKat(Intent data){
+        Uri uri = data.getData();
+        String imagePath = getImagePath(uri,null);
+        displayImage(imagePath);
+    }
+
+    private String getImagePath(Uri uri,String selection){
+        String path = null;
+        Cursor cursor = getActivity().getContentResolver().query(uri, null,selection,null,null);
+        if(cursor !=null){
+            if(cursor.moveToFirst()){
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
+    private void displayImage(String imagePath){
+        if(imagePath != null){
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            order_image.setImageBitmap(bitmap);
+        }else {
+            Toast.makeText(getActivity(),"failed to get image",Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
 
