@@ -252,7 +252,6 @@ public class OrderInfFragment extends Fragment {
 
                                 }else{
                                     openAlbum();
-                                    Toast.makeText(getActivity(),"点击图片",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -293,7 +292,6 @@ public class OrderInfFragment extends Fragment {
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getActivity(), "you use the permission", Toast.LENGTH_SHORT).show();
                     openAlbum();
                 } else {
                     Toast.makeText(getActivity(), "you denied the permission", Toast.LENGTH_SHORT).show();
