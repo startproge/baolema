@@ -1,75 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/headImage"
         android:layout_width="45sp"
         android:layout_height="45sp"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="10sp"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10sp"
-        android:layout_marginRight="10sp">
-    </ImageView>
+        android:layout_marginRight="10sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@+id/headImage"
         android:layout_marginLeft="10sp"
-        app:layout_constraintTop_toTopOf="@+id/headImage"
-        android:textSize="15sp"
+        android:layout_marginRight="10sp"
         android:textColor="@color/colorBlack"
-        android:layout_marginRight="10sp">
-    </TextView>
+        android:textSize="15sp"
+        app:layout_constraintLeft_toRightOf="@+id/headImage"
+        app:layout_constraintTop_toTopOf="@+id/headImage" />
 
     <TextView
         android:id="@+id/evaluate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintLeft_toLeftOf="@+id/name"
         android:layout_marginTop="5sp"
+        android:layout_marginEnd="10sp"
         android:textSize="15sp"
-        android:layout_marginRight="10sp"
-        >
-    </TextView>
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/name"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="20sp"
-        android:text="2019-11-02"
-        >
+        app:layout_constraintLeft_toLeftOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
-    </TextView>
     <TextView
+        android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/content"
-        app:layout_constraintTop_toBottomOf="@+id/evaluate"
+        android:layout_marginStart="10sp"
         android:layout_marginTop="10sp"
         app:layout_constraintLeft_toRightOf="@+id/headImage"
-        android:layout_marginLeft="10sp"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/evaluate">
 
     </TextView>
+
     <ImageView
         android:id="@+id/contentImage"
         android:layout_width="80sp"
         android:layout_height="80sp"
-        app:layout_constraintTop_toBottomOf="@+id/content"
+        android:layout_marginStart="10sp"
         android:layout_marginTop="10sp"
         app:layout_constraintLeft_toRightOf="@+id/headImage"
-        android:layout_marginLeft="10sp"
-        >
-    </ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

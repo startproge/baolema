@@ -1,310 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/colorLightYellow"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_top"
-                android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorOrange"
-                app:layout_constraintTop_toTopOf="parent">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="订单详情"
-                    android:textSize="20sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="10sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginLeft="10sp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <ImageView
-                android:id="@+id/shop_icon"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                app:layout_constraintTop_toBottomOf="@+id/layout_top"
+                android:layout_marginStart="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="10sp"
+                android:text="订单详情"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="20sp"
-                android:src="@drawable/ic_home"/>
-             <TextView
-                 android:id="@+id/shop_name"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 app:layout_constraintLeft_toRightOf="@+id/shop_icon"
-                 app:layout_constraintTop_toTopOf="@+id/shop_icon"
-                 app:layout_constraintBottom_toBottomOf="@+id/shop_icon"
-                 android:layout_marginLeft="10sp"
-                 android:text="土耳其烤肉饭"
-                 android:textSize="20sp"/>
-            <ImageView
-                android:id="@+id/divide1"
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                app:layout_constraintTop_toBottomOf="@id/shop_icon"
-                android:background="@color/colorGrey"
-                android:layout_marginLeft="20sp"
-                android:layout_marginTop="5sp"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/order_recipe_recycleview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/divide1"/>
-            <ImageView
-                android:id="@+id/divide2"
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                app:layout_constraintTop_toBottomOf="@id/order_recipe_recycleview"
-                android:background="@color/colorGrey"
-                android:layout_marginLeft="20sp"
-                android:layout_marginTop="5sp"/>
-            <TextView
-                android:id="@+id/total_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/shop_icon"
-                app:layout_constraintTop_toBottomOf="@id/divide2"
-                android:layout_marginTop="5sp"
-                android:textSize="15sp"
-                android:text="总计 ￥0"
-                />
-            <TextView
-                android:id="@+id/order_reduce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/total_money"
-                app:layout_constraintTop_toTopOf="@id/total_money"
-                android:layout_marginLeft="5sp"
-                android:textSize="15sp"
-                android:text="优惠 ￥0"
-                />
-            <TextView
-                android:id="@+id/total_paid_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/total_money"
-                android:layout_marginLeft="5sp"
-                android:textSize="15sp"
-                android:text="实付 ￥0"
-                android:layout_marginRight="10sp"
-                android:textColor="@color/colorRed"
-                />
-            <ImageView
-                android:id="@+id/divide3"
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                app:layout_constraintTop_toBottomOf="@id/total_money"
-                android:background="@color/colorGrey"
-                android:layout_marginLeft="20sp"
-                android:layout_marginTop="5sp"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/last_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/divide3"
-                android:background="@color/colorOrange">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="订单信息"
-                    android:textSize="20sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="10sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginLeft="10sp"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <TextView
-                android:id="@+id/label_order_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="订单号码"
-                android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@id/last_layout"
-                app:layout_constraintLeft_toLeftOf="@id/shop_icon"
-                android:layout_marginTop="10sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/order_number"
-                app:layout_constraintLeft_toRightOf="@id/label_order_number"
-                app:layout_constraintTop_toTopOf="@id/label_order_number"
-                app:layout_constraintBottom_toBottomOf="@id/label_order_number"
-                android:text="123456789"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:layout_marginLeft="20sp"/>
-            <ImageView
-                android:id="@+id/divide4"
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/colorGrey"
-                app:layout_constraintTop_toBottomOf="@id/order_number"
-                android:layout_marginLeft="20sp"
-                android:layout_marginTop="10sp"/>
-
-            <TextView
-                android:id="@+id/label_order_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="订单时间"
-                android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@id/divide4"
-                app:layout_constraintLeft_toLeftOf="@id/shop_icon"
-                android:layout_marginTop="10sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/order_time_day"
-                app:layout_constraintLeft_toRightOf="@id/label_order_time"
-                app:layout_constraintTop_toTopOf="@id/label_order_time"
-                app:layout_constraintBottom_toBottomOf="@id/label_order_time"
-                android:text="2017-01-08"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:layout_marginLeft="20sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/order_time_second"
-                app:layout_constraintLeft_toRightOf="@id/order_time_day"
-                app:layout_constraintTop_toTopOf="@id/label_order_time"
-                app:layout_constraintBottom_toBottomOf="@id/label_order_time"
-                android:text="17:09:23"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:layout_marginLeft="20sp"/>
-            <ImageView
-                android:id="@id/divide5"
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/colorGrey"
-                app:layout_constraintTop_toBottomOf="@+id/label_order_time"
-                android:layout_marginLeft="20sp"
-                android:layout_marginTop="10sp"/>
-
-            <TextView
-                android:id="@+id/label_pay_method"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="支付方式"
-                android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@id/divide5"
-                app:layout_constraintLeft_toLeftOf="@id/shop_icon"
-                android:layout_marginTop="10sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/pay_method"
-                app:layout_constraintLeft_toRightOf="@id/label_pay_method"
-                app:layout_constraintTop_toTopOf="@id/label_pay_method"
-                app:layout_constraintBottom_toBottomOf="@id/label_pay_method"
-                android:text="在线支付"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:layout_marginLeft="20sp"/>
-            <ImageView
-                android:id="@id/divide6"
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/colorGrey"
-                app:layout_constraintTop_toBottomOf="@+id/label_pay_method"
-                android:layout_marginLeft="20sp"
-                android:layout_marginTop="10sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="评价等级"
-                android:id="@+id/label_order_grade"
-                app:layout_constraintTop_toTopOf="@id/order_grade"
-                app:layout_constraintLeft_toLeftOf="@id/shop_icon"
-                android:layout_marginTop="10sp"
-                android:textSize="20sp"
-                android:visibility="gone"
-                >
-
-            </TextView>
-            <RatingBar
-                android:id="@+id/order_grade"
-                android:numStars="5"
-                android:rating = "0"
-                android:isIndicator="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/divide6"
-                app:layout_constraintLeft_toRightOf="@id/label_order_grade"
-                android:layout_marginTop="10sp"
-                android:layout_marginLeft="20sp"
-                android:visibility="gone"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="评价内容"
-                android:id="@+id/label_order_comment"
-                app:layout_constraintTop_toTopOf="@id/order_comment"
-                app:layout_constraintLeft_toLeftOf="@id/label_order_grade"
-                android:textSize="20sp"
-                android:visibility="gone"
-                />
-            <EditText
-                android:id="@+id/order_comment"
-                android:textSize="20sp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/order_grade"
-                app:layout_constraintRight_toRightOf="@id/order_grade"
-                app:layout_constraintTop_toBottomOf="@id/order_grade"
-                android:layout_marginTop="10sp"
-                android:hint="在此写入评价内容"
-                android:background="@null"
-                android:visibility="gone"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="图片"
-                android:id="@+id/label_order_image"
-                app:layout_constraintTop_toTopOf="@id/order_image"
-                app:layout_constraintLeft_toLeftOf="@id/label_order_comment"
-                android:textSize="20sp"
-                android:visibility="gone"
-                />
-            <ImageView
-                android:id="@+id/order_image"
-                android:layout_width="80sp"
-                android:layout_height="80sp"
-                android:layout_marginTop="10sp"
-                app:layout_constraintLeft_toLeftOf="@id/order_comment"
-                app:layout_constraintTop_toBottomOf="@id/order_comment"
-                android:visibility="gone"
-                >
-            </ImageView>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/shopEva_commit"
-                android:text="提交评论"
-                android:layout_marginTop="10sp"
-                app:layout_constraintTop_toBottomOf="@id/order_image"
-                app:layout_constraintLeft_toLeftOf="@id/order_image"
-                android:visibility="gone"
-                >
-            </Button>
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/shop_icon"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:layout_marginStart="20sp"
+            android:src="@drawable/ic_home"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_top" />
+
+        <TextView
+            android:id="@+id/shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="土耳其烤肉饭"
+            android:textColor="@color/colorOrange"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/shop_icon"
+            app:layout_constraintLeft_toRightOf="@+id/shop_icon"
+            app:layout_constraintTop_toTopOf="@+id/shop_icon" />
+
+        <ImageView
+            android:id="@+id/divide1"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/colorGrey"
+            app:layout_constraintTop_toBottomOf="@id/shop_icon" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_recipe_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/divide1" />
+
+        <ImageView
+            android:id="@+id/divide2"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/colorGrey"
+            app:layout_constraintTop_toBottomOf="@id/order_recipe_recycleview" />
+
+        <TextView
+            android:id="@+id/total_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:text="总计 ￥0"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+            app:layout_constraintTop_toBottomOf="@id/divide2" />
+
+        <TextView
+            android:id="@+id/order_reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+            android:text="优惠 ￥0"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toRightOf="@id/total_money"
+            app:layout_constraintTop_toTopOf="@id/total_money" />
+
+        <TextView
+            android:id="@+id/total_paid_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="10sp"
+            android:text="实付 ￥0"
+            android:textColor="@color/colorRed"
+            android:textSize="15sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/total_money" />
+
+        <ImageView
+            android:id="@+id/divide3"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/colorGrey"
+            app:layout_constraintTop_toBottomOf="@id/total_money" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/last_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange"
+            app:layout_constraintTop_toBottomOf="@id/divide3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="10sp"
+                android:text="订单信息"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/label_order_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:text="订单号码"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+            app:layout_constraintTop_toBottomOf="@id/last_layout" />
+
+        <TextView
+            android:id="@+id/order_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:text="123456789"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/label_order_number"
+            app:layout_constraintLeft_toRightOf="@id/label_order_number"
+            app:layout_constraintTop_toTopOf="@id/label_order_number" />
+
+        <ImageView
+            android:id="@+id/divide4"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="10sp"
+            android:background="@color/colorGrey"
+            app:layout_constraintTop_toBottomOf="@id/order_number" />
+
+        <TextView
+            android:id="@+id/label_order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:text="订单时间"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+            app:layout_constraintTop_toBottomOf="@id/divide4" />
+
+        <TextView
+            android:id="@+id/order_time_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:text="2017-01-08"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/label_order_time"
+            app:layout_constraintLeft_toRightOf="@id/label_order_time"
+            app:layout_constraintTop_toTopOf="@id/label_order_time" />
+
+        <TextView
+            android:id="@+id/order_time_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18sp"
+            android:text="17:09:23"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/label_order_time"
+            app:layout_constraintLeft_toRightOf="@id/order_time_day"
+            app:layout_constraintTop_toTopOf="@id/label_order_time" />
+
+        <ImageView
+            android:id="@id/divide5"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="10sp"
+            android:background="@color/colorGrey"
+            app:layout_constraintTop_toBottomOf="@+id/label_order_time" />
+
+        <TextView
+            android:id="@+id/label_pay_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:text="支付方式"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+            app:layout_constraintTop_toBottomOf="@id/divide5" />
+
+        <TextView
+            android:id="@+id/pay_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:text="在线支付"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/label_pay_method"
+            app:layout_constraintLeft_toRightOf="@id/label_pay_method"
+            app:layout_constraintTop_toTopOf="@id/label_pay_method" />
+
+        <ImageView
+            android:id="@id/divide6"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginTop="10sp"
+            android:background="@color/colorGrey"
+            app:layout_constraintTop_toBottomOf="@+id/label_pay_method" />
+
+        <TextView
+            android:id="@+id/label_order_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:text="评价等级"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+            app:layout_constraintTop_toTopOf="@id/order_grade">
+
+        </TextView>
+
+        <RatingBar
+            android:id="@+id/order_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:layout_marginTop="10sp"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:rating="0"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/label_order_grade"
+            app:layout_constraintTop_toBottomOf="@id/divide6" />
+
+        <TextView
+            android:id="@+id/label_order_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="添加图片"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+            app:layout_constraintTop_toTopOf="@id/order_image" />
+
+        <ImageView
+            android:id="@+id/order_image"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/baolema_b"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/label_order_image"
+            app:layout_constraintTop_toBottomOf="@id/order_grade" />
+
+        <TextView
+            android:id="@+id/label_order_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="评价内容"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@id/shop_icon"
+            app:layout_constraintTop_toTopOf="@id/order_comment" />
+
+        <EditText
+            android:id="@+id/order_comment"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edt_commit_remark"
+            android:gravity="top"
+            android:hint="在此写入评价内容"
+            android:inputType="textMultiLine"
+            android:maxLength="300"
+            android:maxLines="9"
+            android:minLines="1"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/order_grade"
+            app:layout_constraintTop_toBottomOf="@id/order_image" />
+
+        <Button
+            android:id="@+id/shopEva_commit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorOrange"
+            android:text="提交评论"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_comment" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

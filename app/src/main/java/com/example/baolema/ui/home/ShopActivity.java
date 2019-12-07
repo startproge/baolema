@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,7 +46,7 @@ import im.unicolas.trollbadgeview.LabelView;
 
 public class ShopActivity extends AppCompatActivity {
     private MyShopDBHelper dbHelper;
-    private  SQLiteDatabase db;
+    private SQLiteDatabase db;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private Shop shop;
@@ -75,35 +76,35 @@ public class ShopActivity extends AppCompatActivity {
     CommentAdapter commentAdapter;
 
     private TextView activityText;
-    private boolean isCommit=false;
+    private boolean isCommit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
         dbHelper = new MyShopDBHelper(this, "ShopCarList.db", null, 2);
-        db=dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
         pref = getSharedPreferences("user", MODE_PRIVATE);
-        editor=pref.edit();
+        editor = pref.edit();
 
-        userId=pref.getInt("userId",0);
+        userId = pref.getInt("userId", 0);
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
-        money=findViewById(R.id.order_money);
-        reduce=findViewById(R.id.reduce_money);
-        clear_shopping_car=findViewById(R.id.clear_shopping_car);
-        activityText=findViewById(R.id.preferential_text);
+        money = findViewById(R.id.order_money);
+        reduce = findViewById(R.id.reduce_money);
+        clear_shopping_car = findViewById(R.id.clear_shopping_car);
+        activityText = findViewById(R.id.preferential_text);
 
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
 
-        text_shop_phone=findViewById(R.id.text_shop_phone);
-        text_shop_location=findViewById(R.id.text_shop_location);
-        shop_board=findViewById(R.id.shop_board);
+        text_shop_phone = findViewById(R.id.text_shop_phone);
+        text_shop_location = findViewById(R.id.text_shop_location);
+        shop_board = findViewById(R.id.shop_board);
         Intent intent = getIntent();
         shop = (Shop) intent.getSerializableExtra("shop");
-        if(shop!=null) {
+        if (shop != null) {
             toolbar.setTitle(shop.getShopName());
             shopId = shop.getShopId();
             text_shop_phone.setText(shop.getShopTel());
@@ -116,13 +117,13 @@ public class ShopActivity extends AppCompatActivity {
         LinearLayoutManager shopLayoutManager = new LinearLayoutManager(this);
         shoppingCarRecycleview = findViewById(R.id.shopping_car_recycleview);
         shoppingCarRecycleview.setLayoutManager(shopLayoutManager);
-        shopCarRecipes=new MyDBHelperController().getShopCars(db,shopId,userId);
+        shopCarRecipes = new MyDBHelperController().getShopCars(db, shopId, userId);
         shopCarAdapter = new ShopCarAdapter(shopCarRecipes, this);
         try {
-            ThreadgetActivity threadgetActivity=new ThreadgetActivity();
+            ThreadgetActivity threadgetActivity = new ThreadgetActivity();
             threadgetActivity.start();
             threadgetActivity.join();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         shoppingCarRecycleview.setAdapter(shopCarAdapter);
@@ -182,6 +183,7 @@ public class ShopActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
@@ -196,7 +198,7 @@ public class ShopActivity extends AppCompatActivity {
             intent1.putExtra("ShopCarToOrderCommit", args);
             intent1.putExtra("shopId", shopId);
             intent1.putExtra("reduce", shopCarAdapter.getReduce());
-            startActivityForResult(intent1,1);
+            startActivityForResult(intent1, 1);
         });
 
         toolbar.setNavigationOnClickListener(v -> {
@@ -204,7 +206,7 @@ public class ShopActivity extends AppCompatActivity {
             finish();
         });
 
-        Thread thread=new Thread(()->{
+        Thread thread = new Thread(() -> {
             recipeList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId), Recipe.class);
             Log.d("activity123", String.valueOf(recipeList.size()));
             Message message = new Message();
@@ -229,7 +231,7 @@ public class ShopActivity extends AppCompatActivity {
                     break;
                 }
             if (isExist) {
-                ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipeList.get(position).getRecipeId(),recipeList.get(position).getRecipeName()
+                ShopCarRecipe shopCarRecipe = new ShopCarRecipe(recipeList.get(position).getRecipeId(), recipeList.get(position).getRecipeName()
                         , recipeList.get(position).getRecipePrice(), 1);
                 shopCarAdapter.getShopCarRecipes().add(shopCarRecipe);
             }
@@ -242,10 +244,10 @@ public class ShopActivity extends AppCompatActivity {
         for (Recipe r : recipeList)
             getRecipeByHttp(r.getRecipeId());
 
-        shop_evaluate_recyclerview=findViewById(R.id.shop_evaluate_recyclerview);
+        shop_evaluate_recyclerview = findViewById(R.id.shop_evaluate_recyclerview);
         LinearLayoutManager ShopEvalayoutManager = new LinearLayoutManager(this);
         shop_evaluate_recyclerview.setLayoutManager(ShopEvalayoutManager);
-        commentAdapter=new CommentAdapter(this);
+        commentAdapter = new CommentAdapter(this);
         shop_evaluate_recyclerview.setAdapter(commentAdapter);
         getShopEvaByHttp();
     }
@@ -255,9 +257,9 @@ public class ShopActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1:
-                if(resultCode==RESULT_OK) {
-                    isCommit =data.getBooleanExtra("isCommit",false);
-                    if(isCommit==true){
+                if (resultCode == RESULT_OK) {
+                    isCommit = data.getBooleanExtra("isCommit", false);
+                    if (isCommit == true) {
                         shopCarAdapter.getShopCarRecipes().clear();
                         shopCarAdapter.resetMoney();
                         shopCarAdapter.resetReduce();
@@ -274,7 +276,7 @@ public class ShopActivity extends AppCompatActivity {
 
     void getRecipeByHttp(int recipeId) {
         new Thread(() -> {
-            Recipe recipe= JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipe?recipeId=" + recipeId), Recipe.class);
+            Recipe recipe = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipe?recipeId=" + recipeId), Recipe.class);
             for (int i = 0; i < recipeList.size(); i++)
                 if (recipeList.get(i).getRecipeId() == recipeId)
                     recipeList.get(i).setRecipeImage(recipe.getRecipeImage());
@@ -293,22 +295,24 @@ public class ShopActivity extends AppCompatActivity {
         }).start();
     }*/
 
-    private class ThreadgetActivity extends Thread{
+    private class ThreadgetActivity extends Thread {
         @Override
         public void run() {
-            activitys=new ActivityController().getActivitiesByShopId(shopId);
+            activitys = new ActivityController().getActivitiesByShopId(shopId);
             Message message = new Message();
             message.what = 3;
             handler.sendMessage(message);
         }
     }
-    void getShopEvaByHttp(){
+
+    void getShopEvaByHttp() {
         new Thread(() -> {
-            Log.d("shopEvasSize", String.valueOf(shopId));
-            shopEvas=new ShopController().getShopEva(shopId);
-            if(shopEvas!=null) {
-                Log.d("shopEvasSize", String.valueOf(shopEvas.size()));
-                Log.d("shopEva", String.valueOf(shopId));
+            shopEvas = new ShopController().getShopEva(shopId);
+            for (ShopEva e :
+                    shopEvas) {
+                Log.e("a", "getShopEvaByHttp: "+e.getShopEvaluateContent() );
+            }
+            if (shopEvas != null) {
                 Message message = new Message();
                 message.what = 4;
                 handler.sendMessage(message);
@@ -326,20 +330,20 @@ public class ShopActivity extends AppCompatActivity {
                     recipeAdapter.notifyDataSetChanged();
                     break;
                 case 3:
-                    Log.d("ActivitySize",String.valueOf(activitys.size()));
-                    String text="";
-                    for(int i=0;i<activitys.size();i++){
-                        text+="满"+(int)activitys.get(i).getFullMoney()+"减"+(int)activitys.get(i).getReduceMoney();
+                    Log.d("ActivitySize", String.valueOf(activitys.size()));
+                    String text = "";
+                    for (int i = 0; i < activitys.size(); i++) {
+                        text += "满" + (int) activitys.get(i).getFullMoney() + "减" + (int) activitys.get(i).getReduceMoney();
                         //shopCarAdapter.getActivities().add(activitys.get(i));
                     }
                     activityText.setText(text);
                     shopCarAdapter.setActivities(activitys);
-                    Log.d("reduceMoney",String.valueOf(shopCarAdapter.getActivities().size()));
+                    Log.d("reduceMoney", String.valueOf(shopCarAdapter.getActivities().size()));
                     shopCarAdapter.resetMoney();
                     shopCarAdapter.resetReduce();
                     shopCarAdapter.notifyDataSetChanged();
                     recipeAdapter.notifyDataSetChanged();
-                    Log.d("reduceMoney",String.valueOf(shopCarAdapter.getReduce()));
+                    Log.d("reduceMoney", String.valueOf(shopCarAdapter.getReduce()));
                     money.setText(String.valueOf(shopCarAdapter.getMoney()));
                     reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
                     break;
@@ -357,57 +361,58 @@ public class ShopActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         new MyDBHelperController().deleteShopCar(db, shopId, userId);
-        if(shopCarAdapter.getShopCarRecipes().size()!=0){
-            new MyDBHelperController().addShopCar(db,shopId,userId,shopCarAdapter.getShopCarRecipes());
+        if (shopCarAdapter.getShopCarRecipes().size() != 0) {
+            new MyDBHelperController().addShopCar(db, shopId, userId, shopCarAdapter.getShopCarRecipes());
         }
-        Log.d("MyDBhelper","保存成功"+shopCarAdapter.getShopCarRecipes().size());
+        Log.d("MyDBhelper", "保存成功" + shopCarAdapter.getShopCarRecipes().size());
         super.onDestroy();
     }
 }
 
-class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private  List<ShopEva> shopEvaList;
+class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<ShopEva> shopEvaList;
     private Context context;
-    static class CommentViewHolder extends RecyclerView.ViewHolder{
+
+    static class CommentViewHolder extends RecyclerView.ViewHolder {
         ImageView headImage;
         TextView name;
         TextView evaluate;
-        TextView date;
         TextView content;
         ImageView contentImage;
-        public CommentViewHolder(View view){
+
+        public CommentViewHolder(View view) {
             super(view);
-            headImage=view.findViewById(R.id.headImage);
-            name=view.findViewById(R.id.name);
-            evaluate=view.findViewById(R.id.evaluate);
-            date=view.findViewById(R.id.date);
-            content=view.findViewById(R.id.content);
-            contentImage=view.findViewById(R.id.contentImage);
+            headImage = view.findViewById(R.id.headImage);
+            name = view.findViewById(R.id.name);
+            evaluate = view.findViewById(R.id.evaluate);
+            content = view.findViewById(R.id.content);
+            contentImage = view.findViewById(R.id.contentImage);
         }
     }
 
-    public CommentAdapter(Context context){
-        this.context=context;
-        shopEvaList=new ArrayList<>();
+    public CommentAdapter(Context context) {
+        this.context = context;
+        shopEvaList = new ArrayList<>();
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_comment,parent,false);
-        CommentViewHolder holder=new CommentViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_comment, parent, false);
+        CommentViewHolder holder = new CommentViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ShopEva shopEva=shopEvaList.get(position);
-        CommentViewHolder mholder=(CommentViewHolder)holder;
-        mholder.headImage.setImageResource(R.drawable.ic_night_mode);
+        ShopEva shopEva = shopEvaList.get(position);
+        CommentViewHolder mholder = (CommentViewHolder) holder;
+        mholder.headImage.setImageBitmap(BitmapFactory.decodeByteArray(shopEva.getUserImage(), 0, shopEva.getUserImage().length));
         mholder.name.setText(shopEva.getUserName());
         mholder.evaluate.setText(String.valueOf(shopEva.getShopGrade()));
         mholder.content.setText(shopEva.getShopEvaluateContent());
-        //mholder.date.setText(shopEv);
-        mholder.contentImage.setImageResource(R.drawable.ic_night_mode);
+        if (!(shopEva.getShopEvaluateImage() == null || shopEva.getShopEvaluateImage().length == 0))
+            mholder.contentImage.setImageBitmap(BitmapFactory.decodeByteArray(shopEva.getShopEvaluateImage(), 0, shopEva.getShopEvaluateImage().length));
     }
 
     @Override

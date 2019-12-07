@@ -5,28 +5,27 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true">
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.home.ShopActivity"></activity>
-        <activity android:name=".ui.home.OrderCommitActivity"></activity>
+        <activity android:name=".ui.home.ShopActivity" />
+        <activity android:name=".ui.home.OrderCommitActivity" />
         <activity android:name=".ui.home.LocationActivity" />
         <activity android:name=".ui.mine.SettingActivity" />
         <activity android:name=".ui.mine.MinePhoneActivity" />
-        <activity android:name=".ui.order.OrderInfActivity">
-
-        </activity>
+        <activity android:name=".ui.order.OrderInfActivity" />
         <activity android:name=".ui.mine.LoginActivity" />
         <activity android:name=".ui.GuideActivity" />
     </application>

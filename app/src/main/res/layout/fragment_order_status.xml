@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/colorLightYellow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:background="@color/colorLightYellow"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/point1"
         android:layout_width="30sp"
         android:layout_height="30sp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="20sp"
         android:layout_marginTop="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="20sp"
         android:background="@drawable/ic_point_yellow"
-        >
-    </ImageView>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/commit_successful"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/point1"
-        app:layout_constraintLeft_toRightOf="@+id/point1"
-        android:textColor="@color/colorBlack"
-        android:text="支付成功,订单已提交"
+        android:layout_marginStart="5sp"
         android:layout_marginTop="2sp"
-        android:layout_marginLeft="5sp"
+        android:text="支付成功,订单已提交"
+        android:textColor="@color/colorBlack"
         android:textSize="20sp"
-        >
+        app:layout_constraintLeft_toRightOf="@+id/point1"
+        app:layout_constraintTop_toTopOf="@+id/point1">
 
     </TextView>
 
@@ -38,113 +35,109 @@
         android:id="@+id/divide1"
         android:layout_width="match_parent"
         android:layout_height="1sp"
-        app:layout_constraintTop_toBottomOf="@+id/commit_successful"
-        android:background="@color/colorGray"
-        android:layout_marginLeft="55sp"
+        android:layout_marginStart="55sp"
         android:layout_marginTop="20sp"
-        />
+        android:background="@color/colorGray"
+        app:layout_constraintTop_toBottomOf="@+id/commit_successful" />
+
     <ImageView
+        android:id="@+id/point2"
         android:layout_width="30sp"
         android:layout_height="30sp"
-        android:id="@+id/point2"
-        android:src="@drawable/ic_point_yellow"
-        android:scaleType="fitStart"
-        app:layout_constraintTop_toBottomOf="@+id/point1"
         android:layout_marginTop="60sp"
+        android:scaleType="fitStart"
+        android:src="@drawable/ic_point_yellow"
         app:layout_constraintLeft_toLeftOf="@+id/point1"
-        >
-    </ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/point1" />
 
     <TextView
         android:id="@+id/order_prepared"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@+id/commit_successful"
-        app:layout_constraintTop_toTopOf="@+id/point2"
         android:text="商家已接单，准备中"
-        android:textSize="20sp"
         android:textColor="@color/colorBlack"
-       />
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@+id/commit_successful"
+        app:layout_constraintTop_toTopOf="@+id/point2" />
+
     <ImageView
         android:id="@+id/divide2"
         android:layout_width="match_parent"
         android:layout_height="1sp"
-        app:layout_constraintTop_toBottomOf="@+id/order_prepared"
+        android:layout_marginStart="55sp"
         android:layout_marginTop="20sp"
         android:background="@color/colorGray"
-        android:layout_marginLeft="55sp"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/order_prepared" />
 
     <ImageView
+        android:id="@+id/point3"
         android:layout_width="30sp"
         android:layout_height="30sp"
-        android:id="@+id/point3"
-        android:src="@drawable/ic_point_yellow"
-        android:scaleType="fitStart"
-        app:layout_constraintTop_toBottomOf="@+id/point2"
         android:layout_marginTop="60sp"
-        app:layout_constraintLeft_toLeftOf="@+id/point2"
+        android:scaleType="fitStart"
+        android:src="@drawable/ic_point_yellow"
         android:visibility="gone"
-        />
+        app:layout_constraintLeft_toLeftOf="@+id/point2"
+        app:layout_constraintTop_toBottomOf="@+id/point2" />
+
     <TextView
         android:id="@+id/shop_order_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/point3"
-        app:layout_constraintLeft_toRightOf="@+id/point3"
-        android:textColor="@color/colorBlack"
-        android:text="商品已完成，请到店自取"
+        android:layout_marginStart="5sp"
         android:layout_marginTop="2sp"
-        android:layout_marginLeft="5sp"
+        android:text="商品已完成，请到店自取"
+        android:textColor="@color/colorBlack"
         android:textSize="20sp"
         android:visibility="gone"
-        />
+        app:layout_constraintLeft_toRightOf="@+id/point3"
+        app:layout_constraintTop_toTopOf="@+id/point3" />
 
     <ImageView
         android:id="@+id/divide3"
         android:layout_width="match_parent"
         android:layout_height="1sp"
-        app:layout_constraintTop_toBottomOf="@+id/shop_order_finish"
+        android:layout_marginStart="55sp"
         android:layout_marginTop="20sp"
         android:background="@color/colorGray"
-        android:layout_marginLeft="55sp"
         android:visibility="gone"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/shop_order_finish" />
 
     <ImageView
+        android:id="@+id/point4"
         android:layout_width="30sp"
         android:layout_height="30sp"
-        android:id="@+id/point4"
-        android:src="@drawable/ic_point_yellow"
-        android:scaleType="fitStart"
-        app:layout_constraintTop_toBottomOf="@+id/point3"
         android:layout_marginTop="60sp"
-        app:layout_constraintLeft_toLeftOf="@+id/point3"
+        android:scaleType="fitStart"
+        android:src="@drawable/ic_point_yellow"
         android:visibility="gone"
-        />
+        app:layout_constraintLeft_toLeftOf="@+id/point3"
+        app:layout_constraintTop_toBottomOf="@+id/point3" />
+
     <TextView
         android:id="@+id/shop_order_over"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/point4"
-        app:layout_constraintLeft_toRightOf="@+id/point4"
-        android:textColor="@color/colorBlack"
-        android:text="订单完成"
+        android:layout_marginStart="5sp"
         android:layout_marginTop="2sp"
-        android:layout_marginLeft="5sp"
+        android:text="订单完成"
+        android:textColor="@color/colorBlack"
         android:textSize="20sp"
         android:visibility="gone"
-        />
+        app:layout_constraintLeft_toRightOf="@+id/point4"
+        app:layout_constraintTop_toTopOf="@+id/point4" />
+
     <Button
         android:id="@+id/finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="完成订单"
-        app:layout_constraintTop_toBottomOf="@+id/point3"
-        android:layout_marginTop="120sp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorOrange"
+        android:text="确认收货"
+        android:textColor="@color/colorLightYellow"
+        android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:visibility="gone"
-        >
-    </Button>
+        app:layout_constraintTop_toBottomOf="@+id/divide3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
