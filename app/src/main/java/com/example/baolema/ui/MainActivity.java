@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
          所有类按此文件夹归类
          */
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_mine, R.id.navigation_order)
+                R.id.navigation_home, R.id.navigation_order, R.id.navigation_mine)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
