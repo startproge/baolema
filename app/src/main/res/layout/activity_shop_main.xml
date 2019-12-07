@@ -16,7 +16,7 @@
             android:id="@+id/tool_bar_shop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBlack"
+            android:background="@color/colorOrange"
             app:navigationIcon="@drawable/ic_back"
             app:titleTextColor="@color/colorWhite" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -38,23 +38,18 @@
             android:background="@drawable/ic_preferential"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/preferential_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50sp"
-            android:layout_marginTop="5sp"
-            android:layout_marginBottom="5sp"
+            android:layout_marginStart="20sp"
             android:gravity="center"
-            android:text=""
             android:textColor="@color/colorGray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/preferential_image"
-
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,7 +75,7 @@
                 <TabWidget
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -95,7 +90,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recipe_recycleview"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <ScrollView
@@ -112,11 +107,11 @@
                                 android:id="@+id/icon_shop_phone"
                                 android:layout_width="20sp"
                                 android:layout_height="20sp"
-                                android:layout_marginLeft="10sp"
+                                android:layout_marginStart="10sp"
                                 android:layout_marginTop="10sp"
                                 android:background="@drawable/ic_icon_shop_phone"
                                 app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
                                 android:id="@+id/text_shop_phone"
@@ -128,17 +123,17 @@
                                 android:textColor="@color/colorGray"
                                 app:layout_constraintBottom_toBottomOf="@+id/icon_shop_phone"
                                 app:layout_constraintLeft_toRightOf="@+id/icon_shop_phone"
-                                app:layout_constraintTop_toTopOf="@+id/icon_shop_phone"/>
+                                app:layout_constraintTop_toTopOf="@+id/icon_shop_phone" />
 
                             <ImageView
                                 android:id="@+id/image_shop_phone"
                                 android:layout_width="30sp"
                                 android:layout_height="30sp"
-                                android:layout_marginRight="20sp"
+                                android:layout_marginEnd="20sp"
                                 android:background="@drawable/ic_image_shop_phone"
                                 app:layout_constraintBottom_toBottomOf="@+id/icon_shop_phone"
                                 app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/icon_shop_phone"/>
+                                app:layout_constraintTop_toTopOf="@+id/icon_shop_phone" />
 
                             <ImageView
                                 android:id="@+id/split1"
@@ -146,9 +141,7 @@
                                 android:layout_height="0.5sp"
                                 android:layout_marginTop="10sp"
                                 android:background="@color/colorGray"
-                                app:layout_constraintTop_toBottomOf="@+id/image_shop_phone">
-
-                            </ImageView>
+                                app:layout_constraintTop_toBottomOf="@+id/image_shop_phone"/>
 
                             <ImageView
                                 android:id="@+id/icon_shop_location"
@@ -157,7 +150,7 @@
                                 android:layout_marginTop="10sp"
                                 android:background="@drawable/ic_locate"
                                 app:layout_constraintLeft_toLeftOf="@+id/icon_shop_phone"
-                                app:layout_constraintTop_toBottomOf="@+id/split1"/>
+                                app:layout_constraintTop_toBottomOf="@+id/split1" />
 
                             <TextView
                                 android:id="@+id/text_shop_location"
@@ -177,9 +170,7 @@
                                 android:layout_height="0.5sp"
                                 android:layout_marginTop="10sp"
                                 android:background="@color/colorGray"
-                                app:layout_constraintTop_toBottomOf="@+id/icon_shop_location">
-
-                            </ImageView>
+                                app:layout_constraintTop_toBottomOf="@+id/icon_shop_location"/>
 
                             <TextView
                                 android:id="@+id/shop_board"
@@ -195,7 +186,6 @@
                                 app:layout_constraintTop_toBottomOf="@+id/shop_board" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </ScrollView>
-
                 </FrameLayout>
             </LinearLayout>
         </TabHost>
@@ -251,7 +241,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="70sp"
+        android:layout_height="60sp"
         android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -273,7 +263,7 @@
             android:layout_marginTop="5sp"
             android:text="￥0.0"
             android:textColor="@color/colorRed"
-            android:textSize="30sp"
+            android:textSize="26sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -288,12 +278,12 @@
 
         <Button
             android:id="@+id/settlement_fee"
-            android:layout_width="150sp"
+            android:layout_width="120sp"
             android:layout_height="match_parent"
             android:background="@color/colorOrange"
             android:text="去结算"
             android:textColor="@color/colorWhite"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -301,13 +291,12 @@
 
     <im.unicolas.trollbadgeview.LabelView
         android:id="@+id/shopping_car_icon"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
+        android:layout_width="45sp"
+        android:layout_height="45sp"
         android:layout_marginStart="10sp"
-        android:layout_marginBottom="30sp"
+        android:layout_marginBottom="25sp"
         android:background="@color/colorOrange"
         app:layout_constraintBottom_toBottomOf="@+id/bottom_layout"
-        app:layout_constraintLeft_toLeftOf="parent">
-    </im.unicolas.trollbadgeview.LabelView>
+        app:layout_constraintLeft_toLeftOf="parent"></im.unicolas.trollbadgeview.LabelView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

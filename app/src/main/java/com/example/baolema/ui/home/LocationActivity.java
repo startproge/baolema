@@ -37,12 +37,8 @@ public class LocationActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         Toolbar toolbar = findViewById(R.id.tool_bar_address);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
+        recyclerView.setOnClickListener(v -> finish());
     }
 }
 

@@ -332,7 +332,7 @@ public class ShopActivity extends AppCompatActivity {
                     Log.d("ActivitySize",String.valueOf(activitys.size()));
                     String text="";
                     for(int i=0;i<activitys.size();i++){
-                        text+="满"+activitys.get(i).getFullMoney()+"减"+activitys.get(i).getReduceMoney();
+                        text+="满"+(int)activitys.get(i).getFullMoney()+"减"+(int)activitys.get(i).getReduceMoney();
                         //shopCarAdapter.getActivities().add(activitys.get(i));
                     }
                     activityText.setText(text);
