@@ -1,34 +1,22 @@
 package com.example.baolema.ui.order;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.example.baolema.R;
-import com.example.baolema.bean.OrderInf;
 import com.example.baolema.bean.OrderSum;
-import com.example.baolema.bean.Recipe;
 import com.example.baolema.bean.ShopCarRecipe;
 import com.example.baolema.controller.OrderController;
-import com.example.baolema.util.httpUtil;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class OrderInfActivity extends AppCompatActivity implements View.OnClickListener {
     private Fragment order_status;
