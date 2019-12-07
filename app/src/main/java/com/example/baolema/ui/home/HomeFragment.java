@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -31,24 +29,18 @@ import java.util.List;
 
 
 public class HomeFragment extends Fragment {
-    private HomeViewModel homeViewModel;
     private String urlStr = "http://47.98.229.17:8002/blm";
-    private TextView textView;
     private ViewPager viewPager;
     private RecyclerView recyclerView;
     private List<Shop> shopList;
-    private List<Integer> shopIdList;
     private HomeRecyclerAdapter homeRecyclerAdapter;
     private List<Integer> integerArrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         shopList = new ArrayList<>();
-//        shopIdList = new ArrayList<>();
 
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.resetTitle("饱了嘛");
@@ -63,7 +55,6 @@ public class HomeFragment extends Fragment {
 
         Thread thread = new Thread(() -> {
             shopList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/Shop/getShopList"), Shop.class);
-            Log.e("shopList", "getShopListByHttp: " + shopList.size());
             Message message = new Message();
             message.what = 1;
             handler.sendMessage(message);
@@ -89,7 +80,7 @@ public class HomeFragment extends Fragment {
                 String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();
                 intent.putExtra("shopId", shopId);
                 intent.putExtra("shopName", shopName);*/
-                intent.putExtra("shop",homeRecyclerAdapter.getShopList().get(position));
+                intent.putExtra("shop", homeRecyclerAdapter.getShopList().get(position));
                 startActivity(intent);
             }
         });
@@ -99,14 +90,6 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    void initImages() {
-        integerArrayList.add(R.drawable.baolema_light_yellow);
-        integerArrayList.add(R.drawable.de1);
-        integerArrayList.add(R.drawable.de2);
-        integerArrayList.add(R.drawable.de3);
-        viewPager.setOffscreenPageLimit(integerArrayList.size());
-        viewPager.setPageMargin(10);
-    }
 
     //参考地址 https://blog.csdn.net/pxcz110112/article/details/81220928
 
@@ -135,15 +118,14 @@ public class HomeFragment extends Fragment {
         }
     };
 
-//    void getShopIdListByHttp() {
-//        new Thread(() -> {
-//            shopIdList = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopIdList"), new TypeReference<List<Integer>>() {});
-//            Message message = new Message();
-//            message.what = 1;
-//            handler.sendMessage(message);
-//        }).start();
-//    }
-
+    void initImages() {
+        integerArrayList.add(R.drawable.baolema_light_yellow);
+        integerArrayList.add(R.drawable.de1);
+        integerArrayList.add(R.drawable.de2);
+        integerArrayList.add(R.drawable.de3);
+        viewPager.setOffscreenPageLimit(integerArrayList.size());
+        viewPager.setPageMargin(10);
+    }
 
     void getShopByHttp(final int id) {
         new Thread(() -> {

@@ -1,9 +1,6 @@
 package com.example.baolema.ui.mine;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -70,11 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 break;
         }
     }
-//        @Override
-//    public void onResume() {
-//        super.onResume();
-//        getUserByHttp();
-//    }
 
     private Handler handler = new Handler() {
         @Override
@@ -90,9 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("userIcon", Base64.encodeToString(user.getUserImage(), Base64.DEFAULT));
                     editor.apply();
                     Toast.makeText(LoginActivity.this, "登录成功!😆", Toast.LENGTH_LONG).show();
-//                    Intent data = new Intent();
-//                    data.putExtra("userIcon", user.getUserImage());
-//                    setResult(RESULT_OK,data);
                     finish();
                     break;
                 case 2:
@@ -126,12 +115,4 @@ public class LoginActivity extends AppCompatActivity {
             handler.sendMessage(message);
         }).start();
     }
-//    void getUserByHttp() {
-//        new Thread(() -> {
-//            user = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/User/getUser?userId="+pref.getInt("userId",-1)), User.class);
-//            Message message = new Message();
-//            message.what = 1;
-//            handler.sendMessage(message);
-//        }).start();
-//    }
 }

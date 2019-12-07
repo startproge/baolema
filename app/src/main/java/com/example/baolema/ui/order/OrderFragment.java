@@ -34,7 +34,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class OrderFragment extends Fragment {
     private String urlStr = "http://47.98.229.17:8002/blm";
-    private OrderViewModel orderViewModel;
     private RecyclerView recyclerView;
     private List<OrderSum> ordersSumList;
     private List<OrderSum> ordersSumStartList;
@@ -43,34 +42,8 @@ public class OrderFragment extends Fragment {
     private OrderMainAdapter orderMainAdapter;
     private SharedPreferences pref;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case 1:
-                    orderMainAdapter = new OrderMainAdapter(ordersSumList);
-                    recyclerView.setAdapter(orderMainAdapter);
-                    orderMainAdapter.OnRecycleItemClickListener((view, position) -> {
-                                Intent intent = new Intent(getActivity(), OrderInfActivity.class);
-                                OrderSum orderSum = ordersSumList.get(position);
-                                intent.putExtra("orderSum", orderSum);
-                                startActivity(intent);
-                            }
-                    );
-                    break;
-                case 2:
-                    orderMainAdapter.notifyDataSetChanged();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        orderViewModel =
-                ViewModelProviders.of(this).get(OrderViewModel.class);
         View root = inflater.inflate(R.layout.fragment_order, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.resetTitle("我的订单");
@@ -125,6 +98,30 @@ public class OrderFragment extends Fragment {
             getShopByHttp(i);
     }
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 1:
+                    orderMainAdapter = new OrderMainAdapter(ordersSumList);
+                    recyclerView.setAdapter(orderMainAdapter);
+                    orderMainAdapter.OnRecycleItemClickListener((view, position) -> {
+                                Intent intent = new Intent(getActivity(), OrderInfActivity.class);
+                                OrderSum orderSum = ordersSumList.get(position);
+                                intent.putExtra("orderSum", orderSum);
+                                startActivity(intent);
+                            }
+                    );
+                    break;
+                case 2:
+                    orderMainAdapter.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     void getShopByHttp(final int id) {
         new Thread(() -> {
             Shop shop = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopById?shopId=" + id), Shop.class);
@@ -137,15 +134,4 @@ public class OrderFragment extends Fragment {
             handler.sendMessage(message);
         }).start();
     }
-//    void getOrderSumByHttp(int id) {
-//        new Thread(() -> {
-//            OrderSum orderSum = new OrderController().getOrderSumById(id);
-//            for (int i = 0; i < ordersSumList.size(); i++)
-//                if (ordersSumList.get(i).getShopId().equals(orderSum.getShopId()))
-//                    ordersSumList.get(i).setShopTrademark(orderSum.getShopTrademark());
-//            Message message = new Message();
-//            message.what = 2;
-//            handler.sendMessage(message);
-//        }).start();
-//    }
 }
