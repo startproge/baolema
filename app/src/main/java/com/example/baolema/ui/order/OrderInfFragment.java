@@ -41,12 +41,15 @@ import com.example.baolema.controller.ActivityController;
 import com.example.baolema.controller.OrderController;
 import com.example.baolema.controller.ShopController;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderInfFragment extends Fragment {
     public static final int CHOOSE_PHOTO=1;
-
+    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView recyclerOrderRecipe;
     private int orderId;
@@ -224,6 +227,10 @@ public class OrderInfFragment extends Fragment {
                 case 3:
                     shopName.setText(orderSum.getShopName());
                     orderNumber.setText(String.valueOf(orderSum.getTemporaryId()));
+                    if(orderStatus.equals("完成"))
+                        orderTimeDay.setText(format.format(orderSum.getOrderFinishTime()));
+                    else
+                        orderTimeDay.setText(format.format(orderSum.getOrderStartTime()));
 
                     orderinfAdapter.setOrderRecipes(orderInfRecipes);
                     orderinfAdapter.setMoney(orderSum.getOrdersum());
