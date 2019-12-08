@@ -130,9 +130,12 @@ public class HomeFragment extends Fragment {
     void getShopByHttp(final int id) {
         new Thread(() -> {
             Shop shop = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getShopById?shopId=" + id), Shop.class);
+            int MonthlySale=JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/Shop/getMonthlyTrade?shopId=" + id), Integer.class);
             for (int i = 0; i < shopList.size(); i++)
-                if (shopList.get(i).getShopId() == id)
+                if (shopList.get(i).getShopId() == id) {
                     shopList.get(i).setShopTrademark(shop.getShopTrademark());
+                    shopList.get(i).setShopMonthSale(MonthlySale);
+                }
             Message message = new Message();
             message.what = 2;
             handler.sendMessage(message);

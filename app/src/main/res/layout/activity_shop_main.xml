@@ -178,12 +178,18 @@
                                 android:layout_height="80sp"
                                 android:text="公告栏"
                                 app:layout_constraintTop_toBottomOf="@+id/split2" />
-
+                            <ImageView
+                                android:id="@+id/split4"
+                                android:layout_width="match_parent"
+                                android:layout_height="1sp"
+                                android:background="@color/colorGray"
+                                app:layout_constraintTop_toBottomOf="@+id/shop_board"
+                                />
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/shop_evaluate_recyclerview"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@+id/shop_board" />
+                                app:layout_constraintTop_toBottomOf="@+id/split4" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </ScrollView>
                 </FrameLayout>
@@ -289,7 +295,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <im.unicolas.trollbadgeview.LabelView
+    <ImageView
         android:id="@+id/shopping_car_icon"
         android:layout_width="45sp"
         android:layout_height="45sp"
@@ -297,6 +303,6 @@
         android:layout_marginBottom="25sp"
         android:background="@color/colorOrange"
         app:layout_constraintBottom_toBottomOf="@+id/bottom_layout"
-        app:layout_constraintLeft_toLeftOf="parent"></im.unicolas.trollbadgeview.LabelView>
+        app:layout_constraintLeft_toLeftOf="parent"></ImageView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,7 +47,7 @@ public class MineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        textViewUserName.setText(pref.getString("userName", "加载失败"));
+        textViewUserName.setText(pref.getString("userName", "请登录"));
         ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.decode(pref.getString("userIcon", ""), Base64.DEFAULT));
         imageViewAccountIcon.setImageDrawable(Drawable.createFromStream(inputStream, ""));
     }

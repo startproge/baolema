@@ -18,6 +18,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -62,7 +63,7 @@ public class ShopActivity extends AppCompatActivity {
     private Button settlement_fee;
     private RecyclerView shoppingCarRecycleview;
     private ShopCarAdapter shopCarAdapter;
-    private LabelView labelView;
+    private ImageView labelView;
     private TextView money;
     private TextView reduce;
     private Button clear_shopping_car;
@@ -130,7 +131,7 @@ public class ShopActivity extends AppCompatActivity {
         shopCarAdapter.OnRecycleItemClickListener(position -> {
             shopCarAdapter.notifyDataSetChanged();
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
-            reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+            reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
         });
         clear_shopping_car.setOnClickListener(v -> {
             shopCarAdapter.getShopCarRecipes().clear();
@@ -138,7 +139,7 @@ public class ShopActivity extends AppCompatActivity {
             shopCarAdapter.resetReduce();
             shopCarAdapter.notifyDataSetChanged();
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
-            reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+            reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
         });
 
         //商家菜单RecycleView
@@ -149,20 +150,21 @@ public class ShopActivity extends AppCompatActivity {
 
 
         labelView = findViewById(R.id.shopping_car_icon);
-        labelView.setLabelMode(LabelView.LABEL_MODE_IMG);
+        /*labelView.setLabelMode(LabelView.LABEL_MODE_IMG);
         //设置角标是否显示
         labelView.setLabelViewVisiable(true);
         //设置角标内字符  设置为null 为只显示小红点不显示内字符
         labelView.setLabelNum("7");
         //设置角标的背景颜色   default : 0xffef4836
         labelView.setLabelBg(0xffef4836);
-        //返回角标是否显示  default : false
-        labelView.setBitmap4Icon(R.mipmap.ic_shopping_car);
-        boolean labelViewVisiable = labelView.isLabelViewVisiable();
+        //返回角标是否显示  default : false*/
+        //labelView.setBitmap4Icon(R.mipmap.ic_shopping_car);
+        labelView.setImageResource(R.mipmap.ic_shopping_car);
+        /*boolean labelViewVisiable = labelView.isLabelViewVisiable();
         //返回角标内的字符
         String labelNum = labelView.getLabelNum();
         //返回角标依附的文字
-        String word = labelView.getWord();
+        String word = labelView.getWord();*/
         labelView.setOnClickListener(v -> {
             if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -192,13 +194,27 @@ public class ShopActivity extends AppCompatActivity {
         //提交订单
         settlement_fee = findViewById(R.id.settlement_fee);
         settlement_fee.setOnClickListener(v -> {
-            Intent intent1 = new Intent(ShopActivity.this, OrderCommitActivity.class);
-            Bundle args = new Bundle();
-            args.putSerializable("ShopCarRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
-            intent1.putExtra("ShopCarToOrderCommit", args);
-            intent1.putExtra("shopId", shopId);
-            intent1.putExtra("reduce", shopCarAdapter.getReduce());
-            startActivityForResult(intent1, 1);
+            if(shopCarAdapter.getShopCarRecipes().size()==0) {
+                new AlertDialog.Builder(this).setTitle("提示")
+                        .setMessage("请添加商品")
+                        .setPositiveButton("确定", null)
+                        .show();
+            }
+            else if(userId==0){
+                new AlertDialog.Builder(this).setTitle("提示")
+                        .setMessage("请登陆")
+                        .setPositiveButton("确定", null)
+                        .show();
+            }
+            else {
+                Intent intent1 = new Intent(ShopActivity.this, OrderCommitActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable("ShopCarRecipes", (Serializable) shopCarAdapter.getShopCarRecipes());
+                intent1.putExtra("ShopCarToOrderCommit", args);
+                intent1.putExtra("shopId", shopId);
+                intent1.putExtra("reduce", shopCarAdapter.getReduce());
+                startActivityForResult(intent1, 1);
+            }
         });
 
         toolbar.setNavigationOnClickListener(v -> {
@@ -239,7 +255,7 @@ public class ShopActivity extends AppCompatActivity {
             shopCarAdapter.resetMoney();
             shopCarAdapter.resetReduce();
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
-            reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+            reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
         });
         for (Recipe r : recipeList)
             getRecipeByHttp(r.getRecipeId());
@@ -345,7 +361,7 @@ public class ShopActivity extends AppCompatActivity {
                     recipeAdapter.notifyDataSetChanged();
                     Log.d("reduceMoney", String.valueOf(shopCarAdapter.getReduce()));
                     money.setText(String.valueOf(shopCarAdapter.getMoney()));
-                    reduce.setText(String.valueOf(shopCarAdapter.getReduce()));
+                    reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
                     break;
                 case 4:
                     commentAdapter.setShopEvaList(shopEvas);
@@ -411,8 +427,10 @@ class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mholder.name.setText(shopEva.getUserName());
         mholder.evaluate.setText(String.valueOf(shopEva.getShopGrade()));
         mholder.content.setText(shopEva.getShopEvaluateContent());
-        if (!(shopEva.getShopEvaluateImage() == null || shopEva.getShopEvaluateImage().length == 0))
+        if (!(shopEva.getShopEvaluateImage() == null || shopEva.getShopEvaluateImage().length == 0)) {
             mholder.contentImage.setImageBitmap(BitmapFactory.decodeByteArray(shopEva.getShopEvaluateImage(), 0, shopEva.getShopEvaluateImage().length));
+            mholder.contentImage.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

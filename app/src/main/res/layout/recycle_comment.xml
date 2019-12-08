@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -40,20 +41,30 @@
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10sp"
         android:layout_marginTop="10sp"
-        app:layout_constraintLeft_toRightOf="@+id/headImage"
+        app:layout_constraintLeft_toLeftOf="@id/name"
         app:layout_constraintTop_toBottomOf="@+id/evaluate">
 
     </TextView>
 
     <ImageView
         android:id="@+id/contentImage"
+
         android:layout_width="80sp"
         android:layout_height="80sp"
         android:layout_marginStart="10sp"
         android:layout_marginTop="10sp"
         app:layout_constraintLeft_toRightOf="@+id/headImage"
-        app:layout_constraintTop_toBottomOf="@+id/content" />
+        app:layout_constraintTop_toBottomOf="@+id/content"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorBlack"
+        app:layout_constraintTop_toBottomOf="@id/contentImage"
+        android:layout_marginTop="10sp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
