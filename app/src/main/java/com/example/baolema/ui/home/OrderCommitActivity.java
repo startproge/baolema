@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderCommitActivity extends AppCompatActivity {
+    private int isCommit=0;
     private String urlStr = "http://47.98.229.17:8002/blm";
     private RecyclerView orderRecipesRecycleView;
     private ArrayList<ShopCarRecipe> shopCarRecipes;
@@ -117,14 +118,24 @@ public class OrderCommitActivity extends AppCompatActivity {
                             shopCarRecipe.getNum());
                     thread2.start();
                     thread2.join();
+                    if(isCommit!=0){
+                        Intent back = new Intent();
+                        back.putExtra("isCommit", isCommit);
+                        OrderCommitActivity.this.setResult(RESULT_OK, back);
+                        break;
+                    }
                 }
-                ThreadgetOrderSum thread3=new ThreadgetOrderSum();
-                thread3.start();
-                thread3.join();
+                if(isCommit==0) {
+                    ThreadgetOrderSum thread3 = new ThreadgetOrderSum();
+                    thread3.start();
+                    thread3.join();
+                }
+                if(isCommit!=0){
+                    finish();
+                }
             }catch (Exception e){
 
             }
-
             //getOrderSumByHttp();
             //intent.putExtra("orderId",orderId);
             //startActivity(intent);
@@ -137,14 +148,13 @@ public class OrderCommitActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case 1:
-                    Log.d("addOrders", "handleMessage: " );
+                    Log.d("addOrders", "handleMessage: ");
                     break;
                 case 3:
-                    Log.d("getOrderSum", "handleMessage: " );
+                    Log.d("getOrderSum", "handleMessage: ");
                     Intent back = new Intent();
-                    back.putExtra("isCommit", true);
-                    OrderCommitActivity.this.setResult(RESULT_OK,back);
-
+                    back.putExtra("isCommit", isCommit);
+                    OrderCommitActivity.this.setResult(RESULT_OK, back);
                     Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
                     intent.putExtra("orderSum", orderSum);
                     startActivity(intent);
@@ -183,7 +193,7 @@ public class OrderCommitActivity extends AppCompatActivity {
         }
         @Override
         public void run() {
-            JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInf/addOrderInf?recipe_id=" + recipeId
+            isCommit=JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInf/addOrderInf?recipe_id=" + recipeId
                     +"&order_id="+orderId+"&list_id="+listId+"&order_recipe_number="+num), Integer.class);
             Message message = new Message();
             message.what = 2;

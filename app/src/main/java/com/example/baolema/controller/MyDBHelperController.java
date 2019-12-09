@@ -53,4 +53,8 @@ public class MyDBHelperController {
         db.execSQL("delete from ShopCar where userId=? and shopId=?",new String[]{String.valueOf(userId),String.valueOf(shopId)});
     }
 
+    public void deleteShopCarRecipe(SQLiteDatabase db, int shopId,int userId,int recipeId){
+        db.execSQL("delete from ShopCar where userId=? and shopId=? and recipeId=?",new String[]{String.valueOf(userId),String.valueOf(shopId),
+                String.valueOf(recipeId)});
+    }
 }

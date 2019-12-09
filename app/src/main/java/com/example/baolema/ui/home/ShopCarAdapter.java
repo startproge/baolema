@@ -134,6 +134,28 @@ public class ShopCarAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    public void deleteRecipe(int recipeId){
+        int position=-1;
+        for(int i=0;i<this.shopCarRecipes.size();i++){
+            if(this.shopCarRecipes.get(i).getRecipeId()==recipeId) {
+                position = i;
+                break;
+            }
+        }
+        if(position!=-1)
+            this.shopCarRecipes.remove(position);
+
+    }
+
+    public String getRecipeName(int recipeId){
+        for(int i=0;i<this.shopCarRecipes.size();i++){
+            if(this.shopCarRecipes.get(i).getRecipeId()==recipeId) {
+                    return shopCarRecipes.get(i).getName();
+            }
+        }
+        return null;
+    }
+
 
 
     public  void  OnRecycleItemClickListener(OnRecycleItemClickListener v){

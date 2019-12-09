@@ -77,7 +77,7 @@ public class ShopActivity extends AppCompatActivity {
     CommentAdapter commentAdapter;
 
     private TextView activityText;
-    private boolean isCommit = false;
+    private int isCommit ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -274,14 +274,51 @@ public class ShopActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK) {
-                    isCommit = data.getBooleanExtra("isCommit", false);
-                    if (isCommit == true) {
+                    isCommit = data.getIntExtra("isCommit", 0);
+                    if (isCommit == 0) {
                         shopCarAdapter.getShopCarRecipes().clear();
                         shopCarAdapter.resetMoney();
                         shopCarAdapter.resetReduce();
                         shopCarAdapter.notifyDataSetChanged();
                         new MyDBHelperController().deleteShopCar(db, shopId, userId);
                         finish();
+                    }
+                    else{
+                        try {
+                            Thread thread = new Thread(() -> {
+                                recipeList = JSON.parseArray(httpUtil.getHttpInterface(urlStr + "/Recipe/getRecipeList?shopId=" + shopId), Recipe.class);
+                                Log.d("activity123", String.valueOf(recipeList.size()));
+                                Message message = new Message();
+                                message.what = 1;
+                                handler.sendMessage(message);
+                            });
+                            thread.start();
+                            thread.join();
+                            Log.d("Tangyuan",recipeList.get(recipeList.size()-1).getRecipeName());
+                            for (Recipe r : recipeList)
+                                getRecipeByHttp(r.getRecipeId());
+                            recipeAdapter.setRecipes(recipeList);
+
+                            recipeAdapter.notifyDataSetChanged();
+                        }catch (Exception e){
+
+                        }
+
+                        String name= shopCarAdapter.getRecipeName(isCommit);
+                        if(name!=null) {
+                            new AlertDialog.Builder(this).setTitle("提示")
+                                    .setMessage(name+"库存不足")
+                                    .setPositiveButton("确定", null)
+                                    .show();
+                        }
+                        int potision=0;
+                        shopCarAdapter.deleteRecipe(isCommit);
+                        shopCarAdapter.resetMoney();
+                        shopCarAdapter.resetReduce();
+                        shopCarAdapter.notifyDataSetChanged();
+                        new MyDBHelperController().deleteShopCarRecipe(db, shopId, userId,isCommit);
+                        money.setText(String.valueOf(shopCarAdapter.getMoney()));
+                        reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
                     }
                 }
                 break;

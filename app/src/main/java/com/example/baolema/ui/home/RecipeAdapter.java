@@ -93,4 +93,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
 }
