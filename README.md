@@ -3,44 +3,6 @@
 ## 编译环境
 
 * 统一gradle的版本号为5.4.1  
-```gradle
-apply plugin: 'com.android.application'
-
-android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
-    defaultConfig {
-        applicationId "com.example.baolema"
-        minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.navigation:navigation-fragment:2.0.0'
-    implementation 'androidx.navigation:navigation-ui:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation("com.squareup.okhttp3:okhttp:4.2.2")
-    implementation 'com.alibaba:fastjson:1.2.61'
-    implementation 'im.unicolas:trollbadgeview:1.3'
-    implementation 'com.flipboard:bottomsheet-core:1.5.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-}
-```
 
 ------
 ## 命名  
