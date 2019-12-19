@@ -42,6 +42,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import com.flipboard.bottomsheet.BottomSheetLayout;
 
 import im.unicolas.trollbadgeview.LabelView;
 
@@ -68,7 +69,7 @@ public class ShopActivity extends AppCompatActivity {
     private TextView reduce;
     private Button clear_shopping_car;
     private List<Activity> activitys;
-
+    private BottomSheetLayout bottomSheetLayout;
     private TextView text_shop_phone;
     private TextView text_shop_location;
     private TextView shop_board;
@@ -77,7 +78,7 @@ public class ShopActivity extends AppCompatActivity {
     CommentAdapter commentAdapter;
 
     private TextView activityText;
-    private int isCommit ;
+    private int isCommit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +93,13 @@ public class ShopActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar_shop);
         money = findViewById(R.id.order_money);
         reduce = findViewById(R.id.reduce_money);
-        clear_shopping_car = findViewById(R.id.clear_shopping_car);
         activityText = findViewById(R.id.preferential_text);
 
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("点菜").setContent(R.id.tab_order));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("商家").setContent(R.id.tab_shop_scrollview));
+
 
         text_shop_phone = findViewById(R.id.text_shop_phone);
         text_shop_location = findViewById(R.id.text_shop_location);
@@ -113,19 +114,30 @@ public class ShopActivity extends AppCompatActivity {
             shop_board.setText(shop.getShopNotice());
         }
         //getShopRecipeListByHttp();
+
         //购物车RecycleView
-        mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
+
+        bottomSheetLayout=findViewById(R.id.bottom_sheet_layout);
+        View shopcarView=LayoutInflater.from(this).inflate(R.layout.activity_shopcar_layout,null);
+
+        //mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
         LinearLayoutManager shopLayoutManager = new LinearLayoutManager(this);
-        shoppingCarRecycleview = findViewById(R.id.shopping_car_recycleview);
+
+        //shoppingCarRecycleview = findViewById(R.id.shopping_car_recycleview);
+        shoppingCarRecycleview=shopcarView.findViewById(R.id.shopping_car_recycleview);
+        clear_shopping_car=shopcarView.findViewById(R.id.clear_shopping_car);
+
         shoppingCarRecycleview.setLayoutManager(shopLayoutManager);
+
         shopCarRecipes = new MyDBHelperController().getShopCars(db, shopId, userId);
         shopCarAdapter = new ShopCarAdapter(shopCarRecipes, this);
+
         try {
             ThreadgetActivity threadgetActivity = new ThreadgetActivity();
             threadgetActivity.start();
             threadgetActivity.join();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         shoppingCarRecycleview.setAdapter(shopCarAdapter);
         shopCarAdapter.OnRecycleItemClickListener(position -> {
@@ -133,13 +145,16 @@ public class ShopActivity extends AppCompatActivity {
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
             reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
         });
+
         clear_shopping_car.setOnClickListener(v -> {
+            bottomSheetLayout.dismissSheet();
             shopCarAdapter.getShopCarRecipes().clear();
             shopCarAdapter.resetMoney();
             shopCarAdapter.resetReduce();
             shopCarAdapter.notifyDataSetChanged();
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
             reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
+
         });
 
         //商家菜单RecycleView
@@ -165,31 +180,42 @@ public class ShopActivity extends AppCompatActivity {
         String labelNum = labelView.getLabelNum();
         //返回角标依附的文字
         String word = labelView.getWord();*/
-        labelView.setOnClickListener(v -> {
-            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            } else if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+//      labelView.setOnClickListener(v -> {
+//            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//            } else if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            }
+//        });
+        //弹出购物车
+        labelView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!bottomSheetLayout.isSheetShowing())
+                    bottomSheetLayout.showWithSheetView(shopcarView);
+                else
+                    bottomSheetLayout.dismissSheet();
             }
         });
 
         //弹出购物车
-        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState != BottomSheetBehavior.STATE_DRAGGING) {
-                    ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
-                    if (bottomSheet.getHeight() > 600) {
-                        layoutParams.height = 600;
-                        bottomSheet.setLayoutParams(layoutParams);
-                    }
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            }
-        });
+//        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//                if (newState != BottomSheetBehavior.STATE_DRAGGING) {
+//                    ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
+//                    if (bottomSheet.getHeight() > 600) {
+//                        layoutParams.height = 600;
+//                        bottomSheet.setLayoutParams(layoutParams);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//            }
+//        });
 
         //提交订单
         settlement_fee = findViewById(R.id.settlement_fee);
@@ -237,6 +263,7 @@ public class ShopActivity extends AppCompatActivity {
 
         recipeAdapter = new RecipeAdapter(recipeList, ShopActivity.this);
         recipeRecycleView.setAdapter(recipeAdapter);
+
         recipeAdapter.OnRecycleItemClickListener(position -> {
             boolean isExist = true;
             for (int i = 0; i < shopCarAdapter.getShopCarRecipes().size(); i++)
@@ -257,6 +284,7 @@ public class ShopActivity extends AppCompatActivity {
             money.setText(String.valueOf(shopCarAdapter.getMoney()));
             reduce.setText("优惠"+String.valueOf(shopCarAdapter.getReduce()));
         });
+
         for (Recipe r : recipeList)
             getRecipeByHttp(r.getRecipeId());
 
