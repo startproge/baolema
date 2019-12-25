@@ -182,7 +182,6 @@
 
                                 <TextView
                                     android:id="@+id/shop_board"
-
                                     android:layout_width="match_parent"
                                     android:layout_height="80sp"
                                     android:text="公告栏"
@@ -213,9 +212,11 @@
                                     />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </ScrollView>
+
                     </FrameLayout>
                 </LinearLayout>
             </TabHost>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.flipboard.bottomsheet.BottomSheetLayout>
 
