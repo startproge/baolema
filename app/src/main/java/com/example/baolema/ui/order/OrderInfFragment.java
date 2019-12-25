@@ -186,34 +186,6 @@ public class OrderInfFragment extends Fragment {
         }
     }
 
-//    void getOrderInfByHttp() {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                /*orderInfRecipes = JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderInformation/getOrderInformationList?orderId=" + orderId),
-//                        new TypeReference<List<OrderInformation>>() {
-//                        });*/
-//                orderInfRecipes=new OrderController().getOrderInformationList(orderSum.getOrderId());
-//                //Log.d("orderInfRecipes",String.valueOf(orderInfRecipes.size()));
-//                Message message = new Message();
-//                message.what = 1;
-//                handler.sendMessage(message);
-//                //Log.e("ShopActivity", String.valueOf(recipes.size()));
-//
-//            }
-//        }).start();
-//    }
-
-
-//    void getActivityByHttp() {
-//        new Thread(() -> {
-//            activitys=new ActivityController().getActivitiesByShopId(orderSum.getShopId());
-//            Message message = new Message();
-//            message.what = 2;
-//            handler.sendMessage(message);
-//        }).start();
-//    }
-
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {

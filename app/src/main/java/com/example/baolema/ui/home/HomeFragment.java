@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSON;
+import com.example.baolema.bean.Activity;
 import com.example.baolema.ui.MainActivity;
 import com.example.baolema.R;
 import com.example.baolema.bean.Shop;
 import com.example.baolema.util.httpUtil;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPager;
     private RecyclerView recyclerView;
     private List<Shop> shopList;
+    private List<Activity> activityList;
     private HomeRecyclerAdapter homeRecyclerAdapter;
     private List<Integer> integerArrayList = new ArrayList<>();
 
@@ -41,9 +45,9 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         shopList = new ArrayList<>();
-
+        activityList=new ArrayList<>();
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.resetTitle("饱了嘛");
+        mainActivity.resetTitle("饿了么");
 
         viewPager = root.findViewById(R.id.viewPager_main);
         initImages();
@@ -65,8 +69,18 @@ public class HomeFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Thread thread1=new Thread(()->{
+           activityList=JSON.parseArray(httpUtil.getHttpInterface(urlStr+"/Activity/getActivityAll"),Activity.class);
+        });
+        thread1.start();
+        try {
+            thread1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("main",activityList.size()+"" );
 
-        homeRecyclerAdapter = new HomeRecyclerAdapter(shopList, getActivity());
+        homeRecyclerAdapter = new HomeRecyclerAdapter(activityList,shopList, getActivity());
         recyclerView.setAdapter(homeRecyclerAdapter);
         homeRecyclerAdapter.OnRecycleItemClickListener((view, position) -> {
             if (shopList.get(position).getShopStatus().equals("离线")) {
@@ -76,10 +90,6 @@ public class HomeFragment extends Fragment {
                         .show();
             } else {
                 Intent intent = new Intent(getActivity(), ShopActivity.class);
-                /*int shopId = homeRecyclerAdapter.getShopList().get(position).getShopId();
-                String shopName = homeRecyclerAdapter.getShopList().get(position).getShopName();
-                intent.putExtra("shopId", shopId);
-                intent.putExtra("shopName", shopName);*/
                 intent.putExtra("shop", homeRecyclerAdapter.getShopList().get(position));
                 startActivity(intent);
             }
@@ -91,7 +101,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-    //参考地址 https://blog.csdn.net/pxcz110112/article/details/81220928
 
     private Handler handler = new Handler() {
         @Override
@@ -119,10 +128,9 @@ public class HomeFragment extends Fragment {
     };
 
     void initImages() {
-        integerArrayList.add(R.drawable.baolema_light_yellow);
-        integerArrayList.add(R.drawable.de1);
-        integerArrayList.add(R.drawable.de2);
-        integerArrayList.add(R.drawable.de3);
+        integerArrayList.add(R.drawable.pager1);
+        integerArrayList.add(R.drawable.pager2);
+        integerArrayList.add(R.drawable.pager3);
         viewPager.setOffscreenPageLimit(integerArrayList.size());
         viewPager.setPageMargin(10);
     }
@@ -140,23 +148,6 @@ public class HomeFragment extends Fragment {
             message.what = 2;
             handler.sendMessage(message);
         }).start();
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                OkHttpClient client = new OkHttpClient();
-//                Request request = new Request.Builder().url(urlStr + "/Shop/getShopList" ).build();
-//                try {
-//                    Response response = client.newCall(request).execute();
-//                    shopList = JSON.parseObject(response.body().string(), new TypeReference<List<Shop>>() {});
-//                    Message message = new Message();
-//                    message.what = 1;
-//                    handler.sendMessage(message);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
     }
 }
 
@@ -181,8 +172,8 @@ class PagerAdapter extends androidx.viewpager.widget.PagerAdapter {
     @SuppressLint("ResourceAsColor")
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        ImageView imageView = new ImageView(container.getContext());
+    public RoundedImageView instantiateItem(@NonNull ViewGroup container, int position) {
+        RoundedImageView imageView = new RoundedImageView(container.getContext());
         imageView.setImageResource(integers.get(position));
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         container.addView(imageView);

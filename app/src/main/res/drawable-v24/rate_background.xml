@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- shape定义形状，shape="rectangle"表示形状为长方形 -->
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+    <!-- 设置框内填充颜色 -->
+    <solid android:color="@color/colorbackOrange" />
+    <!-- 设置圆角半径 -->
+    <gradient
+        android:angle="270"
+        android:endColor="@color/colorbackOrange"
+        android:startColor="@color/colorbackOrange" />
+    <!-- 设置各边倒角大小 -->
+
+</shape>

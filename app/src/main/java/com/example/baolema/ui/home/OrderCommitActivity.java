@@ -129,6 +129,9 @@ public class OrderCommitActivity extends AppCompatActivity {
                     ThreadgetOrderSum thread3 = new ThreadgetOrderSum();
                     thread3.start();
                     thread3.join();
+//                    ThreadSendOrderId thread4=new ThreadSendOrderId();
+//                    thread4.start();
+//                    thread4.join();
                 }
                 if(isCommit!=0){
                     finish();
@@ -155,6 +158,7 @@ public class OrderCommitActivity extends AppCompatActivity {
                     Intent back = new Intent();
                     back.putExtra("isCommit", isCommit);
                     OrderCommitActivity.this.setResult(RESULT_OK, back);
+
                     Intent intent=new Intent(OrderCommitActivity.this, OrderInfActivity.class);
                     intent.putExtra("orderSum", orderSum);
                     startActivity(intent);
@@ -213,6 +217,16 @@ public class OrderCommitActivity extends AppCompatActivity {
         }
 
     }
+
+//    private class  ThreadSendOrderId extends  Thread{
+//        @Override
+//        public void run() {
+//            Log.d("SendOrderID",String.valueOf(orderId))
+//            JSON.parseObject(httpUtil.getHttpInterface(urlStr + "/OrderUndone/createOrderOK?orderId=" + orderId
+//                  ));
+//
+//        }
+//    }
 }
 
 class OrderCommitAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

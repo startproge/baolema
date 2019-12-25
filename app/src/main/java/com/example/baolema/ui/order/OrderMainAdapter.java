@@ -41,7 +41,7 @@ public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnCli
         ImageView imageShop;
         TextView orderSumPrice;
         TextView orderTime;
-
+        TextView orderTip;
         OrderMainViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textShopName = itemView.findViewById(R.id.text_order_main_shop);
@@ -49,6 +49,7 @@ public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnCli
             this.imageShop = itemView.findViewById(R.id.image_order_main);
             this.orderSumPrice = itemView.findViewById(R.id.text_order_main_price);
             this.orderTime = itemView.findViewById(R.id.text_order_main_time);
+            this.orderTip=itemView.findViewById(R.id.text_order_main_tips);
         }
     }
 
@@ -80,8 +81,10 @@ public class OrderMainAdapter extends RecyclerView.Adapter implements View.OnCli
             else
                 orderMainViewHolder.orderTime.setText("订单数据错误");
         } else if (orderList.get(position).getOrderStatus().equals("完成")) {
-            if (orderList.get(position).getOrderFinishTime() != null)
+            if (orderList.get(position).getOrderFinishTime() != null) {
+                orderMainViewHolder.orderTip.setText("订单已完成");
                 orderMainViewHolder.orderTime.setText(format.format(orderList.get(position).getOrderFinishTime()));
+            }
             else
                 orderMainViewHolder.orderTime.setText("订单数据错误");
         } else

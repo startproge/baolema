@@ -14,11 +14,11 @@ public class Activity {
         this.activityId = activityId;
     }
 
-    public int getShop() {
+    public int getShopId() {
         return shopId;
     }
 
-    public void setShop(int shopId) {
+    public void setShopId(int shopId) {
         this.shopId = shopId;
     }
 

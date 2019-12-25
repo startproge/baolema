@@ -31,7 +31,7 @@ public class MineFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_mine, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.resetTitle("我的");
+        mainActivity.resetTitle("");
         pref = mainActivity.getSharedPreferences("user", Context.MODE_PRIVATE);
 
         textViewUserName = root.findViewById(R.id.text_user_name);

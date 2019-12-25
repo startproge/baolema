@@ -46,6 +46,7 @@
 
     <ImageView
         android:id="@+id/orderdetail_phone"
+        android:visibility="gone"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="5dp"

@@ -96,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="饱了就上\n饱了嘛~"
+        android:text="饿了就上\n饿了么~"
         android:textColor="@color/colorOrange"
         android:textSize="20sp"
         android:textStyle="italic|bold"

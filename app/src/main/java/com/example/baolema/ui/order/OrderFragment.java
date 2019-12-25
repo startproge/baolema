@@ -46,7 +46,7 @@ public class OrderFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_order, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.resetTitle("我的订单");
+        mainActivity.resetTitle("全部订单");
 
         pref = mainActivity.getSharedPreferences("user", MODE_PRIVATE);
         ordersSumList = new ArrayList<>();

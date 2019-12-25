@@ -4,28 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
-    android:layout_marginTop="15dp"
+    android:layout_marginBottom="10dp"
     android:layout_marginEnd="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    >
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorBlack"
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="2dp"-->
+<!--        android:background="@color/colorBlack"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:id="@+id/divider_top"-->
+<!--        />-->
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/image_order_main"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        app:riv_corner_radius="10dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/divider_top"
-        />
-
+         />
     <TextView
         android:id="@+id/text_order_main_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorOrange"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider_top"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"
+        android:text="芭比馒头"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/image_order_main"
+        app:layout_constraintTop_toTopOf="parent"
         />
-
+    <TextView
+        android:id="@+id/text_order_main_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="2019-12-15 10:39:45"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
+        app:layout_constraintTop_toBottomOf="@+id/text_order_main_shop" />
     <ImageView
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -41,9 +66,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="奋力加载中"
-        android:textColor="@color/colorOrange"
-        android:textStyle="bold"
-        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:layout_marginRight="6dp"
         app:layout_constraintBottom_toBottomOf="@id/text_order_main_shop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/text_order_main_shop" />
@@ -51,60 +76,46 @@
     <ImageView
         android:id="@+id/divider_order_main"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.25dp"
         android:layout_marginTop="5dp"
-        android:background="@color/colorBlack"
-        app:layout_constraintTop_toBottomOf="@+id/text_order_main_shop" />
+        android:layout_marginLeft="65dp"
+        android:background="#ddddde"
+        app:layout_constraintTop_toBottomOf="@id/image_order_main" />
 
-    <ImageView
-        android:id="@+id/image_order_main"
-        android:layout_width="108dp"
-        android:layout_height="81dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_order_main" />
+
 
     <TextView
         android:id="@+id/text_order_main_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:text="0.0"
         android:textColor="@color/colorRed"
-        android:textSize="22sp"
-        app:layout_constraintLeft_toRightOf="@id/image_order_main"
-        app:layout_constraintTop_toTopOf="@id/image_order_main" />
-
-    <TextView
-        android:id="@+id/text_order_main_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="            "
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/text_order_main_tips"
-        app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
-        app:layout_constraintTop_toBottomOf="@+id/text_order_main_price" />
+        app:layout_constraintLeft_toRightOf="@id/image_order_main"
+        app:layout_constraintTop_toTopOf="@id/divider_order_main" />
+
+
 
     <TextView
         android:id="@+id/text_order_main_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="请前往商家自提"
-        app:layout_constraintBottom_toBottomOf="@id/image_order_main"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorBlack"
         app:layout_constraintLeft_toLeftOf="@id/text_order_main_price"
-        app:layout_constraintTop_toBottomOf="@id/text_order_main_time" />
+        app:layout_constraintTop_toBottomOf="@id/text_order_main_price" />
 
     <ImageView
         android:id="@+id/goToOrderInf"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/ic_keyboard_arrow_right"
-        app:layout_constraintBottom_toBottomOf="@id/image_order_main"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/image_order_main" />
+        app:layout_constraintTop_toTopOf="@id/text_order_main_price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
