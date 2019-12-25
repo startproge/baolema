@@ -35,13 +35,6 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
         orderSum = (OrderSum) intent.getSerializableExtra("orderSum");
         toolbar.setTitle(orderSum.getShopName());
         toolbar.setNavigationOnClickListener(v -> finish());
-        /*if (orderSum==null){
-            Bundle args = intent.getBundleExtra("OrderCommitToOrderInf");
-            orderRecipes = (ArrayList<ShopCarRecipe>) args.getSerializable("orderRecipes");
-        }
-        else {
-            orderRecipes=new ArrayList<ShopCarRecipe>();
-        }*/
 
         button_order_status = findViewById(R.id.orderdetail_status);
         button_order_inf = findViewById(R.id.orderdetail_detail);
@@ -70,24 +63,17 @@ public class OrderInfActivity extends AppCompatActivity implements View.OnClickL
     private void ShowFragmentOrderInf() {
         Log.d("OrderCommitStatus", orderSum.getOrderStatus());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //if(order_inf == null){
+        if(order_inf != null)
+            transaction.remove(order_inf);
+
         order_inf = new OrderInfFragment();
         Bundle bundle = new Bundle();
-            /*if (orderSum==null) {
-                bundle.putInt("orderId", 0);
-                bundle.putSerializable("orderRecipes", (Serializable) orderRecipes);
-            }
-             else {
-                bundle.putInt("orderId", orderSum.getOrderId());
-                bundle.putSerializable("orderSum",orderSum);
-            }*/
         if (orderSum != null) {
             bundle.putInt("orderId", orderSum.getOrderId());
             bundle.putString("orderStatus", orderSum.getOrderStatus());
         }
         order_inf.setArguments(bundle);
         transaction.add(R.id.order_main_frame_layout, order_inf);
-        //}
         hideFragment(transaction);
         transaction.show(order_inf);
         transaction.commit();
