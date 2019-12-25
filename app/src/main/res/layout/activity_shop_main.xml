@@ -25,7 +25,7 @@
         android:id="@+id/layout_preferential"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorYellow"
+        android:background="@color/colorOrange"
         app:layout_constraintTop_toBottomOf="@id/app_bar_shop">
 
         <ImageView
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:gravity="center"
-            android:textColor="@color/colorGray"
+            android:textColor="@color/colorBlack"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/preferential_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -182,23 +182,35 @@
 
                                 <TextView
                                     android:id="@+id/shop_board"
+
                                     android:layout_width="match_parent"
                                     android:layout_height="80sp"
                                     android:text="公告栏"
-                                    app:layout_constraintTop_toBottomOf="@+id/split2" />
+                                    app:layout_constraintTop_toBottomOf="@+id/split2"
+                                    android:layout_marginTop="10sp"
+                                    android:padding="10dp"
+                                    android:hint="备注"
+                                    android:maxLines="5"
+                                    android:gravity="top"
+                                    android:maxLength="200"
+                                    android:minLines="1"
+                                    android:background="@drawable/edt_commit_remark"
+                                    android:inputType="textMultiLine"/>
 
                                 <ImageView
                                     android:id="@+id/split4"
                                     android:layout_width="match_parent"
                                     android:layout_height="1sp"
                                     android:background="@color/colorGray"
-                                    app:layout_constraintTop_toBottomOf="@+id/shop_board" />
+                                    app:layout_constraintTop_toBottomOf="@+id/shop_board"
+                                    android:layout_marginTop="10sp"/>
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/shop_evaluate_recyclerview"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintTop_toBottomOf="@+id/split4" />
+                                    app:layout_constraintTop_toBottomOf="@+id/split4"
+                                    />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </ScrollView>
                     </FrameLayout>
