@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorLightYellow"
+    android:layout_height="706dp"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <ImageView
@@ -24,7 +24,7 @@
         android:layout_marginTop="2sp"
         android:text="支付成功,订单已提交"
         android:textColor="@color/colorBlack"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@+id/point1"
         app:layout_constraintTop_toTopOf="@+id/point1">
 
@@ -34,10 +34,10 @@
     <ImageView
         android:id="@+id/divide1"
         android:layout_width="match_parent"
-        android:layout_height="1sp"
+        android:layout_height="0.5sp"
         android:layout_marginStart="55sp"
         android:layout_marginTop="20sp"
-        android:background="@color/colorGray"
+        android:background="#ddddd5"
         app:layout_constraintTop_toBottomOf="@+id/commit_successful" />
 
     <ImageView
@@ -56,17 +56,18 @@
         android:layout_height="wrap_content"
         android:text="商家已接单，准备中"
         android:textColor="@color/colorBlack"
-        android:textSize="20sp"
+        android:layout_marginTop="2sp"
+        android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@+id/commit_successful"
         app:layout_constraintTop_toTopOf="@+id/point2" />
 
     <ImageView
         android:id="@+id/divide2"
         android:layout_width="match_parent"
-        android:layout_height="1sp"
+        android:layout_height="0.5sp"
         android:layout_marginStart="55sp"
         android:layout_marginTop="20sp"
-        android:background="@color/colorGray"
+        android:background="#ddddd5"
         app:layout_constraintTop_toBottomOf="@+id/order_prepared" />
 
     <ImageView
@@ -88,7 +89,7 @@
         android:layout_marginTop="2sp"
         android:text="商品已完成，请到店自取"
         android:textColor="@color/colorBlack"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@+id/point3"
         app:layout_constraintTop_toTopOf="@+id/point3" />
@@ -96,10 +97,10 @@
     <ImageView
         android:id="@+id/divide3"
         android:layout_width="match_parent"
-        android:layout_height="1sp"
+        android:layout_height="0.5sp"
         android:layout_marginStart="55sp"
         android:layout_marginTop="20sp"
-        android:background="@color/colorGray"
+        android:background="#ddddd5"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/shop_order_finish" />
 
@@ -122,14 +123,14 @@
         android:layout_marginTop="2sp"
         android:text="订单完成"
         android:textColor="@color/colorBlack"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@+id/point4"
         app:layout_constraintTop_toTopOf="@+id/point4" />
 
     <Button
         android:id="@+id/finish"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/colorOrange"
@@ -137,7 +138,7 @@
         android:textColor="@color/colorLightYellow"
         android:textSize="20sp"
         android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divide3" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

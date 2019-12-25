@@ -214,7 +214,7 @@ public class OrderInfFragment extends Fragment {
                     orderinfAdapter.notifyDataSetChanged();
                     order_summary.setText("总价￥"+String.valueOf(orderSum.getOrdersum()));
                     order_reduce.setText("优惠￥"+String.valueOf(orderinfAdapter.getReduce()));
-                    order_money.setText("实付￥"+String.valueOf(orderSum.getOrdersum()-orderinfAdapter.getReduce()));
+                    order_money.setText(String.valueOf(orderSum.getOrdersum()-orderinfAdapter.getReduce()));
                     if(orderStatus.equals("完成")){
                         label_order_grade.setVisibility(View.VISIBLE);
                         order_grade.setVisibility(View.VISIBLE);

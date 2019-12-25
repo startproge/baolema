@@ -26,21 +26,21 @@
 
     <Button
         android:id="@+id/orderdetail_status"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
+        android:layout_width="110dp"
+        android:layout_height="45dp"
         android:background="@null"
         android:text="订单状况"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar_order_inf" />
 
     <Button
         android:id="@+id/orderdetail_detail"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
+        android:layout_width="110dp"
+        android:layout_height="45dp"
         android:background="@null"
         android:text="订单详情"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/orderdetail_status"
         app:layout_constraintTop_toBottomOf="@id/app_bar_order_inf" />
 
@@ -67,12 +67,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divide1">
+        app:layout_constraintTop_toBottomOf="@id/divide1"
+        android:background="@color/colorGrey"
+        >
 
         <RelativeLayout
             android:id="@+id/order_main_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorGrey"
+            />
     </ScrollView>
 
 
